@@ -4,6 +4,7 @@ import { IonicPage, NavController, ToastController, AlertController } from 'ioni
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
+import { Broadcaster } from '../../providers/eventEmitter';
 
 @IonicPage()
 @Component({
@@ -28,9 +29,11 @@ export class LoginPage {
     public alertCtrl: AlertController,
     public userService: Api,
     private fbuilder: FormBuilder,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private broadCastre:Broadcaster
   ) {
 
+   
     this.form = fbuilder.group({
       'email': ['', Validators.compose([Validators.required,Validators.email])],
       'password': ['', Validators.compose([Validators.required])],
@@ -57,13 +60,14 @@ export class LoginPage {
           let userId= result.UserDetails.id
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
           localStorage.setItem('isUserLogedin', '1');
-          let toast = this.toastCtrl.create({
-            message: 'You have successfully login.',
-            duration: 4000,
-            position: 'top'
-          });
-          toast.present();
-          this.navCtrl.setRoot('WelcomePage');
+          // let toast = this.toastCtrl.create({
+          //   message: 'You have successfully login.',
+          //   duration: 4000,
+          //   position: 'top'
+          // });
+          // toast.present();
+          this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+          this.navCtrl.setRoot('HomePage');
         }else{
           let alert = this.alertCtrl.create({
             title: 'Error!',

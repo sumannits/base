@@ -3,61 +3,61 @@
     <img src="assets/img/login-logo.png" alt="Ionic logo">
   </div>
   <form [formGroup]="form" #signupForm="ngForm">
-  <ion-list padding style="padding-bottom:0;">
-    <ion-item>
-      <ion-label>
-        <ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon>
-      </ion-label>
-      <ion-input type="text" placeholder="First name" [formControl]="first_name" autocapitalize="off"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon>
-      </ion-label>
-      <ion-input type="text" placeholder="Last name" [formControl]="last_name" autocapitalize="off"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <ion-icon ios="ios-mail-outline" md="md-mail"></ion-icon>
-      </ion-label>
-      <ion-input type="email" placeholder="Email" [formControl]="email" autocapitalize="off"></ion-input>
-    </ion-item>
-    <ion-item>
+    <ion-list padding style="padding-bottom:0;">
+      <ion-item>
         <ion-label>
-          <ion-icon md="call"></ion-icon>
+          <ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="First name" [formControl]="first_name" autocapitalize="off"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Last name" [formControl]="last_name" autocapitalize="off"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-icon ios="ios-mail-outline" md="md-mail"></ion-icon>
+        </ion-label>
+        <ion-input type="email" placeholder="Email" [formControl]="email" autocapitalize="off"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-icon name="call"></ion-icon>
         </ion-label>
         <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <ion-icon ios="ios-lock-outline" md="md-lock"></ion-icon>
-      </ion-label>
-      <ion-input type="password" placeholder="Password" [formControl]="password" autocapitalize="off"></ion-input>
-    </ion-item>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-icon ios="ios-lock-outline" md="md-lock"></ion-icon>
+        </ion-label>
+        <ion-input type="password" placeholder="Password" [formControl]="password" autocapitalize="off"></ion-input>
+      </ion-item>
 
-    <ion-item>
+      <ion-item>
         <ion-label>
           <ion-icon ios="ios-lock-outline" md="md-lock"></ion-icon>
         </ion-label>
         <ion-input type="password" placeholder="Confirm Password" [formControl]="cpassword" autocapitalize="off"></ion-input>
       </ion-item>
-  </ion-list>
+    </ion-list>
 
-  <ion-row responsive-sm>
-    <ion-col text-center class="pt-0">
-      <ion-item class="brdr-none">
-        <ion-label class="remember-me">Remember Me</ion-label>
-        <ion-checkbox checked="true"></ion-checkbox>
-      </ion-item>
-    </ion-col>
-  </ion-row>
+    <ion-row responsive-sm>
+      <ion-col text-center class="pt-0">
+        <ion-item class="brdr-none">
+          <ion-label class="remember-me">Remember Me</ion-label>
+          <ion-checkbox checked="true"></ion-checkbox>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  <ion-row responsive-sm>
-    <ion-col text-center>
-      <button ion-button [disabled]="(!signupForm.valid)" (click)="doSignup(form.value)" round>SIGN UP</button>
-    </ion-col>
-  </ion-row>
-</form>
+    <ion-row responsive-sm>
+      <ion-col text-center>
+        <button ion-button [disabled]="(!signupForm.valid)" (click)="doSignup(form.value)" round>SIGN UP</button>
+      </ion-col>
+    </ion-row>
+  </form>
   <p text-center>Forgot your password?</p>
 
   <div padding>
@@ -79,7 +79,7 @@
 
   <ion-row responsive-sm>
     <ion-col text-center>
-      <button ion-button color="dark" class="dark" round (click)="onLogin()">Join now</button>
+      <button ion-button color="dark" class="dark" round (click)="onLogin()">Login now</button>
     </ion-col>
     <!-- <ion-col>
             <button ion-button (click)="onSignup()" color="light" block>Signup</button>
