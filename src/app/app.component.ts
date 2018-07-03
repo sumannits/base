@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages';
+import { Broadcaster } from '../providers/eventEmitter';
+import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 
 export interface PageInterface {
   title: string;
@@ -39,11 +41,11 @@ export interface PageInterface {
 })
 export class MyApp {
   rootPage = FirstRunPage;
-  public username:string = '';
-  public profile_image:string='';
-  public isloggedin : boolean = false;
-  public loguser:any;
-  public loguserDet:any;
+  public username: string = '';
+  public profile_image: string = '';
+  public isloggedin: boolean = false;
+  public loguser: any;
+  public loguserDet: any;
 
   @ViewChild(Nav) nav: Nav;
 
@@ -51,17 +53,20 @@ export class MyApp {
     { title: 'Tutorial', name: 'TutorialPage', component: 'TutorialPage', index: 0, icon: 'hammer' },
     { title: 'Welcome', name: 'WelcomePage', component: 'WelcomePage', index: 1, icon: 'information-circle' },
     { title: 'Login', name: 'LoginPage', component: 'LoginPage', index: 2, icon: 'log-in' },
-    { title: 'Login phone', name: 'LoginPage', component: 'LoginPage', index: 3, icon: 'phone-portrait' },
     { title: 'Signup', name: 'SignupPage', component: 'SignupPage', index: 4, icon: 'person-add' },
     { title: 'Support', name: 'TutorialPage', component: 'TutorialPage', index: 5, icon: 'help' }
+   
   ];
 
   withLoginPages: PageInterface[] = [
-    { title: 'Home', name: 'WelcomePage', component: 'WelcomePage', index: 0, icon: 'home' },
-    { title: 'Account', name: 'TutorialPage', component: 'TutorialPage', index: 0, icon: 'person' },
-    { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', index: 1, icon: 'settings' },
-    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 2, icon: 'log-out' }
-   
+    { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
+    { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
+    { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', index: 2, icon: 'settings' },
+    { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
+    { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
+    { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
+    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
+
   ];
 
   // pages: PageInterface[] = [
@@ -78,14 +83,32 @@ export class MyApp {
   //   { title: 'Search', component: 'SearchPage' }
   // ]
 
-  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,
+  private broadCaster:Broadcaster) {
+     let isUserLogedin = localStorage.getItem('isUserLogedin');
+    if (isUserLogedin == '1') {
+      this.isloggedin = true;
+      this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+      if (this.loguserDet.first_name) {
+        this.username = this.loguserDet.first_name;
+        this.rootPage="HomePage";
+      }
+    } else {
+      //this.profile_image = 'assets/img/default.jpeg';
+      this.username = '';
+      this.isloggedin = false;
+    }
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-    this.initTranslate();
+    this.initTranslate(); 
+    this.broadCaster.on('userLoggedIn').subscribe((res)=>{
+      this.isloggedin = true;
+      this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+    })
   }
 
   initTranslate() {
@@ -114,9 +137,9 @@ export class MyApp {
     });
   }
 
-  menuOpened(){
+  menuOpened() {
     let isUserLogedin = localStorage.getItem('isUserLogedin');
-    if(isUserLogedin == '1'){
+    if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
       // if(this.loguserDet.image){
@@ -125,10 +148,10 @@ export class MyApp {
       //   this.profile_image = 'assets/img/default.jpeg';
       // }
       //this.profile_image = 'assets/img/default.jpeg';
-      if(this.loguserDet.first_name){
+      if (this.loguserDet.first_name) {
         this.username = this.loguserDet.first_name;
       }
-    }else{
+    } else {
       //this.profile_image = 'assets/img/default.jpeg';
       this.username = '';
       this.isloggedin = false;
@@ -140,17 +163,17 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     //console.log(page);
-    if(page.name == 'LogoutPage'){
+    if (page.name == 'LogoutPage') {
       localStorage.clear();
       this.isloggedin = false;
       // this.nav.setRoot('LoginPage');
       localStorage.removeItem("isUserLogedin");
       localStorage.removeItem("userPrfDet");
       this.nav.setRoot(page.component);
-    }else{
+    } else {
       this.nav.setRoot(page.component);
     }
-    
+
   }
 
   isActive(page: PageInterface) {

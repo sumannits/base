@@ -9,7 +9,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class SearchPage {
 
   currentItems: any = [];
-
+  searchItem: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) { }
 
   /**
@@ -24,6 +24,10 @@ export class SearchPage {
     // this.currentItems = this.items.query({
     //   name: val
     // });
+  }
+
+  search(event) {
+    this.navCtrl.push('SearchResultPage');
   }
 
   /**
