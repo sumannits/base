@@ -1,0 +1,163 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- <ion-header>
+
+  <ion-navbar>
+    <ion-title>home</ion-title>
+  </ion-navbar>
+
+</ion-header> -->
+
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorites
+      </ion-segment-button>
+    </ion-segment> -->
+
+    <ion-item>
+      <ion-label floating>Delivery Location</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToCart()">
+        <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-row>
+      <ion-col col-4>
+        <ion-buttons>
+          <button ion-button icon-only (click)="openCategories()" class="category-text">
+            <!-- <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon> -->
+            <img class="category-icon" src="assets/img/category-icon.png"> Categories
+          </button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col col-8 class="pl-0" (click)="goToSearch()">
+        <ion-searchbar color="primary" placeholder="Search for product">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="order-now">Just Order Now </div>
+  <ion-list>
+    <ion-item class="cashback-area">
+      <h1 text-center>$100 Cashback</h1>
+      <p>On your first order</p>
+    </ion-item>
+
+
+
+    <ion-slides pager>
+
+      <ion-slide>
+        <img src="assets/img/home-bnr.png" alt="">
+        <div class="slide-text">
+          <h2 class="mb-0">FREE
+            <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
+          <h2 class="mt-0">DELIVERY!</h2>
+        </div>
+        <p>On orders above $200</p>
+
+      </ion-slide>
+
+      <ion-slide>
+        <img src="assets/img/home-bnr.png" alt="">
+        <div class="slide-text">
+          <h2 class="mb-0">FREE
+            <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
+          <h2 class="mt-0">DELIVERY!</h2>
+        </div>
+        <p>On orders above $200</p>
+
+      </ion-slide>
+
+      <ion-slide>
+        <img src="assets/img/home-bnr.png" alt="">
+        <div class="slide-text">
+          <h2 class="mb-0">FREE
+            <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
+          <h2 class="mt-0">DELIVERY!</h2>
+        </div>
+        <p>On orders above $200</p>
+
+      </ion-slide>
+
+    </ion-slides>
+
+    <h5 class="shop-cate">Shop By Category</h5>
+    <ion-card>
+      <ion-card-content class="pt-0 pb-0 pr-0">
+        <ion-item class="pl-0">
+          <ion-avatar item-start>
+            <img src="assets/img/home-pic-a.png" alt="">
+          </ion-avatar>
+          <h3>Fruit & Vegetables</h3>
+          <p>Fruit & Vegetables Basket, Fruits, Vegetables, Cut Free...</p>
+          <button ion-button clear item-end (click)="goToDetails()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content class="pt-0 pb-0 pr-0">
+        <ion-item class="pl-0">
+          <ion-avatar item-start>
+            <img src="assets/img/home-pic-b.png" alt="">
+          </ion-avatar>
+          <h3>Grocery & Staples</h3>
+          <p>Pulses, Atta & Other Flours, Rice & Other Grains, Dry Fruits...</p>
+          <button ion-button clear item-end (click)="goToDetails()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content class="pt-0 pb-0 pr-0">
+        <ion-item class="pl-0">
+          <ion-avatar item-start>
+            <img src="assets/img/home-pic-c.png" alt="">
+          </ion-avatar>
+          <h3>Beverages</h3>
+          <p>Beverages Best Offers, Soft Drinks, juicess & Conc...</p>
+          <button ion-button clear item-end (click)="goToDetails()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+
+
+
+
+
+  </ion-list>
+
+</ion-content>

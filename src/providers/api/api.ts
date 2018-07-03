@@ -3,6 +3,7 @@ import {Headers, Http, Response, URLSearchParams  } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController } from 'ionic-angular';
+
 let apiUrl = 'http://localhost/base/webservice/';
 //let apiUrl = 'http://111.93.169.90/team1/base/webservice/';
 /*
