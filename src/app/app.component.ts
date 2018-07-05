@@ -50,9 +50,10 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   withoutLoginPages: PageInterface[] = [
-    { title: 'Tutorial', name: 'TutorialPage', component: 'TutorialPage', index: 0, icon: 'hammer' },
-    { title: 'Welcome', name: 'WelcomePage', component: 'WelcomePage', index: 1, icon: 'information-circle' },
-    { title: 'Login', name: 'LoginPage', component: 'LoginPage', index: 2, icon: 'log-in' },
+    { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
+    { title: 'Tutorial', name: 'TutorialPage', component: 'TutorialPage', index: 1, icon: 'hammer' },
+    { title: 'Welcome', name: 'WelcomePage', component: 'WelcomePage', index: 2, icon: 'information-circle' },
+    { title: 'Login', name: 'LoginPage', component: 'LoginPage', index: 3, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: 'SignupPage', index: 4, icon: 'person-add' },
     { title: 'Support', name: 'TutorialPage', component: 'TutorialPage', index: 5, icon: 'help' }
    

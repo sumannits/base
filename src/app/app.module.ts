@@ -9,19 +9,18 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { AboutPage } from '../pages/about/about';
+//import { AboutPage } from '../pages/about/about';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
-import { PopoverPage } from '../pages/about-popover/about-popover';
-import { AccountPage } from '../pages/account/account';
+//import { PopoverPage } from '../pages/about-popover/about-popover';
+//import { AccountPage } from '../pages/account/account';
 import { UserData } from '../providers/user-data';
 import { Broadcaster } from '../providers/eventEmitter';
-import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
+//import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { ConferenceData } from '../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
-import { SessionDetailPage } from '../pages/session-detail/session-detail';
-
+//import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
+//import { SessionDetailPage } from '../pages/session-detail/session-detail';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -32,12 +31,11 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    PopoverPage,
-    AccountPage,
-    SpeakerListPage,
-    SpeakerDetailPage,
-    SessionDetailPage
+    // PopoverPage,
+    // AccountPage,
+    // SpeakerListPage,
+    // SpeakerDetailPage,
+    // SessionDetailPage
   ],
   imports: [
     BrowserModule,
@@ -56,12 +54,12 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    PopoverPage,
-    AccountPage,
-    SpeakerListPage,
-    SpeakerDetailPage,
-    SessionDetailPage
+    // AboutPage,
+    // PopoverPage,
+    // AccountPage,
+    // SpeakerListPage,
+    // SpeakerDetailPage,
+    // SessionDetailPage
   ],
   providers: [
     Api,

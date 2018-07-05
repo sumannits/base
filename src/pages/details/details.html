@@ -9,14 +9,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Fruit & Vegetables...</ion-title>
+    <ion-title>{{prdDetails?.name}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="goToSearch()">
+      <!--<button ion-button icon-only (click)="goToSearch()">
         <ion-icon name="search"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="goToCart()">
+      </button>-->
+      <button ion-button icon-only (click)="goToCart()" *ngIf="myCartCnt > 0">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -25,28 +26,26 @@
 <ion-content>
 
   <ion-card class="card card-ios">
-  
-    <img src="assets/img/detail-bnr.png">
-    
+    <img [src]="prdDetails?.image_url">
     <ion-grid class="grid-brdr">
       <ion-row>
         <ion-col col-8>
           <div class="item-lt">
-            <h4>Potato-Onion-Tomato</h4>
-            <h4>$5.99 <span class="line-through">$8.99</span> </h4>
+            <h4>{{prdDetails?.name}}</h4>
+            <h4>${{prdDetails?.min_price}} <span *ngIf="prdDetails?.max_price > 0" class="line-through">${{prdDetails?.max_price}}</span> </h4>
           </div>
           
         </ion-col>
         <ion-col col-4>
           <div class="item-rt">
-             <button ion-button block (click)="goToCart()">Add <ion-icon name="add"></ion-icon> </button> 
+             <button ion-button block (click)="addToCart(prdDetails?.id)">Add <ion-icon name="add"></ion-icon> </button> 
           </div>
         </ion-col>
       </ion-row>
     </ion-grid>
     
     <ion-grid class="grid-brdr">
-      <ion-row>
+      <!--<ion-row>
         <ion-col col-12>
           <div class="item-lt">
             <h4>Unit</h4>
@@ -55,7 +54,7 @@
     
         </ion-col>
 
-      </ion-row>
+      </ion-row>-->
     </ion-grid>
 
    
@@ -64,15 +63,14 @@
   
     <ion-card-content class="card-content card-content-ios">
       <ion-card-title class="card-title card-title-ios">
-        <h3 class="features">Features </h3> 
+        <h3 class="features" *ngIf="prdDetails?.is_featured == '1'">Features </h3> 
         <h2 class="description">Description</h2> 
       </ion-card-title>
       <p>
-         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        {{prdDetails?.description}}
       </p>
-      <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-      It was popularised</p>
+      <div *ngIf="prdDetails?.product_summary !=''" [innerHTML]="prdDetails?.product_summary"></div>
+      <div *ngIf="prdDetails?.additional_information !=''" [innerHTML]="prdDetails?.additional_information"></div>
     </ion-card-content>
   
     <ion-item class="item item-block item-ios">
