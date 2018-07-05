@@ -19,6 +19,8 @@ ion-header ion-navbar .item ion-label{ color: #ffffff !important; margin-top: 0;
 .searchbar .searchbar-input{ line-height: inherit;  text-overflow: normal; white-space: normal; word-wrap: break-all; padding-right: 0; font-family: 'Open Sans', sans-serif; font-weight: 400; font-size: 1.3rem;}
 .searchbar .searchbar-search-icon{ top: 7px;}
 
+.cart-item{ position: absolute; width: 18px; height: 18px; border-radius: 50%; color: #ffffff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 1.2rem; background-color: #0032a0; z-index: 100; right: 0; top: 0;}
+
 .cashback-area{ width: auto; background-color: #0032a0; padding: 10px; }
 .cashback-area h1{ color: #ffffff; font-weight: 600; font-family: 'Open Sans', sans-serif;}
 .cashback-area p{ color: #ffffff; font-weight: 300; font-family: 'Open Sans', sans-serif; text-align: center; font-size: 1.3rem;}

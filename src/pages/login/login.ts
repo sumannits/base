@@ -69,12 +69,21 @@ export class LoginPage {
           this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
           this.navCtrl.setRoot('HomePage');
         }else{
-          let alert = this.alertCtrl.create({
-            title: 'Error!',
-            subTitle: 'Wrong Email or Password.Please try again.' ,
-            buttons: ['Ok']
-          });
-          alert.present();
+          if(result.msg != ''){
+            let alert = this.alertCtrl.create({
+              title: 'Error!',
+              subTitle: result.msg ,
+              buttons: ['Ok']
+            });
+            alert.present();
+          }else{
+            let alert = this.alertCtrl.create({
+              title: 'Error!',
+              subTitle: 'Wrong Email or Password.Please try again.' ,
+              buttons: ['Ok']
+            });
+            alert.present();
+          }
         }
       }, (err) => {
         // let alert = this.alertCtrl.create({

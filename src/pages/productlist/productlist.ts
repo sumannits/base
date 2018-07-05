@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
-/**
 
 /**
- * Generated class for the DetailsPage page.
+ * Generated class for the ProductlistPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -12,23 +11,24 @@ import { Api, ResponseMessage } from '../../providers';
 
 @IonicPage()
 @Component({
-  selector: 'page-details',
-  templateUrl: 'details.html',
+  selector: 'page-productlist',
+  templateUrl: 'productlist.html',
 })
-export class DetailsPage {
+export class ProductlistPage {
 
-  public prdId:number = 0;
-  public prdDetails:any;
+  public catId:number = 0;
+  public allPrdList = [];
+  public catDet:any;
   public loginUserId:number = 0;
   public myCartCnt:number = 0;
-  
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public serviceApi: Api,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController
-  ) {
+  ){
       let isUserLogedin = localStorage.getItem('isUserLogedin');
       if (isUserLogedin == '1') {
         let userDetailsJson:any = localStorage.getItem('userPrfDet');
@@ -38,20 +38,12 @@ export class DetailsPage {
   }
 
   ionViewDidLoad() {
-    this.prdId = this.navParams.get('prd_id');
-    this.getPrdDetails();
+    this.catId = this.navParams.get('catid');
+    this.getCatWisePrdList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
     }
-  }
-
-  goToCart()
-  {
-    this.navCtrl.push('CartPage');
-  }
-  goToSearch()
-  {
-    this.navCtrl.push('SearchPage');
+    //console.log(this.loginUserId);
   }
 
   getMyCartCount(){
@@ -64,17 +56,23 @@ export class DetailsPage {
       }); 
   }
 
-  getPrdDetails(){
-    if(this.prdId > 0){
-      this.serviceApi.getData('category/product_details/'+this.prdId).then((result:any) => {
+  getCatWisePrdList(){
+    //console.log(this.catId);
+    if(this.catId > 0){
+      this.serviceApi.getData('category/catwise_prdlist/'+this.catId).then((result:any) => {
         if(result.Ack == 1){
-          this.prdDetails = result.product_details;
-          //console.log(this.allPrdList);
+          this.allPrdList = result.product_list;
+          this.catDet=result.category_details[0];
+          //console.log(result);
         }
       }, (err) => {
       
       });
     }
+  }
+  
+  goToPrdDetails(prdId){
+    this.navCtrl.push('DetailsPage',{'prd_id':prdId})
   }
 
   addToCart(prdId){
@@ -112,5 +110,9 @@ export class DetailsPage {
       alert.present();
     }
     this.getMyCartCount();
+  }
+  
+  goToCart(){
+    this.navCtrl.push('CartPage');
   }
 }

@@ -19,7 +19,7 @@
       <button ion-button icon-only color="royal">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
-      <div class="cart-item">1</div>
+      <div class="cart-item" *ngIf="userCartList?.length > 0">{{userCartList?.length}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -27,77 +27,54 @@
 
 <ion-content>
   <ion-card>
-    <ion-item>
+    <ion-item *ngFor="let prddata of userCartList">
       <ion-thumbnail item-start>
         <!-- <img src="assets/img/chilli-garlic.png" alt=""> -->
-        <img src="assets/img/home-pic-a.png" alt="">
-        <p>31% OFF</p>
+        <img [src]="prddata.image_url" alt="">
+        <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{((prddata.max_price-prddata.min_price)*100)/prddata.max_price}}% OFF</p>
       </ion-thumbnail>
       <!-- <h2>Green Chilli-Garlic-Ginger</h2> -->
-      <h2>Fruit & Vegetables</h2>
-      <p>200 gm + 200 gm +200gm</p>
-      <h4 class="d-flex">$5.99
-        <span class="line-through">$8.99</span>
+      <h2>{{prddata.name | limitTo:30}} <a class="float_right" (click)="deleteItem(prddata.cart_pid)">Remove</a></h2>
+      <!--<p>200 gm + 200 gm +200gm</p>-->
+      <h4 class="d-flex">${{prddata.min_price}}
+        <span class="line-through">${{prddata.max_price}}</span>
 
         <ion-row class="rt-btn-area">
           <ion-col class="pt-0">
-            <button ion-button outline>
+            <button ion-button outline (click)="updateQty(prddata.cart_pid, 'remove', prddata.qty)">
               <ion-icon style="color:#0032a0 !important;" name="remove"></ion-icon>
             </button>
           </ion-col>
-          <ion-col class="pl-0 pr-0">1</ion-col>
+          <ion-col class="pl-0 pr-0">{{prddata.qty}}</ion-col>
           <ion-col class="pt-0">
-            <button ion-button outline>
+            <button ion-button outline (click)="updateQty(prddata.cart_pid, 'add', prddata.qty)">
               <ion-icon style="color:#0032a0 !important;" name="add"></ion-icon>
             </button>
           </ion-col>
         </ion-row>
       </h4>
     </ion-item>
+    <ion-item *ngIf="userCartList?.length == 0">
+      <!-- <h2>Green Chilli-Garlic-Ginger</h2> -->
+      <h2>Your cart is empty!</h2>
+    </ion-item>
+
   </ion-card>
 
-  <!-- <ion-card>
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="assets/img/chilli-garlic.png" alt="">
-        <p>31% OFF</p>
-      </ion-thumbnail>
-      <h2>Green Chilli-Garlic-Ginger</h2>
-      <p>200 gm + 200 gm +200gm</p>
-      <h4 class="d-flex">$5.99
-        <span class="line-through">$8.99</span>
-      
-        <ion-row class="rt-btn-area">
-          <ion-col class="pt-0">
-            <button ion-button outline>
-              <ion-icon style="color:#0032a0 !important;" name="remove"></ion-icon>
-            </button>
-          </ion-col>
-          <ion-col class="pl-0 pr-0">1</ion-col>
-          <ion-col class="pt-0">
-            <button ion-button outline>
-              <ion-icon style="color:#0032a0 !important;" name="add"></ion-icon>
-            </button>
-          </ion-col>
-        </ion-row>
-      </h4>
-    </ion-item>
-  </ion-card> -->
-
-  <ion-card>
+  <ion-card *ngIf="subTot > 0">
     <ion-list>
       <ion-item class="price-part">
         <p>Sub Total</p>
         <!-- <h3 item-end> $11.98</h3> -->
-        <h3 item-end> $5.99</h3>
+        <h3 item-end> ${{subTot}}</h3>
       </ion-item>
       <ion-item class="price-part">
         <p>Delivery Charges</p>
-        <h3 class="red-text" item-end> $1.00</h3>
+        <h3 class="red-text" item-end> ${{DeliveryCharge}}</h3>
       </ion-item>
       <ion-item class="price-part">
         <p>Your Total Savings</p>
-        <h3 class="red-text" item-end> $8.00 (30.7%)</h3>
+        <h3 class="red-text" item-end> ${{prdActTot - subTot}} ({{(((prdActTot-subTot)*100)/prdActTot).toFixed(2)}}%)</h3>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -106,9 +83,10 @@
 
 <ion-footer>
   <ion-toolbar class="ftr-part">
-    <ion-item (click)="goToCheckout()">
+    <!--<ion-item (click)="goToCheckout()">-->
+    <ion-item> 
       <p>Checkout
-        <span>$6.99
+        <span>${{subTot + DeliveryCharge}}
           <button ion-button icon-only color="royal">
             <ion-icon name="arrow-forward"></ion-icon>
           </button>

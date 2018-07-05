@@ -17,51 +17,102 @@
 <ion-content>
 
   <ion-card>
+    <form [formGroup]="form" #editPrfForm="ngForm">
     <ion-item>
-      
       <ion-avatar item-start>
+          <img [src]="userDetails?.image_url" alt="">
+      </ion-avatar>
+      <!--<ion-avatar item-start>
         <ion-icon name="create" class="creat-icon" (click)="goToEditAddress()"></ion-icon>
         <img src="assets/img/edit-pic.png" alt="">
-      </ion-avatar>
-      <h2>Avik Ghosh</h2>
-      <p> <ion-icon name="map" class="icon-map"></ion-icon> New Delhi</p>
+      </ion-avatar>-->
+      <h2>{{userDetails?.first_name}} {{userDetails?.last_name}}</h2>
+      <p> <ion-icon name="map" class="icon-map"></ion-icon> {{userDetails?.city}}</p>
     </ion-item>
 
       <ion-item>
         <ion-label stacked>First Name</ion-label>
-        <ion-input type="text" placeholder="Avik" ></ion-input>
+        <ion-input type="text" formControlName="first_name" placeholder="First Name" ></ion-input>
       </ion-item>
-
+      <div class="validation-errors">
+        <ng-container >
+          <div class="error-message" *ngIf="form.get('first_name').hasError('required')">
+            First name required.
+          </div>
+          <div class="error-message" *ngIf="form.get('first_name').hasError('pattern')">
+            First name must be character only.
+          </div>
+        </ng-container>
+      </div>
       <ion-item>
         <ion-label stacked>Last Name</ion-label>
-        <ion-input type="text" placeholder="Ghosh"></ion-input>
+        <ion-input type="text" formControlName="last_name" placeholder="Last Name"></ion-input>
       </ion-item>
-
+      <div class="validation-errors">
+        <ng-container >
+          <div class="error-message" *ngIf="form.get('last_name').hasError('required')">
+            Last name required.
+          </div>
+          <div class="error-message" *ngIf="form.get('last_name').hasError('pattern')">
+            Last name must be character only.
+          </div>
+        </ng-container>
+      </div>
       <ion-item>
         <ion-label stacked>Email Id</ion-label>
-        <ion-input type="text" placeholder="nits.avik@gmail.com"></ion-input>
+        <ion-input type="email" formControlName="email" readonly placeholder="Email Id"></ion-input>
       </ion-item>
       
       <ion-item>
         <ion-label stacked>Mobile No</ion-label>
-        <ion-input type="text" placeholder="9876543210" ></ion-input>
+        <ion-input type="text" placeholder="Mobile No" formControlName="phone"></ion-input>
       </ion-item>
-
+      <div class="validation-errors">
+        <ng-container >
+          <div class="error-message" *ngIf="form.get('phone').hasError('required')">
+            Mobile No required.
+          </div>
+          <div class="error-message" *ngIf="form.get('phone').hasError('pattern')">
+            Please enter a number like 12345678 and must be 10 digit.
+          </div>
+        </ng-container>
+      </div>
       <ion-item>
+        <ion-label stacked>City</ion-label>
+        <ion-input type="text" formControlName="city" placeholder="City Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Address</ion-label>
+        <ion-input type="text" formControlName="address" placeholder="Enter your address"></ion-input>
+      </ion-item>
+      <!--<ion-item>
         <ion-label stacked>Paypal Email</ion-label>
-        <ion-input type="text" placeholder="sp@gmail.com"></ion-input>
+        <ion-input type="email" placeholder="Paypal Email" formControlName="paypal_email"></ion-input>
       </ion-item>
-
+      <div class="validation-errors">
+        <ng-container >
+          <div class="error-message" *ngIf="form.get('paypal_email').hasError('required')">
+            Paypal email required.
+          </div>
+          <div class="error-message" *ngIf="form.get('paypal_email').hasError('pattern')">
+           Please enter valid email.
+          </div>
+        </ng-container>
+      </div>-->
       <ion-item>
+        <ion-label stacked>About yourself</ion-label>
+        <ion-textarea placeholder="About Yourself" formControlName="about" autocapitalize="off" ></ion-textarea>
+      </ion-item>
+      <!--<ion-item>
         <ion-label>Loyalty</ion-label>
         <ion-checkbox color="dark" checked="true"></ion-checkbox>
-      </ion-item>
+      </ion-item>-->
       
       <ion-item>
-        <button ion-button block>Save Changes</button>
+        <button ion-button block [disabled]="!editPrfForm.valid" (click)="updateProfileData(form.value)">Save Changes</button>
       </ion-item>
     
-
+    </form>
   </ion-card>
 
 </ion-content>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import { Api, ResponseMessage } from '../../providers';
 /**
  * Generated class for the HomePage page.
  *
@@ -14,12 +14,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'home.html',
 })
 export class HomePage {
+  public allCatList = [];
+  public myCartCnt:number = 0;
+  public loginUserId:number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public serviceApi: Api,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController
+  ) {
+      let isUserLogedin = localStorage.getItem('isUserLogedin');
+      if (isUserLogedin == '1') {
+        let userDetailsJson:any = localStorage.getItem('userPrfDet');
+        userDetailsJson = JSON.parse(userDetailsJson);
+        this.loginUserId = userDetailsJson.id;
+      }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    this.getCatList();
+    if(this.loginUserId > 0){
+      this.getMyCartCount();
+    }
   }
 
   goToCart()
@@ -27,9 +45,18 @@ export class HomePage {
     this.navCtrl.push('CartPage');
   }
 
-  goToDetails()
-  {
-    this.navCtrl.push('DetailsPage')
+  getMyCartCount(){
+      this.serviceApi.postData({"user_id": this.loginUserId},'users/get_quantity_count').then((result:any) => {
+        if(result.Ack == 1){
+          this.myCartCnt = result.count;
+        }
+      }, (err) => {
+      
+      }); 
+  }
+  
+  goToDetails(catId){
+    this.navCtrl.push('ProductlistPage',{'catid':catId})
   }
   openCategories()
   {
@@ -38,5 +65,17 @@ export class HomePage {
   goToSearch()
   {
     this.navCtrl.push('SearchPage');
+  }
+
+  getCatList(){
+    this.serviceApi.getData('category/list').then((result:any) => {
+      if(result.Ack == 1){
+        this.allCatList = result.cat_list;
+        //console.log(this.allCatList);
+      }
+      //console.log(this.userDetails);
+    }, (err) => {
+     
+    });
   }
 }
