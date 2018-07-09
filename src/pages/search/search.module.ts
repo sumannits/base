@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicPageModule } from 'ionic-angular';
-
 import { SearchPage } from './search';
+import { PipeModule } from "../../providers/pipe.module";
 
 @NgModule({
   declarations: [
@@ -10,7 +10,8 @@ import { SearchPage } from './search';
   ],
   imports: [
     IonicPageModule.forChild(SearchPage),
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    PipeModule
   ],
   exports: [
     SearchPage

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Api, ResponseMessage } from '../../providers';
 /**
  * Generated class for the CateSearchPage page.
  *
@@ -14,22 +14,61 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'cate-search.html',
 })
 export class CateSearchPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public allCatList = [];
+  public myCartCnt:number = 0;
+  public loginUserId:number = 0;
+  
+  constructor(
+    public navCtrl: NavController,
+    public serviceApi: Api,
+    public alertCtrl: AlertController,
+    public navParams: NavParams
+  ) {
+      let isUserLogedin = localStorage.getItem('isUserLogedin');
+      if (isUserLogedin == '1') {
+        let userDetailsJson:any = localStorage.getItem('userPrfDet');
+        userDetailsJson = JSON.parse(userDetailsJson);
+        this.loginUserId = userDetailsJson.id;
+      }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CateSearchPage');
+    this.getCatList();
+    if(this.loginUserId > 0){
+      this.getMyCartCount();
+    }
   }
 
-  goToCart()
-  {
+  goToCart(){
     this.navCtrl.push('CartPage');
   }
 
-  goToSubCat()
-  {
-    this.navCtrl.push('SubCatePage');
+  goToCatWisePrd(catId){
+    this.navCtrl.push('ProductlistPage',{'catid':catId})
   }
 
+  getMyCartCount(){
+    this.serviceApi.postData({"user_id": this.loginUserId},'users/get_quantity_count').then((result:any) => {
+      if(result.Ack == 1){
+        this.myCartCnt = result.count;
+      }
+    }, (err) => {
+    
+    }); 
+  }
+
+  getCatList(){
+    this.serviceApi.getData('category/list').then((result:any) => {
+      if(result.Ack == 1){
+        this.allCatList = result.cat_list;
+        //console.log(this.allCatList);
+      }
+    }, (err) => {
+     
+    });
+  }
+
+  goToSearch(){
+    this.navCtrl.push('SearchPage');
+  }
 }

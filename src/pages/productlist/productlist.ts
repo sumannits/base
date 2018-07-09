@@ -85,6 +85,7 @@ export class ProductlistPage {
             position: 'top'
           });
           toast.present();
+          this.getMyCartCount();
         }else{
           let toast = this.toastCtrl.create({
             message: result.msg,
@@ -109,7 +110,7 @@ export class ProductlistPage {
       });
       alert.present();
     }
-    this.getMyCartCount();
+    
   }
   
   goToCart(){
