@@ -19,4 +19,5 @@ page-cate-search {
 
     .list > .item-block:first-child{ border-top: 0 !important;}
     .list > .item-block:last-child{ border-bottom: 0 !important;}
+    .cart-item{ position: absolute; width: 18px; height: 18px; border-radius: 50%; color: #ffffff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 1.2rem; background-color: #0032a0; z-index: 100; right: 0; top: 0;}
 }

@@ -138,4 +138,8 @@ export class CartPage {
     });
     alert.present();
   }
+  
+  goToPrdDetails(prdId){
+    this.navCtrl.push('DetailsPage',{'prd_id':prdId})
+  }
 }

@@ -28,7 +28,7 @@
 <ion-content>
   <ion-card>
     <ion-item *ngFor="let prddata of userCartList">
-      <ion-thumbnail item-start>
+      <ion-thumbnail item-start (click)="goToPrdDetails(prddata.id)">
         <!-- <img src="assets/img/chilli-garlic.png" alt=""> -->
         <img [src]="prddata.image_url" alt="">
         <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{((prddata.max_price-prddata.min_price)*100)/prddata.max_price}}% OFF</p>
@@ -82,9 +82,9 @@
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar class="ftr-part">
+  <ion-toolbar *ngIf="subTot > 0" class="ftr-part">
     <!--<ion-item (click)="goToCheckout()">-->
-    <ion-item> 
+    <ion-item (click)="goToCheckout()"> 
       <p>Checkout
         <span>${{subTot + DeliveryCharge}}
           <button ion-button icon-only color="royal">

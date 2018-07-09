@@ -6,19 +6,20 @@
 -->
 <ion-header>
   <ion-toolbar>
-    <ion-buttons start>
+    <!--<ion-buttons start>
       <button ion-button icon-only color="royal">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
-    </ion-buttons>
-    <ion-title>Fruit & Vegetables...</ion-title>
+    </ion-buttons>-->
+    <ion-title>Categories</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="royal">
+      <button ion-button icon-only color="royal" (click)="goToSearch()">
         <ion-icon name="search"></ion-icon>
       </button>
       <button ion-button icon-only color="royal" (click)="goToCart()">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -26,116 +27,14 @@
 
 <ion-content>
   <ion-card padding>
-    <ion-list (click)="goToSubCat()">
+    <ion-list (click)="goToCatWisePrd(catData.id)" *ngFor="let catData of allCatList">
       <ion-item>
         <ion-avatar item-start>
-          <img src="assets/img/fruit-veg.png" alt="">
+          <img [src]="catData.image_url" alt="">
         </ion-avatar>
-        Fruits & Vegetables
+        {{catData.name}}
         <ion-icon name="arrow-dropdown" item-end></ion-icon>
       </ion-item>
     </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/oil.png" alt="">
-        </ion-avatar>
-        Foodgrains, Oil & Masala
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/bakery.png" style="width:32px !important; height: 30px !important; padding-top: 9px !important;" alt="">
-        </ion-avatar>
-        Bakery, Cakes & Dairy
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/beverages.png" alt="">
-        </ion-avatar>
-        Beverages
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/snacks.png" alt="">
-        </ion-avatar>
-        Snacks & Branded Foods
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/beauty.png" alt="">
-        </ion-avatar>
-        Beauty & Hygiene
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/cleaning.png" alt="">
-        </ion-avatar>
-        Cleaning & Household
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/kitchen.png" alt="">
-        </ion-avatar>
-        Kitchen, Garden & Pets
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/egs.png" alt="">
-        </ion-avatar>
-        Eggs, Meat & Fish
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/gourmet.png" alt="">
-        </ion-avatar>
-        Gourmet & World Food
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
-    <ion-list (click)="goToSubCat()">
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/img/baby-care.png" alt="">
-        </ion-avatar>
-        Baby Care
-        <ion-icon name="arrow-dropdown" item-end></ion-icon>
-      </ion-item>
-    </ion-list>
-
   </ion-card>
-
 </ion-content>

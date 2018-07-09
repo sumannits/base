@@ -33,5 +33,11 @@
          <button ion-button  item-end (click)="addToCart(prddata.id)">Add <ion-icon name="add"></ion-icon> </button> 
       </ion-item>
     </ion-card>
+    <ion-card *ngIf="allPrdList?.length == 0">
+      <ion-item>
+        
+        <h2>No product found for this category.</h2>
+      </ion-item>
+    </ion-card>
   </ion-content>
   

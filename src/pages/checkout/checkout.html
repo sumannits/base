@@ -13,13 +13,13 @@
     </ion-buttons>
     <ion-title>Checkout</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="royal">
+      <button ion-button icon-only color="royal" (click)="goToSearch()">
         <ion-icon name="search"></ion-icon>
       </button>
-      <button ion-button icon-only color="royal">
+      <button ion-button icon-only color="royal" (click)="goToCart()">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
-      <div class="cart-item">1</div>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -27,29 +27,127 @@
 
 <ion-content >
 
-  <ion-list>
+  <ion-list *ngIf="myAddressList?.length > 0 && !isEditFrm">
     <h5 class="deliver">Delivering In</h5>
-    <ion-item class="heading-part">
-      <h2>HOME
-        <button ion-button class="change-btn" clear outline >
+    <ion-item class="heading-part" *ngFor="let addData of myAddressList">
+      <h2>{{addData.save_as}}
+        <button ion-button class="change-btn" clear outline (click)="deliveringEditdata(addData)">
           <ion-icon class="more-icon" name="create"></ion-icon> Change
         </button>
       </h2>
-      <h5>Avik Ghosh</h5>
-      <p>DH Block, Action area 360,</p>
-      <p>Natitsolved</p>
-      <p>Action Area I, Newtown, New Town.</p>
+      <h5>{{addData.name}}</h5>
+      <p>{{addData.address}}, {{addData.zip}},</p>
+      <p>{{addData.phone}}</p>
+      <p>{{addData.landmark}}</p>
     </ion-item>
   
-    <ion-item style="margin:0 !important; padding-left:0 !important;">
+    <!--<ion-item style="margin:0 !important; padding-left:0 !important;">
       <img src="assets/img/checkout-body.png" alt="">
-    </ion-item>
-    
+    </ion-item>-->
+  </ion-list>
+  <ion-list class="editFrm" *ngIf="myAddressList?.length == 0 || isEditFrm">
+      <h5 class="deliver">Delivering In</h5>
+      <form [formGroup]="form" #editShpForm="ngForm">
+          <ion-item>
+              <ion-label stacked>Type</ion-label>
+              <ion-input type="text" formControlName="save_as" placeholder="Address Type"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container >
+                <div class="error-message" *ngIf="form.get('save_as').hasError('required')">
+                  Address Type required.
+                </div>
+                <div class="error-message" *ngIf="form.get('save_as').hasError('pattern')">
+                    Address Type must be character only.
+                </div>
+              </ng-container>
+            </div>
+       <ion-item>
+            <ion-label stacked>Name</ion-label>
+            <ion-input type="text" formControlName="name" placeholder="Enter Your Name" ></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container >
+              <div class="error-message" *ngIf="form.get('name').hasError('required')">
+                Name required.
+              </div>
+              <div class="error-message" *ngIf="form.get('name').hasError('pattern')">
+                  Name must be character only.
+              </div>
+            </ng-container>
+          </div>
+          
+          <ion-item>
+            <ion-label stacked>Email Id</ion-label>
+            <ion-input type="email" formControlName="email" placeholder="Email Id"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+              <ng-container >
+                <div class="error-message" *ngIf="form.get('email').hasError('required')">
+                  Email Id required.
+                </div>
+                <div class="error-message" *ngIf="form.get('email').hasError('pattern')">
+                    Please provide a valid email.
+                </div>
+              </ng-container>
+          </div>
+          <ion-item>
+            <ion-label stacked>Mobile No</ion-label>
+            <ion-input type="text" placeholder="Mobile No" formControlName="phone"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container >
+              <div class="error-message" *ngIf="form.get('phone').hasError('required')">
+                Mobile No required.
+              </div>
+              <div class="error-message" *ngIf="form.get('phone').hasError('pattern')">
+                Please enter a number like 12345678 and must be 10 digit.
+              </div>
+            </ng-container>
+          </div>
+          
+          <ion-item>
+            <ion-label stacked>Address</ion-label>
+            <ion-input type="text" formControlName="address" placeholder="Enter your address"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+              <ng-container >
+                <div class="error-message" *ngIf="form.get('address').hasError('required')">
+                  Address required.
+                </div>
+              </ng-container>
+          </div>
+          <ion-item>
+              <ion-label stacked>Zip Code</ion-label>
+              <ion-input type="text" formControlName="zip" placeholder="Enter your zipcode"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+              <ng-container >
+                <div class="error-message" *ngIf="form.get('zip').hasError('required')">
+                    Zip Code required.
+                </div>
+              </ng-container>
+          </div>
+          <ion-item>
+              <ion-label stacked>Nearest Landmark</ion-label>
+              <ion-input type="text" formControlName="landmark" placeholder="Enter your Landmark"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+              <ng-container >
+                <div class="error-message" *ngIf="form.get('landmark').hasError('required')">
+                    Landmark required.
+                </div>
+              </ng-container>
+          </div>
+          <ion-item>
+              <button ion-button block [disabled]="!editShpForm.valid" (click)="updateShippingData(form.value)">Save Changes</button>
+          </ion-item>
+      </form>
   </ion-list>
 
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="myAddressList.length > 0 && !isEditFrm">
   <ion-toolbar class="ftr-part">
     <ion-item (click)="goToPayment()">
       <button ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; ">Proceed to Payment</button>

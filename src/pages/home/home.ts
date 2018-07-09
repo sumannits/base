@@ -58,8 +58,7 @@ export class HomePage {
   goToDetails(catId){
     this.navCtrl.push('ProductlistPage',{'catid':catId})
   }
-  openCategories()
-  {
+  openCategories() {
     this.navCtrl.push('CateSearchPage');
   }
   goToSearch()
