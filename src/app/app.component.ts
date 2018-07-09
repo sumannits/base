@@ -104,12 +104,14 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      //this.nav.setRoot('WelcomePage');
+      this.rootPage="HomePage";
     });
     this.initTranslate(); 
-    this.broadCaster.on('userLoggedIn').subscribe((res)=>{
-      this.isloggedin = true;
-      this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-    })
+    // this.broadCaster.on('userLoggedIn').subscribe((res)=>{
+    //   this.isloggedin = true;
+    //   this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+    // })
   }
 
   initTranslate() {
