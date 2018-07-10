@@ -20,6 +20,7 @@ export class CartPage {
   public prdActTot:number = 0;
   public DeliveryCharge:number = 1.00;
   public userCartList = [];
+  public alltotal:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -50,9 +51,10 @@ export class CartPage {
     }
   }
 
-  goToCheckout()
+  goToCheckout(total,charge)
   {
-    this.navCtrl.push('CheckoutPage');
+    this.alltotal=parseInt(total)+parseInt(charge);
+    this.navCtrl.push('CheckoutPage',{'Total':this.alltotal});
   }
 
 

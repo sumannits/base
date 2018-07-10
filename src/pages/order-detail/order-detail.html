@@ -17,14 +17,14 @@
 
 <ion-content >
 
-  <ion-card>
+  <ion-card *ngFor="let order of ordershow">
     <ion-item>
       <ion-row>
         <ion-col col-4>
           <h3> Order Id :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>#524879</p>
+          <p>#{{order.transaction_id}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -74,7 +74,7 @@
           <h3> Order Date :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>June 25, 2018</p>
+          <p>{{order.order_date| date:'dd-mm-yyyy'}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -90,17 +90,17 @@
         </ion-col>
         <ion-col col-5>
           <h3 style="margin-bottom:10px">Product Name</h3>
-          <p>Potato-Onion-Potato</p>
+          <p>{{order.product_name}}</p>
           <!-- <p>Pizza</p> -->
         </ion-col>
         <ion-col col-2>
           <h3 style="margin-bottom:10px">Qty</h3>
-          <p>1</p>
+          <p>{{order.quantity}}</p>
           <!-- <p>1</p> -->
         </ion-col>
         <ion-col col-3>
           <h3 style="margin-bottom:10px">Price</h3>
-          <p>$5.99</p>
+          <p>${{order.amount}}</p>
           <!-- <p>$23.40</p> -->
         </ion-col>
       </ion-row>

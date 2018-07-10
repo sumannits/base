@@ -21,6 +21,9 @@ export class CheckoutPage {
   public isEditFrm:boolean = false;
   private form: FormGroup;
   public loginUserDet:any;
+  public dateselect:any;
+  public isdateselect:any;
+  public paycost:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -63,18 +66,26 @@ export class CheckoutPage {
         ])),
         save_as: new FormControl('', Validators.compose([
           Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
+          Validators.required,
+        ])),
+        date: new FormControl('', Validators.compose([
           Validators.required
         ]))
+      
+
       });
   }
 
   ionViewDidLoad() {
+    this.paycost=this.navParams.get('Total');
+    console.log("AMOUNTT",this.paycost)
     this.getShippingAddList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
       this.form.get('name').setValue(this.loginUserDet.first_name +' '+this.loginUserDet.last_name);
       this.form.get('email').setValue(this.loginUserDet.email);
     }
+  
   }
 
   getShippingAddList(){
@@ -84,7 +95,7 @@ export class CheckoutPage {
         if(this.myAddressList.length >0){
           //this.isEditFrm = true;
         }
-        //console.log(this.myAddressList);
+        console.log(this.myAddressList);
       }
     }, (err) => {
     
@@ -100,9 +111,19 @@ export class CheckoutPage {
       
       }); 
   }
-  goToPayment()
+
+  dateselct(data){
+
+   // this.form.get('date').setValue(this.dateselect);
+    this.isdateselect=this.dateselect;
+    console.log("DATEET",this.isdateselect);
+  }
+  goToPayment(date,shipping)
   {
-    this.navCtrl.push('CardPaymentPage');
+    //this.isdateselect=this.dateselect;
+    console.log("DATEET",date);
+    console.log("shipping",shipping);
+    this.navCtrl.push('CardPaymentPage',{'date':date,'Shipment':shipping,'Payamount':this.paycost});
   }
 
   goToCart(){

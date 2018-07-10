@@ -17,26 +17,27 @@
 
 
 <ion-content>
-  <ion-card (click)="goToDetails()">
+  <ion-card *ngFor="let order of orderdetail" (click)="goToDetails(order.id)">
     <ion-item>
       <ion-thumbnail item-start>
-        <img src="assets/img/home-pic-a.png" alt="">
+          <img src="{{order.image_url}}"  alt=""/>
+        <!-- <img src="assets/img/home-pic-a.png" alt=""> -->
       </ion-thumbnail>
 
-      <h3 class="d-flex">#524879
+      <h3 class="d-flex">#{{order.ord_slno}}
         <button class="close-btn" ion-button>
           <ion-icon name="close"></ion-icon>
         </button>
       </h3>
-      <p>25th June, 2018</p>
+      <p>{{order.order_date|  date:'dd-mm-yyyy'}}</p>
       <ion-row class="top-brdr">
         <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Price</h4>
-          <p text-center>$5.99</p>
+          <p text-center>${{order.amount}}</p>
         </ion-col>
         <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Quantity</h4>
-          <p text-center>1</p>
+          <p text-center>{{order.quantity}}</p>
         </ion-col>
         <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Total</h4>
@@ -46,7 +47,7 @@
     </ion-item>
   </ion-card>
 
-  <ion-card (click)="goToDetails()">
+  <!-- <ion-card (click)="goToDetails()">
     <ion-item>
       <ion-thumbnail item-start>
         <img src="assets/img/order-oic-a.png" alt="">
@@ -160,6 +161,6 @@
         </ion-col>
       </ion-row>
     </ion-item>
-  </ion-card>
+  </ion-card> -->
 
 </ion-content>

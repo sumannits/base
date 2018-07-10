@@ -40,11 +40,25 @@
       <p>{{addData.phone}}</p>
       <p>{{addData.landmark}}</p>
     </ion-item>
-  
-    <!--<ion-item style="margin:0 !important; padding-left:0 !important;">
-      <img src="assets/img/checkout-body.png" alt="">
-    </ion-item>-->
   </ion-list>
+    <!-- <ion-item style="margin:0 !important; padding-left:0 !important;">
+      <img src="assets/img/checkout-body.png" alt="">
+    </ion-item> -->
+    <!-- <form [formGroup]="form" #editShpForm="ngForm">
+    <ion-item style="margin:0 !important; padding-left:0 !important;">
+      <ion-label stacked>Date</ion-label>
+       <ion-datetime displayFormat="DD-MM-YYYY hh:mm A"  formControlName="date"></ion-datetime>
+    </ion-item>
+</form> -->
+<button ion-button class="change-btn" clear outline>
+  <ion-icon class="more-icon"></ion-icon> Select Date
+  <ion-datetime displayFormat="DD-MM-YYYY hh:mm A" [(ngModel)]="dateselect"></ion-datetime>
+</button>
+    <!-- <ion-item style="margin:0 !important; padding-left:0 !important;">
+      <ion-label stacked>Date</ion-label>
+       <ion-datetime displayFormat="DD-MM-YYYY hh:mm A" [(ngModel)]="dateselect"></ion-datetime>
+    </ion-item> -->
+
   <ion-list class="editFrm" *ngIf="myAddressList?.length == 0 || isEditFrm">
       <h5 class="deliver">Delivering In</h5>
       <form [formGroup]="form" #editShpForm="ngForm">
@@ -144,13 +158,13 @@
           </ion-item>
       </form>
   </ion-list>
-
+  <ion-footer *ngIf="myAddressList.length > 0 && !isEditFrm && dateselect">
+    <ion-toolbar class="ftr-part">
+      <ion-item *ngFor="let addData of myAddressList" (click)="goToPayment(dateselect,addData.id)">
+        <button  ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; ">Proceed to Payment</button>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
 </ion-content>
 
-<ion-footer *ngIf="myAddressList.length > 0 && !isEditFrm">
-  <ion-toolbar class="ftr-part">
-    <ion-item (click)="goToPayment()">
-      <button ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; ">Proceed to Payment</button>
-    </ion-item>
-  </ion-toolbar>
-</ion-footer>
+

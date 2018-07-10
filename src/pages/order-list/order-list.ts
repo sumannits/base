@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { Api, ResponseMessage } from '../../providers';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController,ToastController } from 'ionic-angular';
 /**
  * Generated class for the OrderListPage page.
  *
@@ -14,17 +14,48 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'order-list.html',
 })
 export class OrderListPage {
+  public getresult:any;
+  public orderdetail:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController, public loadingCtrl: LoadingController,public alertCtrl: AlertController,public serviceApi: Api) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderListPage');
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+    // this.usertype=loguser.utype
+     this.serviceApi.postData({"user_id": loguser.id},'users/orderlist').then((result) => { 
+       console.log(result);
+       this.getresult = result;
+       if(this.getresult.Ack == 1)
+       {
+        
+         this.orderdetail = this.getresult.order_list;
+       console.log("orderdetail",this.orderdetail);
+  
+       }
+       else{
+         this.tost_message('No Detail Found')
+       }
+       
+     }, (err) => {
+       console.log(err);
+       this.tost_message('No Detail Found')
+     });
+
   }
 
-  goToDetails()
+  tost_message(msg){
+    let toast = this.toastCtrl.create({
+     message: msg,
+     duration: 3000
+   });
+   toast.present(); 
+    }
+
+  goToDetails(id)
   {
-    this.navCtrl.push("OrderDetailPage");
+    this.navCtrl.push("OrderDetailPage",{'order_id':id});
   }
 
 }

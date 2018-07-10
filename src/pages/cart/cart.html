@@ -84,7 +84,7 @@
 <ion-footer>
   <ion-toolbar *ngIf="subTot > 0" class="ftr-part">
     <!--<ion-item (click)="goToCheckout()">-->
-    <ion-item (click)="goToCheckout()"> 
+    <ion-item (click)="goToCheckout(subTot,DeliveryCharge)"> 
       <p>Checkout
         <span>${{subTot + DeliveryCharge}}
           <button ion-button icon-only color="royal">

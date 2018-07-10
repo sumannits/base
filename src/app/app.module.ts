@@ -9,6 +9,8 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { DatePicker } from '@ionic-native/date-picker';
+import { Stripe } from '@ionic-native/stripe';
 //import { AboutPage } from '../pages/about/about';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
@@ -69,6 +71,8 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     Broadcaster,
     ConferenceData,
+    Stripe,
+    DatePicker,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserData,
