@@ -19,7 +19,7 @@
       <button ion-button icon-only color="royal">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
-      <div class="cart-item">1</div>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -67,6 +67,9 @@
           <ion-segment-button value="puppies">
              Card
           </ion-segment-button>
+          <ion-segment-button value="savecards">
+            Saved Cards
+         </ion-segment-button>
           <ion-segment-button value="cash">
              Cash
           </ion-segment-button>
@@ -75,13 +78,14 @@
       
       <div class="seg-top" [ngSwitch]="pet">
         <ion-list *ngSwitchCase="'puppies'">
-            <form  [formGroup]="form" (ngSubmit)="pay(form.value)"  #payForm="ngForm">
+            <form  [formGroup]="form"  #payForm="ngForm">
           <ion-row>
             <ion-col>
               <ion-item class="brdr-btm">
                 <ion-label stacked class="segment-label">Card Holder Name</ion-label>
                 <ion-input type="text" placeholder="Name"  [formControl]="user_name" required></ion-input>
               </ion-item>
+            
             </ion-col>
           </ion-row>
         
@@ -91,6 +95,7 @@
                 <ion-label stacked class="segment-label">Card No</ion-label>
                 <ion-input type="text" placeholder="Card Number"  [formControl]="card_no" required></ion-input>
               </ion-item>
+              <p style="padding-left:16px;" no-lines *ngIf="!form.controls.card_no.valid  && !form.controls.card_no.pristine" ion-text color="danger">Please enter your valid card number</p>
             </ion-col>
           </ion-row>
         
@@ -127,8 +132,8 @@
             </ion-col>
         
             <ion-col col-4>
-              <ion-item class="brdr-btm label-mrgn">
-                <ion-label stacked class=""> </ion-label>
+              <ion-item class="brdr-btm">
+                <ion-label stacked class="segment-label">Expiry Year</ion-label>
                 <!-- <ion-select [(ngModel)]="gaming">
                   <ion-option value="nes">NES</ion-option>
                   <ion-option value="n64">Nintendo64</ion-option>
@@ -166,12 +171,28 @@
         
         </ion-list>
 
+        <ion-list *ngSwitchCase="'savecards'">
+          <ion-item *ngFor="let card of cardlist">
+            <ion-avatar item-start>
+              <img src="assets/img/save-card.png">
+            </ion-avatar>
+            <ion-label>
+            <h2>{{card.card_no}} </h2>
+            <p>United Bank Of India</p>
+            </ion-label>
+            <div item-end>
+                <input type="radio" name="gender" ng-model="card.id" (click)="onchange(card.id)" />
+               <!-- <ion-radio color="secondary"  value="{{card.id}}" [checked]="card.id" (click)="onchange(card.id)"></ion-radio> -->
+            </div>    
+          </ion-item>
+        
+        </ion-list>
 
         <ion-list *ngSwitchCase="'cash'">
           <ion-row>
             <ion-col>
               <ion-item class="brdr-btm" text-center >
-                <p class="cash-amount"> $6.99</p>
+                <p class="cash-amount"> ${{paycostamount}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -182,18 +203,27 @@
     </ion-card>
 
 </ion-content>
-
-<ion-footer>
+<ion-footer *ngIf="pet=='puppies'">
   <ion-toolbar class="ftr-part">
     <ion-item>
-      <button ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; " >Proceed to Payment</button>
-      <!-- <p>Checkout
-        <span>$11.98
-          <button ion-button icon-only color="royal">
-            <ion-icon name="arrow-forward"></ion-icon>
-          </button>
-        </span>
-      </p> -->
+      <button (click)="pay()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+
     </ion-item>
   </ion-toolbar>
 </ion-footer>
+<ion-footer *ngIf="pet=='savecards' && card_id">
+    <ion-toolbar class="ftr-part">
+      <ion-item>
+        <button (click)="savecardpayment()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+       
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
+  <ion-footer *ngIf="pet=='cash'">
+      <ion-toolbar class="ftr-part">
+        <ion-item>
+          <button (click)="savecashpayment()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+        
+        </ion-item>
+      </ion-toolbar>
+    </ion-footer>

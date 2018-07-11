@@ -66,7 +66,8 @@ export class MyApp {
     { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
     { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
     { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
-    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
+    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' },
+    { title: 'Verification', name: 'VerificationPage', component: 'VerificationPage', index: 6, icon: 'checkmark-circle' }
 
   ];
 

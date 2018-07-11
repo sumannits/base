@@ -44,7 +44,7 @@
           <h3> Name :</h3>
         </ion-col>
         <ion-col col-9>
-          <p>Avik Ghosh</p>
+          <p>{{order.first_name}} {{order.last_name}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -54,7 +54,7 @@
           <h3> Delivery Address :</h3>
         </ion-col>
         <ion-col col-6>
-<p>DH Block, Action area 360,</p>
+<p>{{shipmentdetails}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -63,9 +63,12 @@
         <ion-col col-4>
           <h3> Payment:</h3>
         </ion-col>
-        <ion-col col-8>
-          <p>COD</p>
+        <ion-col col-8 *ngIf="type==0">
+          <p>CARD</p>
         </ion-col>
+        <ion-col col-8 *ngIf="type==1">
+            <p>CASH</p>
+          </ion-col>
       </ion-row>
     </ion-item>
     <ion-item>
@@ -100,19 +103,19 @@
         </ion-col>
         <ion-col col-3>
           <h3 style="margin-bottom:10px">Price</h3>
-          <p>${{order.amount}}</p>
+          <p>${{order.price}}</p>
           <!-- <p>$23.40</p> -->
         </ion-col>
       </ion-row>
       
       <div class="sub-total">
         <span class="sub-total-text">Sub Total</span>
-        <span class="price">$6.99</span>
+        <span class="price">${{subtotal}}</span>
       </div>
       
       <div class="sub-total">
         <span class="sub-total-text">Grand Total</span>
-        <span class="price">$6.99</span>
+        <span class="price">${{grandtotal}}</span>
       </div>
     </ion-item>
     

@@ -67,9 +67,6 @@ export class CheckoutPage {
         save_as: new FormControl('', Validators.compose([
           Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
           Validators.required,
-        ])),
-        date: new FormControl('', Validators.compose([
-          Validators.required
         ]))
       
 

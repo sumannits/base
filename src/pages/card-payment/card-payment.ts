@@ -29,14 +29,15 @@ export class CardPaymentPage {
   public modelid:any;
   public orderdata:any;
   public isenabled:boolean;
-  public originalprice:any;
-  public discount:any;
-  public shopdetail:any;
-  public shopname:any;
   public loguser :any;
   public shipid:any;
   public pet:any;
-
+  public orderdate:any;
+  public chekoutresult:any;
+  public myCartCnt:number = 0;
+  public cardlist:any;
+public selectedSection:any;
+public card_id:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private stripe:Stripe,public toastCtrl:ToastController, public loadingCtrl: LoadingController,public alertCtrl: AlertController,public serviceApi: Api,private builder:FormBuilder) {
     this.pet ='puppies';
@@ -61,6 +62,7 @@ export class CardPaymentPage {
   }
 
   ionViewDidLoad() {
+    this.orderdate=this.navParams.get('date')
     this.paycostamount=this.navParams.get('Payamount');
     console.log("TOTalAMOUNTT",this.paycostamount)
     this.shipid=this.navParams.get('Shipment');
@@ -68,7 +70,88 @@ export class CardPaymentPage {
     this.id=sign_val.id;
    console.log("0000000000",sign_val);
     console.log('ionViewDidLoad CardPaymentPage');
+    this.getMyCartCount();
+    this.savedcard();
   }
+
+  onchange(card){
+  
+this.card_id=card;
+  }
+  savedcard(){
+    this.serviceApi.postData({"user_id": this.id},'users/card_list').then((result:any) => {
+      console.log("anyyy",result);
+      if(result.Ack == 1){
+        this.cardlist = result.response;
+        console.log("cardsss",this.cardlist);
+      }
+    }, (err) => {
+    
+    }); 
+
+
+  }
+
+  savecardpayment(){
+    let param={
+      "user_id":this.id,
+      "amount": this.paycostamount,
+      "delivery_date": this.orderdate,
+      "shipping_id":this.shipid,
+      "payment_type":"card",
+      "card_id":this.card_id
+      };
+  
+      this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+        this.chekoutresult = result;
+       if(this.chekoutresult.Ack=1){
+        this.navCtrl.push('OrderListPage');
+  }
+  
+      });
+
+
+  }
+
+  savecashpayment(){
+    let loading = this.loadingCtrl.create({
+      spinner: 'show',
+      content: 'Please Wait...'
+    });
+    loading.present();
+    let param={
+      "user_id":this.id,
+      "amount": this.paycostamount,
+      "delivery_date": this.orderdate,
+      "shipping_id":this.shipid,
+      "payment_type":"cash",
+      "card_id":""
+      };
+    
+  console.log("savedcard",param);
+      this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+        this.chekoutresult = result;
+       if(this.chekoutresult.Ack=1){
+       
+        this.navCtrl.push('OrderListPage');
+        loading.dismiss();
+  }
+  
+      });
+
+
+  }
+
+  getMyCartCount(){
+    this.serviceApi.postData({"user_id": this.id},'users/get_quantity_count').then((result:any) => {
+      if(result.Ack == 1){
+        this.myCartCnt = result.count;
+      }
+    }, (err) => {
+    
+    }); 
+}
+
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
@@ -78,7 +161,25 @@ export class CardPaymentPage {
    toast.present(); 
   }
 
-  pay(data){
+  pay(){
+    let data:any=this.form.value;
+    console.log("datattatat",data);
+    if (!data.username) {
+      const alert = this.alertCtrl.create({
+        title: 'Enter Card Holder Name!',
+        subTitle: "Please fill.",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    if (!data.card_no) {
+      const alert = this.alertCtrl.create({
+        title: 'Enter Card Number!',
+        subTitle: "Please fill.",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
     if(data.exp_month>12){
       let alert = this.alertCtrl.create({
         title: 'Error',
@@ -93,39 +194,42 @@ export class CardPaymentPage {
       content: 'Please Wait...'
     });
     loading.present();
-    this.stripe.setPublishableKey('pk_test_mUJGVSkQAUdfxflKl5AoVcVL');
+  
     let card = {
+      user_id:this.id,
       name:data.user_name,
-      number: data.card_no,
-      expMonth: data.exp_month,
-      expYear: data.exp_year,
-      cvc:data.cvv
+      card_number: data.card_no,
+      expairy_month: data.exp_month,
+      expairy_year: data.exp_year,
+      cvv:data.cvv
      };
-     //console.log('Payment Fromcontrol',card);
-     this.stripe.createCardToken(card)
-     .then(token => {console.log("TOKENNNN",token.id)
+  
     
-     this.generate_token=token.id;
-
-     let param={
-      "token": this.generate_token,
-      "user_id":this.id,
-      "amount": this.paycostamount,
-      "phone_model_id":this.modelid,
-      "ship_id":this.shipid
-     };
-     console.log("paymentdatat",param);
-    
-     this.serviceApi.postData(param,'webservice/brands/placeorder').then((result) => { //console.log(result);
+     this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
       this.getresult = result;
       console.log("PAYYYYRESLT",result);
       if(this.getresult.Ack == 1)
       {
-         this.orderdata=this.getresult.OrderDetails.id;
-         console.log("ORDERDATAAAAAA",this.orderdata);
-      localStorage.setItem('orderdata', JSON.stringify(this.orderdata));
+        
+     let param={
+    "user_id":this.id,
+    "amount": this.paycostamount,
+    "delivery_date": this.orderdate,
+    "shipping_id":this.shipid,
+    "payment_type":"card",
+    "card_id":this.getresult.user_savecardId
+    };
+
+    this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+      this.chekoutresult = result;
+     if(this.chekoutresult.Ack=1){
+      this.navCtrl.push('OrderListPage');
+}
+
+    });
+
          loading.dismiss();
-       this.navCtrl.setRoot('PaymentSuccessPage');
+      // this.navCtrl.setRoot('PaymentSuccessPage');
 
       }
       else{
@@ -137,8 +241,8 @@ export class CardPaymentPage {
     })
 
     
-     })
-     .catch(error => console.error(error));
+     //})
+   //  .catch(error => console.error(error));
 
     }
 

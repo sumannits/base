@@ -23,14 +23,19 @@ export class OrderDetailPage {
   public orderzip:any;
   public ordername:any;
   public orderamount:any;
-  public ordertransid:any;
-  public orderticket:any;
   public orderviewid:any;
   public shopaddress:any;
   public modelname:any;
   public repaircatname:any;
   public storename:any;
-  public barcode:any;
+  public productquantity:any;
+  public productshippingcost:any;
+  public subtotal:any;
+  public grandtotal:any;
+  public productprice:any;
+  public paymenttype:any;
+  public type:any;
+  public shipmentdetails:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -53,24 +58,22 @@ export class OrderDetailPage {
       {
        
       this.ordershow = this.getresult.order_details;
-      //  console.log("ordershow",this.ordershow);
-      //  this.orderdt=this.ordershow.order_date;
-      //  this.ordertransid=this.ordershow.transaction_id;
-      //  this.orderamount=this.ordershow.amount;
-      //  this.orderzip=this.ordershow.zipcode;
-      //  this.ordername=this.ordershow.name;
-      //  this.orderticket=this.ordershow.ticket_id;
-      //  this.orderviewid=this.ordershow.order_view_id;
-      //  this.shopaddress=this.ordershow.address;
-      //  this.modelname=this.ordershow.phonemodelname;
-      //  this.repaircatname=this.ordershow.repaircategoryname;
-      //  this.storename=this.ordershow.shopname;
-      //  this.barcode=this.ordershow.barcode_image_url;
-      //  this.isjobdone=this.ordershow.is_job_done;
-     
-       
-      //  console.log("storename",this.storename);
-      //  console.log("repaircatname",this.repaircatname);
+      this.productquantity= this.getresult.order_details[0].quantity;
+      this.productprice=this.getresult.order_details[0].price;
+      this.productshippingcost=this.getresult.order_details[0].shipping_cost;
+      this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
+      this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
+      this.paymenttype=this.getresult.order_details[0].payment_status;
+   this.shipmentdetails=this.getresult.shipping_details[0].address;
+
+      if(this.paymenttype==3){
+        this.type=0;
+      }
+      else{
+        this.type=1
+      }
+      console.log("SUBTOTALLL",this.subtotal)
+    
        
      }
       else{
