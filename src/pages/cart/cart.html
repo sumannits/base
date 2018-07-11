@@ -31,7 +31,7 @@
       <ion-thumbnail item-start (click)="goToPrdDetails(prddata.id)">
         <!-- <img src="assets/img/chilli-garlic.png" alt=""> -->
         <img [src]="prddata.image_url" alt="">
-        <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{((prddata.max_price-prddata.min_price)*100)/prddata.max_price}}% OFF</p>
+        <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) | number:'1.2-2'}}% OFF</p>
       </ion-thumbnail>
       <!-- <h2>Green Chilli-Garlic-Ginger</h2> -->
       <h2>{{prddata.name | limitTo:30}} <a class="float_right" (click)="deleteItem(prddata.cart_pid)">Remove</a></h2>
