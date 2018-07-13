@@ -107,7 +107,15 @@ export class DetailsPage {
       let alert = this.alertCtrl.create({
         title: 'Alert!',
         subTitle: 'Please login first to add this product in your cart.' ,
-        buttons: ['Ok']
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'Ok',
+          handler: () => {
+            this.navCtrl.push('LoginPage',{'prd_id': this.prdId});
+            }
+          }
+        ]
       });
       alert.present();
     }

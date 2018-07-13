@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController,ModalController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 /**
@@ -27,7 +27,8 @@ export class CartPage {
     public navParams: NavParams,
     public serviceApi: Api,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public modalCtrl: ModalController
   ) {
       let isUserLogedin = localStorage.getItem('isUserLogedin');
       if (isUserLogedin == '1') {
@@ -67,12 +68,20 @@ export class CartPage {
     this.serviceApi.postData({"user_id":this.loginUserId},'users/get_usercartlist').then((result:any) => {
       if(result.Ack == 1){
         this.userCartList = result.product_list;
+       // console.log("cartlisttttt",this.userCartList);
         this.subTot = result.sub_tot;
         this.prdActTot = result.act_price;
       }
     }, (err) => {
     
     });
+  }
+
+  
+  openModal(id) {
+
+    let modal = this.modalCtrl.create("ModalcontentPage",{'cartid':id});
+    modal.present();
   }
 
   updateQty(cartid:number, type:string, qty:any){
