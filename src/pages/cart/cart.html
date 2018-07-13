@@ -33,8 +33,12 @@
         <img [src]="prddata.image_url" alt="">
         <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) | number:'1.2-2'}}% OFF</p>
       </ion-thumbnail>
+       
+      <!-- <h2><a (click)="openModal(prddata.cart_pid)">Add Note</a></h2> -->
       <!-- <h2>Green Chilli-Garlic-Ginger</h2> -->
-      <h2>{{prddata.name | limitTo:30}} <a class="float_right" (click)="deleteItem(prddata.cart_pid)">Remove</a></h2>
+      <h2>{{prddata.name | limitTo:30}} 
+        <!-- <a  (click)="deleteItem(prddata.cart_pid)">Remove</a> -->
+      </h2>
       <!--<p>200 gm + 200 gm +200gm</p>-->
       <h4 class="d-flex">${{prddata.min_price}}
         <span class="line-through">${{prddata.max_price}}</span>
@@ -53,6 +57,11 @@
           </ion-col>
         </ion-row>
       </h4>
+
+      <div item-end>
+          <h2> <a (click)="openModal(prddata.cart_pid)">Add Note</a></h2>
+         <h2> <a  (click)="deleteItem(prddata.cart_pid)">Remove</a></h2>
+         </div>
     </ion-item>
     <ion-item *ngIf="userCartList?.length == 0">
       <!-- <h2>Green Chilli-Garlic-Ginger</h2> -->

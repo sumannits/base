@@ -36,6 +36,8 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+   // console.log("Previousss",this.navCtrl.getPrevious().component);
+ //   console.log("activeeeee",this.navCtrl.getActive());
     this.myApp.menuOpened();
     this.getCatList();
     if(this.loginUserId > 0){

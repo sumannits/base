@@ -33,7 +33,7 @@ export class MyOrderPage {
        {
         
          this.orderdetail = this.getresult.order_list;
-       console.log("orderLISTTTTT",this.orderdetail);
+      // console.log("orderLISTTTTT",this.orderdetail);
   
        }
        else{
@@ -52,6 +52,11 @@ export class MyOrderPage {
      duration: 3000
    });
    toast.present(); 
+    }
+
+    goToDetails(id)
+    {
+      this.navCtrl.push("MyOrderDetailPage",{'order_id':id});
     }
 
 }
