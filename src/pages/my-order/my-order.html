@@ -26,9 +26,9 @@
 
 
 <ion-content>
-  <ion-card *ngFor="let order of orderdetail" (click)="goToDetails(order.id)">
+  <ion-card *ngFor="let order of orderdetail">
     <ion-item>
-      <ion-thumbnail item-start>
+      <ion-thumbnail item-start (click)="goToDetails(order.id)">
           <img src="{{order.image_url}}"  alt=""/>
         <!-- <img src="assets/img/home-pic-a.png" alt=""> -->
       </ion-thumbnail>
@@ -36,6 +36,9 @@
       <h3 class="d-flex">#{{order.ord_slno}}
         <button class="close-btn" ion-button>
           <ion-icon name="close"></ion-icon>
+        </button>
+        <button class="close-btn" ion-button (click)="gotoChatDet(order.id)">
+          chat
         </button>
       </h3>
       <p>{{order.order_date|  date:'dd-mm-yyyy'}}</p>

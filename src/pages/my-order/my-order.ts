@@ -23,27 +23,28 @@ export class MyOrderPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MyOrderPage');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     // this.usertype=loguser.utype
      this.serviceApi.postData({"user_id": loguser.id},'users/rider_assign_orderlist').then((result) => { 
-       console.log(result);
        this.getresult = result;
        if(this.getresult.Ack == 1)
        {
         
          this.orderdetail = this.getresult.order_list;
-       console.log("orderLISTTTTT",this.orderdetail);
-  
+       
        }
        else{
          this.tost_message('No Detail Found')
        }
        
      }, (err) => {
-       console.log(err);
+       //console.log(err);
        this.tost_message('No Detail Found')
      });
+  }
+  
+  gotoChatDet(ordId){
+    this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
   }
 
   tost_message(msg){
