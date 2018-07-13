@@ -28,6 +28,18 @@
       @content;
     }
   }
+
+  @font-face {
+    font-family: 'American Typewriter';
+    src: url('../font/AmericanTypewriter.eot');
+    src: url('../font/AmericanTypewriter.eot?#iefix') format('embedded-opentype'),
+        url('../font/AmericanTypewriter.woff2') format('woff2'),
+        url('../font/AmericanTypewriter.woff') format('woff'),
+        url('../font/AmericanTypewriter.ttf') format('truetype'),
+        url('../font/AmericanTypewriter.svg#AmericanTypewriter') format('svg');
+    font-weight: normal;
+    font-style: normal;}
+
   
   @import url('https://fonts.googleapis.com/css?family=Open+Sans');
   
@@ -87,7 +99,11 @@
     }
   }
   
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+  // @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
   
+  h1, h2, h3, h4, h5, h6{font-family: 'American Typewriter';}
+
+  body{font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif !important; }
   .toolbar-background{ background: #1e1e1e !important; }
   .toolbar-title{ color: #ffffff;}
