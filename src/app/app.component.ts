@@ -46,6 +46,9 @@ export class MyApp {
   public isloggedin: boolean = false;
   public loguser: any;
   public loguserDet: any;
+  public istype:any;
+  public firstname:any;
+  public lastname:any;
 
   @ViewChild(Nav) nav: Nav;
 
@@ -66,6 +69,16 @@ export class MyApp {
     { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
     { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
     { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
+    { title: 'Verification', name: 'VerificationPage', component: 'VerificationPage', index: 7, icon: 'checkmark-circle' },
+    { title: 'MobileNo. Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
+    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
+
+  ];
+
+  withLoginPagestype: PageInterface[] = [
+    { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
+    { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
+    { title: 'MyOrderPage', name: 'MyOrderPage', component: 'MyOrderPage', index: 8, icon: 'reorder' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
 
   ];
@@ -90,6 +103,7 @@ export class MyApp {
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+      console.log("LOGUOOOOOOO",this.loguserDet);
       if (this.loguserDet.first_name) {
         this.username = this.loguserDet.first_name;
         this.rootPage="HomePage";
@@ -145,6 +159,11 @@ export class MyApp {
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+      if(this.loguserDet.user_type==1){
+        this.istype=1;
+      }else if(this.loguserDet.user_type==0){
+        this.istype=0;
+      }
       // if(this.loguserDet.image){
       //   this.profile_image = this.loguserDet.image;
       // }else{
@@ -161,7 +180,21 @@ export class MyApp {
     }
     //console.log(this.isloggedin);
   }
-
+  logintype(){
+     this.loguser =  JSON.parse(localStorage.getItem('userPrfDet'));   
+     if(this.loguser){
+       this.firstname=this.loguser.first_name;
+       this.lastname=this.loguser.last_name;
+       
+       console.log("USERINFOOOOO",this.loguser.type);
+     if(this.loguser.user_type==1){
+       this.istype=1;
+     }else if(this.loguser.user_type==0){
+       this.istype=0;
+     }
+     }
+   
+   }
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario

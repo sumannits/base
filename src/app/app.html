@@ -12,12 +12,18 @@
                 {{p.title}}
             </button>
         </ion-list>
-        <ion-list *ngIf="isloggedin === true">
+        <ion-list *ngIf="isloggedin === true && istype==1">
             <button menuClose ion-item *ngFor="let p of withLoginPages" (click)="openPage(p)">
                 <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
                 {{p.title}}
             </button>
         </ion-list>
+        <ion-list *ngIf="isloggedin === true && istype==0">
+                <button menuClose ion-item *ngFor="let p of withLoginPagestype" (click)="openPage(p)">
+                    <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+                    {{p.title}}
+                </button>
+            </ion-list>
     </ion-content>
 </ion-menu>
 <ion-nav #content [root]="rootPage"></ion-nav>

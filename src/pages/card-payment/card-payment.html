@@ -19,7 +19,7 @@
       <button ion-button icon-only color="royal">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
-      <div class="cart-item">1</div>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -67,6 +67,9 @@
           <ion-segment-button value="puppies">
              Card
           </ion-segment-button>
+          <ion-segment-button value="savecards">
+            Saved Cards
+         </ion-segment-button>
           <ion-segment-button value="cash">
              Cash
           </ion-segment-button>
@@ -75,12 +78,14 @@
       
       <div class="seg-top" [ngSwitch]="pet">
         <ion-list *ngSwitchCase="'puppies'">
+            <form  [formGroup]="form"  #payForm="ngForm">
           <ion-row>
             <ion-col>
               <ion-item class="brdr-btm">
                 <ion-label stacked class="segment-label">Card Holder Name</ion-label>
-                <ion-input type="text"></ion-input>
+                <ion-input type="text" placeholder="Name"  [formControl]="user_name" required></ion-input>
               </ion-item>
+            
             </ion-col>
           </ion-row>
         
@@ -88,8 +93,9 @@
             <ion-col>
               <ion-item class="brdr-btm">
                 <ion-label stacked class="segment-label">Card No</ion-label>
-                <ion-input type="text"></ion-input>
+                <ion-input type="text" placeholder="Card Number"  [formControl]="card_no" required></ion-input>
               </ion-item>
+              <p style="padding-left:16px;" no-lines *ngIf="!form.controls.card_no.valid  && !form.controls.card_no.pristine" ion-text color="danger">Please enter your valid card number</p>
             </ion-col>
           </ion-row>
         
@@ -98,28 +104,57 @@
           <ion-row>
             <ion-col col-4>
               <ion-item class="brdr-btm">
-                <ion-label stacked class="segment-label">Valid Thru</ion-label>
-                <ion-select [(ngModel)]="gaming">
+                <!-- <ion-select [(ngModel)]="gaming">
                   <ion-option value="nes">NES</ion-option>
                   <ion-option value="n64">Nintendo64</ion-option>
                   <ion-option value="ps">PlayStation</ion-option>
                   <ion-option value="genesis">Sega Genesis</ion-option>
                   <ion-option value="saturn">Sega Saturn</ion-option>
                   <ion-option value="snes">SNES</ion-option>
+                </ion-select> -->
+                <ion-label stacked class="segment-label">Expiry Month</ion-label>
+                <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Month" [formControl]="exp_month">
+                  <ion-option value="01">Jan(01)</ion-option>
+                  <ion-option value="02">Feb(02)</ion-option>
+                  <ion-option value="03">Mar(03)</ion-option>
+                  <ion-option value="04">Apr(04)</ion-option>
+                  <ion-option value="05">May(05)</ion-option>
+                  <ion-option value="06">Jun(06)</ion-option>
+                  <ion-option value="07">Jul(07)</ion-option>
+                  <ion-option value="08">Aug(08)</ion-option>
+                  <ion-option value="09">Sep(09)</ion-option>
+                  <ion-option value="10">Oct(10)</ion-option>
+                  <ion-option value="11">Nov(11)</ion-option>
+                  <ion-option value="12">Dec(12)</ion-option>
                 </ion-select>
+                <div style="color:red" *ngIf="form.get('exp_month').invalid && (form.get('exp_month').dirty)">Please give a valid month</div>
               </ion-item>
             </ion-col>
         
             <ion-col col-4>
-              <ion-item class="brdr-btm label-mrgn">
-                <ion-label stacked class=""> </ion-label>
-                <ion-select [(ngModel)]="gaming">
+              <ion-item class="brdr-btm">
+                <ion-label stacked class="segment-label">Expiry Year</ion-label>
+                <!-- <ion-select [(ngModel)]="gaming">
                   <ion-option value="nes">NES</ion-option>
                   <ion-option value="n64">Nintendo64</ion-option>
                   <ion-option value="ps">PlayStation</ion-option>
                   <ion-option value="genesis">Sega Genesis</ion-option>
                   <ion-option value="saturn">Sega Saturn</ion-option>
                   <ion-option value="snes">SNES</ion-option>
+                </ion-select> -->
+                <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Year" [formControl]="exp_year">
+                  <ion-option value="2018">2018</ion-option>
+                  <ion-option value="2019">2019</ion-option>
+                  <ion-option value="2020">2020</ion-option>
+                  <ion-option value="2021">2021</ion-option>
+                  <ion-option value="2022">2022</ion-option>
+                  <ion-option value="2023">2023</ion-option>
+                  <ion-option value="2024">2024</ion-option>
+                  <ion-option value="2025">2025</ion-option>
+                  <ion-option value="2026">2026</ion-option>
+                  <ion-option value="2027">2027</ion-option>
+                  <ion-option value="2028">2028</ion-option>
+                  <ion-option value="2029">2029</ion-option>
                 </ion-select>
               </ion-item>
             </ion-col>
@@ -127,21 +162,37 @@
             <ion-col col-4>
               <ion-item class="brdr-btm">
                 <ion-label stacked class="segment-label">CVV</ion-label>
-                <ion-input type="text"></ion-input>
+                <ion-input type="text" placeholder="CVV"  [formControl]="cvv" ></ion-input>
               </ion-item>
+              <p style="padding-left:16px;" no-lines *ngIf="!form.controls.cvv.valid  && !form.controls.cvv.pristine" ion-text color="danger">Please enter your Last 3 digiit number</p>
             </ion-col>
           </ion-row>
-        
-        
+        </form>
         
         </ion-list>
 
+        <ion-list *ngSwitchCase="'savecards'">
+          <ion-item *ngFor="let card of cardlist">
+            <ion-avatar item-start>
+              <img src="assets/img/save-card.png">
+            </ion-avatar>
+            <ion-label>
+            <h2>{{card.card_no}} </h2>
+            <p>United Bank Of India</p>
+            </ion-label>
+            <div item-end>
+                <input type="radio" name="gender" ng-model="card.id" (click)="onchange(card.id)" />
+               <!-- <ion-radio color="secondary"  value="{{card.id}}" [checked]="card.id" (click)="onchange(card.id)"></ion-radio> -->
+            </div>    
+          </ion-item>
+        
+        </ion-list>
 
         <ion-list *ngSwitchCase="'cash'">
           <ion-row>
             <ion-col>
               <ion-item class="brdr-btm" text-center >
-                <p class="cash-amount"> $6.99</p>
+                <p class="cash-amount"> ${{paycostamount}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -152,18 +203,27 @@
     </ion-card>
 
 </ion-content>
-
-<ion-footer>
+<ion-footer *ngIf="pet=='puppies'">
   <ion-toolbar class="ftr-part">
     <ion-item>
-      <button ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; " >Proceed to Payment</button>
-      <!-- <p>Checkout
-        <span>$11.98
-          <button ion-button icon-only color="royal">
-            <ion-icon name="arrow-forward"></ion-icon>
-          </button>
-        </span>
-      </p> -->
+      <button (click)="pay()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+
     </ion-item>
   </ion-toolbar>
 </ion-footer>
+<ion-footer *ngIf="pet=='savecards' && card_id">
+    <ion-toolbar class="ftr-part">
+      <ion-item>
+        <button (click)="savecardpayment()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+       
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
+  <ion-footer *ngIf="pet=='cash'">
+      <ion-toolbar class="ftr-part">
+        <ion-item>
+          <button (click)="savecashpayment()" ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important;">Proceed to Payment</button>
+        
+        </ion-item>
+      </ion-toolbar>
+    </ion-footer>

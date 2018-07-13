@@ -9,6 +9,8 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { DatePicker } from '@ionic-native/date-picker';
+import { Stripe } from '@ionic-native/stripe';
 //import { AboutPage } from '../pages/about/about';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
@@ -21,7 +23,7 @@ import { ConferenceData } from '../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 //import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
 //import { SessionDetailPage } from '../pages/session-detail/session-detail';
-
+import { AndroidPermissions} from '@ionic-native/android-permissions';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
@@ -69,6 +71,9 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     Broadcaster,
     ConferenceData,
+    Stripe,
+    DatePicker,
+    AndroidPermissions,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserData,

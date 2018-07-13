@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
+import {MyApp} from '../../app/app.component';
 /**
  * Generated class for the HomePage page.
  *
@@ -23,7 +24,8 @@ export class HomePage {
     public navParams: NavParams,
     public serviceApi: Api,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public myApp:MyApp
   ) {
       let isUserLogedin = localStorage.getItem('isUserLogedin');
       if (isUserLogedin == '1') {
@@ -34,6 +36,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    this.myApp.menuOpened();
     this.getCatList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
