@@ -7,6 +7,7 @@ import { Config, Nav, Platform } from 'ionic-angular';
 import { FirstRunPage } from '../pages';
 import { Broadcaster } from '../providers/eventEmitter';
 import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
+import * as firebase from 'firebase';
 
 export interface PageInterface {
   title: string;
@@ -18,6 +19,15 @@ export interface PageInterface {
   tabName?: string;
   //tabComponent?: any;
 }
+
+const configFirebase = {
+  apiKey: "AIzaSyDivtVgy4Gj_t7PymCTKR6bX7wSNyny6NM",
+  authDomain: "base-32762.firebaseapp.com",
+  databaseURL: "https://base-32762.firebaseio.com",
+  projectId: "base-32762",
+  storageBucket: "",
+  messagingSenderId: "350229533440"
+};
 
 @Component({
   templateUrl: 'app.html'
@@ -103,7 +113,6 @@ export class MyApp {
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      console.log("LOGUOOOOOOO",this.loguserDet);
       if (this.loguserDet.first_name) {
         this.username = this.loguserDet.first_name;
         this.rootPage="HomePage";
@@ -122,10 +131,7 @@ export class MyApp {
       this.rootPage="HomePage";
     });
     this.initTranslate(); 
-    // this.broadCaster.on('userLoggedIn').subscribe((res)=>{
-    //   this.isloggedin = true;
-    //   this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-    // })
+    firebase.initializeApp(configFirebase);
   }
 
   initTranslate() {

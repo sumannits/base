@@ -24,11 +24,24 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 //import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
 //import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { AndroidPermissions} from '@ionic-native/android-permissions';
-// The translate loader needs to know where to load i18n files
-// in Ionic's static asset pipeline.
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+
+const configFirebase = {
+  apiKey: "AIzaSyDivtVgy4Gj_t7PymCTKR6bX7wSNyny6NM",
+  authDomain: "base-32762.firebaseapp.com",
+  databaseURL: "https://base-32762.firebaseio.com",
+  projectId: "base-32762",
+  storageBucket: "",
+  messagingSenderId: "350229533440"
+};
 
 @NgModule({
   declarations: [
@@ -51,6 +64,10 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(configFirebase),
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    //AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireDatabaseModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
