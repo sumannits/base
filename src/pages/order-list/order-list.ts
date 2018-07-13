@@ -21,7 +21,6 @@ export class OrderListPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderListPage');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     // this.usertype=loguser.utype
      this.serviceApi.postData({"user_id": loguser.id},'users/orderlist').then((result) => { 
@@ -31,15 +30,14 @@ export class OrderListPage {
        {
         
          this.orderdetail = this.getresult.order_list;
-       console.log("orderdetail",this.orderdetail);
-  
+       
        }
        else{
          this.tost_message('No Detail Found')
        }
        
      }, (err) => {
-       console.log(err);
+       //console.log(err);
        this.tost_message('No Detail Found')
      });
 
@@ -53,9 +51,12 @@ export class OrderListPage {
    toast.present(); 
     }
 
-  goToDetails(id)
-  {
+  goToDetails(id){
     this.navCtrl.push("OrderDetailPage",{'order_id':id});
+  }
+
+  gotoChatDet(ordId){
+    this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
   }
 
 }
