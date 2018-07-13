@@ -23,7 +23,7 @@ import { ConferenceData } from '../providers/conference-data';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 //import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
 //import { SessionDetailPage } from '../pages/session-detail/session-detail';
-
+import { AndroidPermissions} from '@ionic-native/android-permissions';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
@@ -73,6 +73,7 @@ export function createTranslateLoader(http: HttpClient) {
     ConferenceData,
     Stripe,
     DatePicker,
+    AndroidPermissions,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserData,
