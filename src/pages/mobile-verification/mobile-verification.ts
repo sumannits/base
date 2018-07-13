@@ -51,9 +51,9 @@ export class MobileVerificationPage {
 'user_id':this.userid,
 'phone_no':this.concat
   }
-  console.log("PARRAMM",param);
+  //console.log("PARRAMM",param);
     this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
-      console.log(result);
+     // console.log(result);
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {

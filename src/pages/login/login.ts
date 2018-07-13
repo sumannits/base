@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, AlertController,NavParams } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
 import { Broadcaster } from '../../providers/eventEmitter';
+import { HomePage } from '../home/home';
+import { ProductlistPage } from '../productlist/productlist';
+import {DetailsPage} from '../details/details';
 
 @IonicPage()
 @Component({
@@ -21,11 +24,13 @@ export class LoginPage {
   private form: FormGroup;
   public email: AbstractControl;
   public password: AbstractControl;
-
+public catId:any;
+public prdId:any;
   constructor(
     public navCtrl: NavController,
     //private device: Device,
     public toastCtrl: ToastController,
+    public navParams: NavParams,
     public alertCtrl: AlertController,
     public userService: Api,
     private fbuilder: FormBuilder,
@@ -42,6 +47,13 @@ export class LoginPage {
     this.password = this.form.controls['password'];
   }
 
+  ionViewDidLoad() {
+    console.log("Previousss",this.navCtrl.getPrevious());
+    console.log("activeeeee",this.navCtrl.getActive());
+    this.catId = this.navParams.get('catid');
+    this.prdId = this.navParams.get('prd_id');
+  
+  }
   // Attempt to login in through our User service
   doLogin() {
 
@@ -60,14 +72,67 @@ export class LoginPage {
           let userId= result.UserDetails.id
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
           localStorage.setItem('isUserLogedin', '1');
+          if(localStorage.getItem('userPrfDet')){
+
+        //     if (this.navCtrl.getPrevious().component.name=="LoginPage"){
+        //       let alert = this.alertCtrl.create({
+        //        title: 'Success',
+        //        subTitle: 'Login Successful',
+        //        buttons: ['Ok']
+        //      });
+        //      alert.present();
+        //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+        //      this.navCtrl.setRoot('HomePage');
+        //        }
+
+        //        else if (this.navCtrl.getActive().component.name=="HomePage"){
+        //         let alert = this.alertCtrl.create({
+        //          title: 'Success',
+        //          subTitle: 'Login Successful',
+        //          buttons: ['Ok']
+        //        });
+        //        alert.present();
+        //        this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+        //        this.navCtrl.setRoot('HomePage');
+        //          }
+  
+
+        //    // let componentName =this.navCtrl.getPrevious().component;
+        //  else if (this.navCtrl.getPrevious().component.name=="ProductlistPage"){
+        //     //console.log("Previousss22222",this.navCtrl.getPrevious().component);
+        //     let alert = this.alertCtrl.create({
+        //      title: 'Success',
+        //      subTitle: 'Login Successful',
+        //      buttons: ['Ok']
+        //    });
+        //    alert.present();
+        //    this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+        //     this.navCtrl.push('ProductlistPage',{'catid':this.catId});
+        //      }
+        //      else if (this.navCtrl.getPrevious().component.name=="DetailsPage"){
+        //      // console.log("Previousss22222",this.navCtrl.getPrevious().component);
+        //       let alert = this.alertCtrl.create({
+        //        title: 'Success',
+        //        subTitle: 'Login Successful',
+        //        buttons: ['Ok']
+        //      });
+        //      alert.present();
+        //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+        //      this.navCtrl.push('DetailsPage',{'prd_id':this.prdId});
+        //        }
+           
+              
+                this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+             this.navCtrl.setRoot('HomePage');
+               
+              }
           // let toast = this.toastCtrl.create({
           //   message: 'You have successfully login.',
           //   duration: 4000,
           //   position: 'top'
           // });
           // toast.present();
-          this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-          this.navCtrl.setRoot('HomePage');
+         
         }else{
           if(result.msg != ''){
             let alert = this.alertCtrl.create({
