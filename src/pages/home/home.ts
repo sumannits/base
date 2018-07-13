@@ -18,6 +18,7 @@ export class HomePage {
   public allCatList = [];
   public myCartCnt:number = 0;
   public loginUserId:number = 0;
+  public subcatlist:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -72,14 +73,21 @@ export class HomePage {
   }
 
   getCatList(){
-    this.serviceApi.getData('category/list').then((result:any) => {
+    this.serviceApi.getData('category/catwise_prd_list').then((result:any) => {
       if(result.Ack == 1){
         this.allCatList = result.cat_list;
-        //console.log(this.allCatList);
+        this.subcatlist=result.cat_list.product_list;
+        console.log(this.allCatList);
+        console.log("SUBCATTATAT",this.subcatlist);
       }
       //console.log(this.userDetails);
     }, (err) => {
      
     });
   }
+
+  goToPrdDetails(prdId){
+    this.navCtrl.push('DetailsPage',{'prd_id':prdId})
+  }
+
 }
