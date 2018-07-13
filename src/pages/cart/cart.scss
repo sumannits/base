@@ -48,12 +48,13 @@ ion-icon{ color: #ffffff !important;  }
 .ftr-part .toolbar-content .item p{ display: flex; align-items: center; justify-content: space-between; color: #ffffff; font-size: 14px; font-weight: 400; font-family: 'Open Sans', sans-serif; }
 .ftr-part .toolbar-content .item p span .button{ background-color: transparent !important;}
 
-
+.item [item-end]{ margin: 0 0 0 16px; }
 
 .pt-0{padding-top: 0;}
 .pr-0{padding-right: 0;}
 .pb-0{padding-bottom: 0;}
 .pl-0{padding-left: 0;}
 .float_right{ float: right; text-decoration: none;}
+.float_righ{ float: right; text-decoration: none;}
 
 }

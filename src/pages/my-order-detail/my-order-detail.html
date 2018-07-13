@@ -1,0 +1,129 @@
+<!--
+  Generated template for the MyOrderDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start menuToggle>
+      <button ion-button icon-only color="royal">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>My Order Detail</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal">
+        <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
+      </button>
+      <div class="cart-item">2</div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+<div  *ngFor="let order of ordershow">
+  <ion-card >
+    <ion-card-content>     
+      <ion-row>
+        <ion-col col-9 class="row-lt">
+          <h3>Order ID: #{{order.transaction_id}}</h3>
+          <h2> {{order.product_name}} </h2>
+          <p> Black </p>
+        </ion-col>
+        <ion-col col-3 class="row-rt">
+          <div class="rt-pic">
+            <img src="assets/img/mi-a1.png" alt="">
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-7 class="row-lt">
+            <h1>{{order.price}} <span class="offer" > 1 Offer </span></h1>
+        </ion-col>
+        <ion-col col-5>
+          <ion-input placeholder="Quantity:1" type="text"></ion-input>
+        </ion-col>
+      </ion-row>
+  
+      
+  
+      <ion-row>
+        <ion-col col-1>
+          <img class="green-round-b" style="margin-top:5px;" src="assets/img/green-circle.png" alt="">
+          <div class="green-line"></div>
+          <img class="green-round-b" src="assets/img/green-circle.png" alt="">
+        </ion-col>
+        <ion-col col-11>
+          <p class="p-text">
+            Ordered & Approved
+          </p>
+          <p style="line-height:inherit; margin-bottom:0;" >Delivered <ion-icon style="color:#000000 !important;" name="arrow-forward"></ion-icon> </p>
+          <span class="gray-text">{{order.delivery_date | date:'dd-mm-yyyy'}}</span>
+        </ion-col>
+      </ion-row>
+  
+      <!-- <ion-item class="pl-0">
+        <p item-start>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </p>
+      
+        <p text-uppercase item-end>Write A Review</p>
+      
+      </ion-item> -->
+      
+      <!-- <ion-item>
+        <p class="need-help" text-uppercase text-center> Need Help? </p>
+      </ion-item> -->
+       
+        
+        
+      
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <h2 class="ship-det" text-uppercase >Shipping Details</h2>
+        <h3 class="name" >{{order.first_name}} {{order.last_name}}</h3>
+        <p class="text">{{shipmentdetails}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <h2 class="ship-det" text-uppercase>Price Details</h2>
+        <div class="price-area">
+          <span>Last Price</span>
+          <span>$155</span>
+        </div>
+        <div class="price-area">
+          <span>Selling Price</span>
+          <span>$155</span>
+        </div>
+        <div class="price-area">
+          <span>Promotion Discount</span>
+          <span>$155</span>
+        </div>
+        <div class="price-area" style="border-top: 1px dashed #f0f0f0;" >
+          <span class="total-price" > Total Price </span>
+          <span class="total-price">$155</span>
+        </div>
+        
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</div>
+</ion-content>

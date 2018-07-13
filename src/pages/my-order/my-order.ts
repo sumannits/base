@@ -31,7 +31,6 @@ export class MyOrderPage {
        {
         
          this.orderdetail = this.getresult.order_list;
-       
        }
        else{
          this.tost_message('No Detail Found')
@@ -53,6 +52,11 @@ export class MyOrderPage {
      duration: 3000
    });
    toast.present(); 
+    }
+
+    goToDetails(id)
+    {
+      this.navCtrl.push("MyOrderDetailPage",{'order_id':id});
     }
 
 }
