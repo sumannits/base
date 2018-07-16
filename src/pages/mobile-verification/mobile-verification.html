@@ -43,7 +43,7 @@
     </ion-card-content>
   </ion-card> -->
 
-  <ion-card>
+  <ion-card *ngIf="isverify==0">
       <form  [formGroup]="form" (ngSubmit)="verify(form.value)" #verifyForm="ngForm">
     <ion-card-content>
       <p>Verify Your Phone Number </p>
@@ -68,6 +68,15 @@
       </ion-list>
     </ion-card-content>
     </form>
+  </ion-card>
+
+  <ion-card *ngIf="isverify==1">
+    <ion-card-content>
+      <ion-item class="success-area" text-center >
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <p> Your Mobile Number <span> is Verified</span> </p>
+      </ion-item>     
+    </ion-card-content>
   </ion-card>
 
 </ion-content>

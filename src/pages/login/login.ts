@@ -26,6 +26,7 @@ export class LoginPage {
   public password: AbstractControl;
 public catId:any;
 public prdId:any;
+public loguserDet:any;
   constructor(
     public navCtrl: NavController,
     //private device: Device,
@@ -48,8 +49,6 @@ public prdId:any;
   }
 
   ionViewDidLoad() {
-    console.log("Previousss",this.navCtrl.getPrevious());
-    console.log("activeeeee",this.navCtrl.getActive());
     this.catId = this.navParams.get('catid');
     this.prdId = this.navParams.get('prd_id');
   
@@ -71,9 +70,27 @@ public prdId:any;
         if(result.Ack == 1){
           let userId= result.UserDetails.id
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          console.log("USERRR",localStorage.getItem('userPrfDet'));
           localStorage.setItem('isUserLogedin', '1');
           if(localStorage.getItem('userPrfDet')){
+            this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
+             if(this.catId){
+              this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+              this.navCtrl.push('ProductlistPage',{'catid':this.catId});
 
+             }
+             else if(this.prdId){
+              this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+              this.navCtrl.push('DetailsPage',{'prd_id':this.prdId});
+             }
+             else if(this.loguserDet.user_type==0){
+              this.navCtrl.setRoot('MyOrderPage');
+             }
+             else{
+              this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
+              this.navCtrl.setRoot('HomePage');
+
+             }
         //     if (this.navCtrl.getPrevious().component.name=="LoginPage"){
         //       let alert = this.alertCtrl.create({
         //        title: 'Success',
@@ -84,18 +101,7 @@ public prdId:any;
         //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
         //      this.navCtrl.setRoot('HomePage');
         //        }
-
-        //        else if (this.navCtrl.getActive().component.name=="HomePage"){
-        //         let alert = this.alertCtrl.create({
-        //          title: 'Success',
-        //          subTitle: 'Login Successful',
-        //          buttons: ['Ok']
-        //        });
-        //        alert.present();
-        //        this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-        //        this.navCtrl.setRoot('HomePage');
-        //          }
-  
+ 
 
         //    // let componentName =this.navCtrl.getPrevious().component;
         //  else if (this.navCtrl.getPrevious().component.name=="ProductlistPage"){
@@ -120,10 +126,6 @@ public prdId:any;
         //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
         //      this.navCtrl.push('DetailsPage',{'prd_id':this.prdId});
         //        }
-           
-              
-                this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-             this.navCtrl.setRoot('HomePage');
                
               }
           // let toast = this.toastCtrl.create({

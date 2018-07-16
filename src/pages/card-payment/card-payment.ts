@@ -164,23 +164,23 @@ this.card_id=card;
   pay(){
     let data:any=this.form.value;
     console.log("datattatat",data);
-    if (!data.username) {
+    if (!data.user_name) {
       const alert = this.alertCtrl.create({
         title: 'Enter Card Holder Name!',
-        subTitle: "Please fill.",
+        subTitle: "Please Enter Card Details",
         buttons: ['OK']
       });
       alert.present();
     }
-    if (!data.card_no) {
+   else if (!data.card_no) {
       const alert = this.alertCtrl.create({
         title: 'Enter Card Number!',
-        subTitle: "Please fill.",
+        subTitle: "Please Enter Card Details",
         buttons: ['OK']
       });
       alert.present();
     }
-    if(data.exp_month>12){
+    else if(data.exp_month>12){
       let alert = this.alertCtrl.create({
         title: 'Error',
         subTitle: 'Please Select Month from 1 to 12',
@@ -188,7 +188,7 @@ this.card_id=card;
       });
       alert.present();
     }
-    if(data.exp_month){
+    else{
     let loading = this.loadingCtrl.create({
       spinner: 'show',
       content: 'Please Wait...'

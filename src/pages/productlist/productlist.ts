@@ -63,7 +63,7 @@ export class ProductlistPage {
         if(result.Ack == 1){
           this.allPrdList = result.product_list;
           this.catDet=result.category_details[0];
-          //console.log(result);
+          console.log("allPrdList",result);
         }
       }, (err) => {
       
@@ -103,20 +103,21 @@ export class ProductlistPage {
         alert.present();
       });
     }else{
-      let alert = this.alertCtrl.create({
-        title: 'Alert!',
-        subTitle: 'Please login first to add this product in your cart.' ,
-        buttons: [
-          {
-            text: 'Ok',
-            role: 'Ok',
-          handler: () => {
-            this.navCtrl.push('LoginPage',{'catid':this.catId});
-            }
-          }
-        ]
-      });
-      alert.present();
+      this.navCtrl.push('LoginPage',{'catid':this.catId});
+      // let alert = this.alertCtrl.create({
+      //   title: 'Alert!',
+      //   subTitle: 'Please login first to add this product in your cart.' ,
+      //   buttons: [
+      //     {
+      //       text: 'Ok',
+      //       role: 'Ok',
+      //     handler: () => {
+           
+      //       }
+      //     }
+      //   ]
+      // });
+      // alert.present();
       
     }
     
