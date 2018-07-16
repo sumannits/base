@@ -1,3 +1,11 @@
 page-chatlist {
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 
+    .toolbar-title{font-family: 'Open Sans', sans-serif; font-weight: 400; font-size: 1.5rem;}
+    /*ion-icon{ color: #ffffff !important;  }*/
+    .header .toolbar{ font-size: 1.6rem; font-weight: 400;}
+    
+    .item{padding-left: 0;}
+    .item.item-block .item-inner{ padding-right: 0;}
+    .item [item-end]{ margin: 0; font-size: 1.4rem;}
 }

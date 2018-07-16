@@ -138,6 +138,7 @@ export class ChatdetailsPage {
           text: this.message
         }
       };
+      //console.log(data);
       this.db.collection('livechat').add(data).then(res => {
         this.message = '';
         this.scrollToBottom();
