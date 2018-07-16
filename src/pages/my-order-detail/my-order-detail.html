@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
     <ion-title>My Order Detail</ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="royal">
         <ion-icon name="search"></ion-icon>
       </button>
@@ -20,20 +20,23 @@
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
       <div class="cart-item">2</div>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-<div  *ngFor="let order of ordershow">
+    <div *ngFor="let order of ordershow">
   <ion-card >
     <ion-card-content>     
       <ion-row>
         <ion-col col-9 class="row-lt">
-          <h3>Order ID: #{{order.transaction_id}}</h3>
+          <h3>Order ID: #{{order.order_id}}</h3>
           <h2> {{order.product_name}} </h2>
           <p> Black </p>
+          <!-- <button class="close-btn" ion-button (click)="openModal()">
+              Track
+            </button> -->
         </ion-col>
         <ion-col col-3 class="row-rt">
           <div class="rt-pic">
@@ -46,9 +49,9 @@
         <ion-col col-7 class="row-lt">
             <h1>{{order.price}} <span class="offer" > 1 Offer </span></h1>
         </ion-col>
-        <ion-col col-5>
+        <!-- <ion-col col-5>
           <ion-input placeholder="Quantity:1" type="text"></ion-input>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
   
       
@@ -96,10 +99,44 @@
       <ion-item>
         <h2 class="ship-det" text-uppercase >Shipping Details</h2>
         <h3 class="name" >{{order.first_name}} {{order.last_name}}</h3>
-        <p class="text">{{shipmentdetails}}</p>
+        <p class="text">{{order.landmark}}</p>
       </ion-item>
     </ion-card-content>
   </ion-card>
+  <ion-card *ngFor="let orderlist of order.product_list">
+      <ion-item>
+        <ion-thumbnail item-start>
+            <img src="{{orderlist.image_url}}"  alt=""/>
+        </ion-thumbnail>
+  
+        <h3 class="d-flex">#{{order.order_id}}
+          <!-- <button class="close-btn" ion-button>
+            <ion-icon name="close"></ion-icon>
+          </button> -->
+          <button class="close-btn" ion-button (click)="gotoChatDet(orderlist.id)">
+              chat
+            </button>
+        </h3>
+        <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>
+        <ion-row class="top-brdr">
+          <ion-col col-4 class="p-b">
+            <h4 class="font-13" text-center>Quantity</h4>
+            <p text-center>{{orderlist.quantity}}</p>
+          </ion-col>
+          <ion-col col-4 class="p-b">
+            <h4 class="font-13" text-center>Price</h4>
+            <p text-center>${{orderlist.price}}</p>
+          </ion-col>
+          <ion-col col-4 class="p-b">
+              <button class="close-btn" ion-button>
+                  <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
+                </button>
+            </ion-col>
+         
+        </ion-row>
+      </ion-item>
+    </ion-card>
+ 
 
   <ion-card>
     <ion-card-content>
