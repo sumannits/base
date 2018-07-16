@@ -102,7 +102,7 @@ if(SMS) SMS.startWatch(()=>{
       if(this.getresult.Ack == 1)
       {
         this.tost_message('Verified');
-        this.navCtrl.push('HomePage');
+        this.navCtrl.push('MobileVerificationPage');
    
       }
       else{

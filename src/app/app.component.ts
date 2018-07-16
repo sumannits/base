@@ -79,14 +79,12 @@ export class MyApp {
     { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
     { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
     { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
-    { title: 'Verification', name: 'VerificationPage', component: 'VerificationPage', index: 7, icon: 'checkmark-circle' },
-    { title: 'MobileNo. Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
+    { title: 'Mobile Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
 
   ];
 
   withLoginPagestype: PageInterface[] = [
-    { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
     { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
     { title: 'MyOrderPage', name: 'MyOrderPage', component: 'MyOrderPage', index: 8, icon: 'reorder' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
@@ -113,9 +111,16 @@ export class MyApp {
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      if (this.loguserDet.first_name) {
+      if (this.loguserDet.first_name && this.loguserDet.user_type==1) {
+        this.istype=1;
         this.username = this.loguserDet.first_name;
         this.rootPage="HomePage";
+      }
+      else if(this.loguserDet.first_name && this.loguserDet.user_type==0){
+        this.istype=0;
+        this.username = this.loguserDet.first_name;
+        this.rootPage="MyOrderPage";
+
       }
     } else {
       //this.profile_image = 'assets/img/default.jpeg';
@@ -123,12 +128,22 @@ export class MyApp {
       this.isloggedin = false;
     }
     platform.ready().then(() => {
+     //console.log = function(){};
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      if(localStorage.getItem('userPrfDet')){
+        this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
       //this.nav.setRoot('WelcomePage');
-      this.rootPage="HomePage";
+      if(this.loguserDet.user_type==0){
+      this.rootPage="MyOrderPage";
+      }
+    }
+      else{
+        this.rootPage="HomePage";
+      }
+    
     });
     this.initTranslate(); 
     firebase.initializeApp(configFirebase);
