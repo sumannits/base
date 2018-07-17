@@ -14,7 +14,8 @@ ion-icon{ color: #ffffff !important;  }
 
     p{text-align: center; color: #212121 !important; line-height: 1.8rem !important; font-weight: 400; font-size: 1.4rem !important; padding: 0 0 16px; }
     .text-input{ font-weight: 400; font-size: 1.4rem !important; text-align: center;}
-
+    .item{ padding-left: 0; border-bottom: 1px solid #dedede;}
+    .item-inner{ padding-right: 0 !important;}
 
     .list > .item.btn-lt{ padding-left: 0;}
     .list > .item.btn-lt .item-inner{ padding-right: 0;}
@@ -25,7 +26,7 @@ ion-icon{ color: #ffffff !important;  }
 
     .success-area{width: auto;}
     .success-area ion-icon{ color: #22e32f !important; font-size: 10rem; }
-    .success-area p{ text-overflow: normal; white-space: normal; word-wrap: break-all; font-size: 1.5rem !important; font-weight: 400; }
+    .success-area p{ text-overflow: normal; white-space: normal; word-wrap: break-all; font-size: 1.4rem !important; font-weight: 400; }
     .success-area p span { color: #0032a0 !important;}
 
 
