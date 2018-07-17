@@ -40,10 +40,23 @@
         <!-- <a  (click)="deleteItem(prddata.cart_pid)">Remove</a> -->
       </h2>
       <!--<p>200 gm + 200 gm +200gm</p>-->
+      <ion-row class="rt-btn-area">
+        <ion-col col-2 class="pt-0 pr-0 pl-0">
+          <button ion-button outline (click)="updateQty(prddata.cart_pid, 'remove', prddata.qty)">
+            <ion-icon style="color:#0032a0 !important;" name="remove"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-2 text-center class="pl-0 pr-0">{{prddata.qty}}</ion-col>
+        <ion-col col-2 class="pt-0 pl-0 pr-0">
+          <button ion-button outline (click)="updateQty(prddata.cart_pid, 'add', prddata.qty)">
+            <ion-icon style="color:#0032a0 !important;" name="add"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
       <h4 class="d-flex">${{prddata.min_price}}
         <span class="line-through">${{prddata.max_price}}</span>
 
-        <ion-row class="rt-btn-area">
+        <!-- <ion-row class="rt-btn-area">
           <ion-col class="pt-0">
             <button ion-button outline (click)="updateQty(prddata.cart_pid, 'remove', prddata.qty)">
               <ion-icon style="color:#0032a0 !important;" name="remove"></ion-icon>
@@ -55,12 +68,12 @@
               <ion-icon style="color:#0032a0 !important;" name="add"></ion-icon>
             </button>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
       </h4>
 
       <div item-end>
-          <h2> <a (click)="openModal(prddata.cart_pid)">Add Note</a></h2>
-         <h2> <a  (click)="deleteItem(prddata.cart_pid)">Remove</a></h2>
+          <h2> <a (click)="openModal(prddata.cart_pid)"> <img class="add-note" src="assets/img/add-note.png" alt="" > </a> </h2>
+         <h2 text-center> <a  (click)="deleteItem(prddata.cart_pid)"><ion-icon class="remove" name="trash"></ion-icon></a></h2>
          </div>
     </ion-item>
     <ion-item *ngIf="userCartList?.length == 0">
