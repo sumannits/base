@@ -1,8 +1,8 @@
 page-chatdetails {
 
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+    // @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 
-    .toolbar-title{font-family: 'Open Sans', sans-serif; font-weight: 400; font-size: 1.5rem;}
+    .toolbar-title{ font-weight: 400; font-size: 1.5rem;}
     ion-icon{ color: #ffffff !important;  }
     .header .toolbar{ font-size: 1.6rem; font-weight: 400;}
 
@@ -17,10 +17,10 @@ page-chatdetails {
     .chating-area-right {width: 100%; padding: 10px; background: #f5f5f5; border: 1px solid #efefef; border-radius: 5px;
     }
 
-    .chating-area-right p {text-overflow: normal; white-space: normal; word-wrap: break-all; line-height: 16px; font-size: 1.3rem !important; font-weight: 400; font-family: 'Open Sans', sans-serif; color: #555555;}
+    .chating-area-right p {text-overflow: normal; white-space: normal; word-wrap: break-all; line-height: 16px; font-size: 1.3rem !important; font-weight: 400;  color: #555555;}
     .chating-area-b { width: auto; margin-bottom:  10px; }
     .chating-area-b-right-b { width: auto;  padding: 10px; background: rgba(66, 115, 224, 0.8); border: 1px solid #efefef; border-radius: 5px;}
-    .chating-area-b-right-b p {text-overflow: normal; white-space: normal; word-wrap: break-all; line-height: 16px; font-size: 1.3rem !important; font-weight: 300; color: #ffffff; font-family: 'Open Sans', sans-serif;}
+    .chating-area-b-right-b p {text-overflow: normal; white-space: normal; word-wrap: break-all; line-height: 16px; font-size: 1.3rem !important; font-weight: 300; color: #ffffff; }
     .chating-area-left { width: 40px; height: 40px; box-shadow: none; background: #fcfcfc; border: none; border-radius: 50%; overflow: hidden; margin: 0 auto;
     }
     .chating-area-left img { width: auto; height: 100%;  margin: 0 auto;}
@@ -42,7 +42,7 @@ page-chatdetails {
     .chat-input-area{
         position: relative;width: 100%;
     }
-    input{width: 100%;border: #d0cfcf 1px solid;padding: 10px 20px;  border-radius: 30px; font-family: 'Open Sans', sans-serif;}
+    input{width: 100%;border: #d0cfcf 1px solid;padding: 10px 20px;  border-radius: 30px; }
     .file-upload {
             position: absolute;top: 50%; left: 0; transform: translateY(-50%);overflow: hidden;
         }
