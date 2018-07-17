@@ -20,7 +20,7 @@
     <form [formGroup]="form" #editPrfForm="ngForm">
     <ion-item>
       <ion-avatar item-start>
-          <img [src]="userDetails?.image_url" alt="">
+          <img [src]="userDetails?.image_url" (click)="presentActionSheet()" alt="">
       </ion-avatar>
       <!--<ion-avatar item-start>
         <ion-icon name="create" class="creat-icon" (click)="goToEditAddress()"></ion-icon>

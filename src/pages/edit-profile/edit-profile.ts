@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController, ToastController,ActionSheetController,Platform } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { File } from '@ionic-native/file';
 
 /**
  * Generated class for the EditProfilePage page.
@@ -20,14 +24,21 @@ export class EditProfilePage {
   private form: FormGroup;
   public userDetails:any;
   public userId:number = 0;
+  lastImage: string = null;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public platform: Platform,
     public userService: Api,
     private fbuilder: FormBuilder,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
+    private camera: Camera,
+    private transfer: FileTransfer,
+    private file: File, 
+    private filePath: FilePath,
+    private actionSheetCtrl: ActionSheetController
   ) {
     let userDetailsJson:any = localStorage.getItem('userPrfDet');
     userDetailsJson = JSON.parse(userDetailsJson);
@@ -120,5 +131,60 @@ export class EditProfilePage {
       
     });
   }
+
+
+  // presentActionSheet() {
+  //   let actionSheet = this.actionSheetCtrl.create({
+  //     enableBackdropDismiss: true,
+  //     buttons: [
+  //       {
+  //         text: 'Take a picture',
+  //         icon: 'camera',
+  //         handler: () => {
+  //           this.uploadFromCamera(this.camera.PictureSourceType.CAMERA);
+  //         }
+  //       }, {
+  //         text: 'From gallery',
+  //         icon: 'images',
+  //         handler: () => {
+  //           this.uploadFromCamera(this.camera.PictureSourceType.PHOTOLIBRARY);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
+
+  // uploadFromCamera(sourceType){
+
+  //   var options = {
+  //     quality: 100,
+  //     sourceType: sourceType,
+  //     saveToPhotoAlbum: false,
+  //     correctOrientation: true
+  //   };
+   
+  //   // Get the data of an image
+  //   this.camera.getPicture(options).then((imagePath) => {
+  //     // Special handling for Android library
+  //     if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+  //       this.filePath.resolveNativePath(imagePath)
+  //         .then(filePath => {
+  //           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+  //           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+  //           this.copyFileToLocalDir(correctPath, currentName, this.createFileName(currentName));
+  //         });
+  //     } else {
+  //       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+  //       var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+  //       this.copyFileToLocalDir(correctPath, currentName, this.createFileName(currentName));
+  //     }
+  //   }, (err) => {
+  //     this.presentToast('Error while selecting image.');
+  //   });
+
+  // }
+
+  
 
 }

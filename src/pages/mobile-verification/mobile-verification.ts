@@ -22,6 +22,8 @@ export class MobileVerificationPage {
   public isd:any;
   public concat:any;
   public userid:any;
+  public isphoneverify:any;
+  public isverify:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder) {
   
@@ -38,6 +40,16 @@ export class MobileVerificationPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MobileVerificationPage');
+      const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+      this.isphoneverify=loguser.is_phone_verify;
+      if(this.isphoneverify==1){
+        this.isverify=1;
+      }
+      else{
+        this.isverify=0;
+      }
+    
+    
   }
 
   verify(data){
@@ -53,10 +65,11 @@ export class MobileVerificationPage {
   }
   //console.log("PARRAMM",param);
     this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
-     // console.log(result);
+     console.log(result);
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
+
         this.navCtrl.push('VerificationPage');
        
  

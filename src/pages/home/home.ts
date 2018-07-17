@@ -19,7 +19,7 @@ export class HomePage {
   public myCartCnt:number = 0;
   public loginUserId:number = 0;
   public subcatlist:any;
-
+public catId:any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -37,8 +37,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-   // console.log("Previousss",this.navCtrl.getPrevious().component);
- //   console.log("activeeeee",this.navCtrl.getActive());
+   // this.catId = this.navParams.get('catid');
     this.myApp.menuOpened();
     this.getCatList();
     if(this.loginUserId > 0){
@@ -49,6 +48,56 @@ export class HomePage {
   goToCart()
   {
     this.navCtrl.push('CartPage');
+  }
+
+  addToCart(catId,prdId){
+    console.log("cat",catId);
+    console.log("prd",prdId);
+    if(this.loginUserId > 0){
+      this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId},'users/addto_cart').then((result:any) => {
+        if(result.Ack == 1){
+          let toast = this.toastCtrl.create({
+            message: result.msg,
+            duration: 4000,
+            position: 'top'
+          });
+          toast.present();
+          this.getMyCartCount();
+        }else{
+          let toast = this.toastCtrl.create({
+            message: result.msg,
+            duration: 4000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      }, (err) => {
+        let alert = this.alertCtrl.create({
+          title: 'Error!',
+          subTitle: 'Something wrong.Please try again.' ,
+          buttons: ['Ok']
+        });
+        alert.present();
+      });
+    }else{
+      this.navCtrl.push('LoginPage',{'catid':catId});
+      // let alert = this.alertCtrl.create({
+      //   title: 'Alert!',
+      //   subTitle: 'Please login first to add this product in your cart.' ,
+      //   buttons: [
+      //     {
+      //       text: 'Ok',
+      //       role: 'Ok',
+      //     handler: () => {
+           
+      //       }
+      //     }
+      //   ]
+      // });
+      // alert.present();
+      
+    }
+    
   }
 
   getMyCartCount(){

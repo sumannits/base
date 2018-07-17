@@ -8,6 +8,9 @@ import { FirstRunPage } from '../pages';
 import { Broadcaster } from '../providers/eventEmitter';
 import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import * as firebase from 'firebase';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Api, ResponseMessage } from '../providers';
+
 
 export interface PageInterface {
   title: string;
@@ -19,15 +22,6 @@ export interface PageInterface {
   tabName?: string;
   //tabComponent?: any;
 }
-
-const configFirebase = {
-  apiKey: "AIzaSyDivtVgy4Gj_t7PymCTKR6bX7wSNyny6NM",
-  authDomain: "base-32762.firebaseapp.com",
-  databaseURL: "https://base-32762.firebaseio.com",
-  projectId: "base-32762",
-  storageBucket: "",
-  messagingSenderId: "350229533440"
-};
 
 @Component({
   templateUrl: 'app.html'
@@ -59,6 +53,7 @@ export class MyApp {
   public istype:any;
   public firstname:any;
   public lastname:any;
+  public chatCntlist = [];
 
   @ViewChild(Nav) nav: Nav;
 
@@ -79,16 +74,16 @@ export class MyApp {
     { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
     { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
     { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
-    { title: 'Verification', name: 'VerificationPage', component: 'VerificationPage', index: 7, icon: 'checkmark-circle' },
-    { title: 'MobileNo. Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
+    { title: 'Mobile Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
+    { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
 
   ];
 
   withLoginPagestype: PageInterface[] = [
-    { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
     { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
     { title: 'MyOrderPage', name: 'MyOrderPage', component: 'MyOrderPage', index: 8, icon: 'reorder' },
+    { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
 
   ];
@@ -107,15 +102,22 @@ export class MyApp {
   //   { title: 'Search', component: 'SearchPage' }
   // ]
 
-  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,
+  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,public db: AngularFirestore,public serviceApi: Api,
   private broadCaster:Broadcaster) {
      let isUserLogedin = localStorage.getItem('isUserLogedin');
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      if (this.loguserDet.first_name) {
+      if (this.loguserDet.first_name && this.loguserDet.user_type==1) {
+        this.istype=1;
         this.username = this.loguserDet.first_name;
         this.rootPage="HomePage";
+      }
+      else if(this.loguserDet.first_name && this.loguserDet.user_type==0){
+        this.istype=0;
+        this.username = this.loguserDet.first_name;
+        this.rootPage="MyOrderPage";
+
       }
     } else {
       //this.profile_image = 'assets/img/default.jpeg';
@@ -123,15 +125,25 @@ export class MyApp {
       this.isloggedin = false;
     }
     platform.ready().then(() => {
+     //console.log = function(){};
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      if(localStorage.getItem('userPrfDet')){
+        this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
       //this.nav.setRoot('WelcomePage');
-      this.rootPage="HomePage";
+      if(this.loguserDet.user_type==0){
+      this.rootPage="MyOrderPage";
+      }
+    }
+      else{
+        this.rootPage="HomePage";
+      }
+    
     });
     this.initTranslate(); 
-    firebase.initializeApp(configFirebase);
+    //firebase.initializeApp(configFirebase);
   }
 
   initTranslate() {
@@ -179,6 +191,7 @@ export class MyApp {
       if (this.loguserDet.first_name) {
         this.username = this.loguserDet.first_name;
       }
+      this.getMyUnreadChat();
     } else {
       //this.profile_image = 'assets/img/default.jpeg';
       this.username = '';
@@ -192,7 +205,7 @@ export class MyApp {
        this.firstname=this.loguser.first_name;
        this.lastname=this.loguser.last_name;
        
-       console.log("USERINFOOOOO",this.loguser.type);
+       //console.log("USERINFOOOOO",this.loguser.type);
      if(this.loguser.user_type==1){
        this.istype=1;
      }else if(this.loguser.user_type==0){
@@ -224,5 +237,45 @@ export class MyApp {
       return 'primary';
     }
     return;
+  }
+
+  getMyUnreadChat(){
+    this.serviceApi.postData({"user_id":this.loguserDet.id, "type":this.loguserDet.user_type},'users/get_mychat_list').then((result:any) => {
+      if(result.Ack == 1){
+        //console.log(result.room_list);
+        if(result.room_list.length >0){
+          result.room_list.forEach(element => {
+            if(element.id >0){
+              this.getUnreadMsgCnt(element.id, element);
+              //this.myRoomIdlist.push(element.id);
+            }
+          });
+        }
+      }
+    }, (err) => {
+    
+    }); 
+  }
+
+  public getUnreadMsgCnt(nRoomId:any, userData:any){
+    this.chatCntlist = [];
+    const messages1 = this.db.collection('livechat', ref => { 
+      return ref.where('room_id', '==', nRoomId).where("to_is_read", "==", false);
+    }).snapshotChanges().map(actions => { 
+      return actions.map(action => { 
+        const data1 = action.payload.doc.data();
+        const id = action.payload.doc.id;
+        //console.log(data1);
+        return { id, ...data1 };
+      });
+    });
+
+    messages1.subscribe(data => {  
+      if(data.length>0){
+        let msgData:any = data[0];
+        this.chatCntlist.push(msgData); 
+        //console.log(msgData);
+      } 
+    });
   }
 }

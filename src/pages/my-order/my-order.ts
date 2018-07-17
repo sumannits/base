@@ -27,6 +27,7 @@ export class MyOrderPage {
     // this.usertype=loguser.utype
      this.serviceApi.postData({"user_id": loguser.id},'users/rider_assign_orderlist').then((result) => { 
        this.getresult = result;
+       console.log("LISTTT",this.getresult);
        if(this.getresult.Ack == 1)
        {
         
