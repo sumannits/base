@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
 
+
 export interface PageInterface {
   title: string;
   name: string;
