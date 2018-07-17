@@ -25,11 +25,11 @@
       </ion-thumbnail>
 
       <h3 class="d-flex">#{{order.ord_slno}}
-        <button class="close-btn" ion-button>
+        <!-- <button class="close-btn" ion-button>
           <ion-icon name="close"></ion-icon>
-        </button>
-        <button *ngIf="order.shop_id > 0" class="close-btn" ion-button (click)="gotoChatDet(order.id)">
-            chat
+        </button> -->
+        <button *ngIf="order.shop_id > 0" clear ion-button (click)="gotoChatDet(order.id)">
+            <ion-icon name="chatbubbles"></ion-icon>
         </button>
       </h3>
 
