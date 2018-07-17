@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Api, ResponseMessage } from '../../providers';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController,ToastController } from 'ionic-angular';
-
+import {MyApp} from '../../app/app.component';
 /**
  * Generated class for the MyOrderPage page.
  *
@@ -19,7 +19,7 @@ export class MyOrderPage {
   public getresult:any;
   public orderdetail:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public myApp:MyApp, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController) {
   }
 
   ionViewDidLoad() {
@@ -41,6 +41,8 @@ export class MyOrderPage {
        //console.log(err);
        this.tost_message('No Detail Found')
      });
+
+     this.myApp.menuOpened();
   }
   
   gotoChatDet(ordId){
