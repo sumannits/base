@@ -21,7 +21,9 @@ export class CartPage {
   public DeliveryCharge:number = 1.00;
   public userCartList = [];
   public alltotal:any;
-
+public response:any;
+public siteresults:any;
+public adminpercentage:any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -50,6 +52,8 @@ export class CartPage {
     }else{
       this.getMyCartList();
     }
+
+    this.getdata();
   }
 
   goToCheckout(total,charge)
@@ -148,6 +152,27 @@ export class CartPage {
       ]
     });
     alert.present();
+  }
+
+  getdata(){
+    this.serviceApi.getData('category/site_settings  ').then((result) => {
+      this.response = result
+  console.log("RESULTTTTTTTTTTTTTTTTTT",result);
+      if(this.response.Ack == 1)
+      {
+        this.siteresults =  this.response.site_settings;
+        this.adminpercentage=this.siteresults[0].admin_percentage
+        console.log('PPPPPPP',this.adminpercentage);
+      }
+      else
+      {
+        this.siteresults = '';
+      }
+    }, (err) => {
+      console.log(err);
+      // Error log
+    });
+
   }
   
   goToPrdDetails(prdId){

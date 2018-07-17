@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Api, ResponseMessage } from '../../providers';
-
 /**
- * Generated class for the ModalTrackPage page.
+ * Generated class for the ModalStatusPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -12,10 +11,10 @@ import { Api, ResponseMessage } from '../../providers';
 
 @IonicPage()
 @Component({
-  selector: 'page-modal-track',
-  templateUrl: 'modal-track.html',
+  selector: 'page-modal-status',
+  templateUrl: 'modal-status.html',
 })
-export class ModalTrackPage {
+export class ModalStatusPage {
   public form:FormGroup;
   public description:any;
   public getresult:any;
@@ -29,40 +28,33 @@ export class ModalTrackPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,private builder:FormBuilder,public serviceApi: Api,public toastCtrl:ToastController) {
 
     this.form = builder.group({  
-      'description': ['', Validators.required],
-      'price': ['', Validators.required]
+      'status': ['', Validators.required]
     
     });
-
-    this.description = this.form.controls['description'];
-    this.price = this.form.controls['price'];
+    this.status = this.form.controls['status'];
    
   }
-  ionViewDidLoad() {
-   this.order= this.navParams.get('orderDetails');
-   console.log("ORDERDEtailssss",this.order);
-   this.form.get('price').setValue(this.order.price);
-    console.log('ionViewDidLoad ModalTrackPage');
-  }
-
+  
   dismiss() {
     // this.viewCtrl.dismiss();
     this.navCtrl.pop();
    }
 
-   
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ModalStatusPage');
+  }
+
   save(data){
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.user_id=loguser.id;
-  //  data.id=this.cartId
   console.log("PARRAMM",data);
-    this.serviceApi.postData(data,'users/change_rider_price').then((result) => { 
+    this.serviceApi.postData(data,'users/change_rider_order_status').then((result) => { 
     //  console.log(result);
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
      
-       this.tost_message('Saved Successfully')
+       this.tost_message('Status Changed')
        this.dismiss();
        //this.navCtrl.push("MyOrderDetailPage");
       }
@@ -82,26 +74,5 @@ export class ModalTrackPage {
    });
    toast.present(); 
     }
-
-  
-      // getnote(){
-  //   const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-  // let param={
-  //   "user_id": loguser.id,
-  //   "id":this.cartId
-  // }
-  //    this.serviceApi.postData(param,'users/get_cartnote').then((result) => { 
-  //    //  console.log("Result",result);
-  //      this.getresult = result;
-  //      if(this.getresult.Ack == 1)
-  //      {
-  //       this.form.controls['note'].setValue(this.getresult.cart_data[0].note);
-  //      }
-       
-  //    }, (err) => {
-  //      console.log(err);
-  //      this.tost_message('No Detail Found')
-  //    });  
-  // }
 
 }

@@ -97,6 +97,13 @@ export class MyOrderDetailPage {
     modal.present();
   }
 
+  openstatusModal() {
+    let modal = this.modalCtrl.create("ModalStatusPage");
+    modal.present();
+  }
+
+  
+
   tost_message(msg){
     let toast = this.toastCtrl.create({
      message: msg,

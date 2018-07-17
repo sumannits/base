@@ -28,9 +28,10 @@
         <!-- <button class="close-btn" ion-button>
           <ion-icon name="close"></ion-icon>
         </button> -->
-        <button *ngIf="order.shop_id > 0" clear ion-button (click)="gotoChatDet(order.id)">
-            <ion-icon name="chatbubbles"></ion-icon>
-        </button>
+        <div  *ngIf="order.shop_id > 0"><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(order.id)"></ion-icon></div> 
+        <!-- <button *ngIf="order.shop_id > 0" class="close-btn" ion-button (click)="gotoChatDet(order.id)">
+            chaty
+        </button> -->
       </h3>
 
       <p>{{order.order_date|  date:'dd-MM-yyyy'}}</p>
