@@ -30,9 +30,10 @@
     <ion-grid class="grid-brdr">
       <ion-row>
         <ion-col col-8>
+            <!-- <span *ngIf="prdDetails?.max_price > 0">${{prdDetails?.max_price}}</span> -->
           <div class="item-lt">
             <h4>{{prdDetails?.name}}</h4>
-            <h4>${{prdDetails?.min_price}} <span *ngIf="prdDetails?.max_price > 0" class="line-through">${{prdDetails?.max_price}}</span> </h4>
+            <h4>${{prdDetails?.min_price}} </h4>
           </div>
           
         </ion-col>

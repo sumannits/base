@@ -22,12 +22,39 @@
         </ion-label>
         <ion-input type="email" placeholder="Email" [formControl]="email" autocapitalize="off"></ion-input>
       </ion-item>
+
+      <ion-row>
+        <ion-col col-4>
+          <ion-item>    
+              <ion-label>
+                  <ion-icon name="call"></ion-icon>
+                </ion-label>          
+                <ion-input type="text" placeholder="Isd"  [formControl]="isd" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-8>
+            <ion-item>
+                <ion-label> </ion-label>
+                <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
+            </ion-item>
+        </ion-col>
+      </ion-row>
+<!--      
       <ion-item>
         <ion-label>
           <ion-icon name="call"></ion-icon>
         </ion-label>
-        <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
-      </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
+          </ion-col>
+        </ion-row>
+        
+      </ion-item> -->
+     
       <ion-item>
         <ion-label>
           <ion-icon ios="ios-lock-outline" md="md-lock"></ion-icon>

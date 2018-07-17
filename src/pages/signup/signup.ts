@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, AlertController,ModalController,LoadingController } from 'ionic-angular';
 import { Api } from '../../providers';
 import { FormControl, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
+
 
 @IonicPage()
 @Component({
@@ -23,7 +24,10 @@ export class SignupPage {
   public phone: AbstractControl;
   public password: AbstractControl;
   public cpassword: AbstractControl;
-
+  public isd:AbstractControl;
+public concat:any;
+public userid:any;
+public getresult:any;
   public isFrmValid:boolean = true;
    
 
@@ -33,7 +37,10 @@ export class SignupPage {
     private fbuilder: FormBuilder,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    public modalCtrl: ModalController,
+    public loadingCtrl:LoadingController,
+    public serviceApi: Api
   ) {
 
     this.form = fbuilder.group({
@@ -42,7 +49,8 @@ export class SignupPage {
       'email': ['', Validators.compose([Validators.required,Validators.email])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10}')])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
-      'cpassword': ['', Validators.compose([Validators.required])]
+      'cpassword': ['', Validators.compose([Validators.required])],
+      'isd': ['', Validators.compose([Validators.required])]
     });
     this.first_name = this.form.controls['first_name'];
     this.last_name = this.form.controls['last_name'];
@@ -50,9 +58,15 @@ export class SignupPage {
     this.phone = this.form.controls['phone'];
     this.password = this.form.controls['password'];
     this.cpassword = this.form.controls['cpassword'];
+    this.isd = this.form.controls['isd'];
   }
 
   doSignup(val : any) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'show',
+      content: 'Please Wait...'
+    });
+    loading.present();
     //console.log(val);
     let password = this.password.value.toString();
     let cpassword = this.cpassword.value.toString();
@@ -112,16 +126,49 @@ export class SignupPage {
       //console.log(filterIntData);
       this.userService.postData(signupJsonData,'users/appsignup').then((result:any) => {
         if(result.Ack ==1){
-          
-          let toast = this.toastCtrl.create({
-            //message: 'You have successfully signup.Please Login.',
-            message: result.msg,
-            duration: 4000,
-            position: 'top'
-          });
-          toast.present();
+          localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          this.concat=this.isd.value.toString()+this.phone.value.toString();
+          const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+          this.userid=loguser.id;
+          // let toast = this.toastCtrl.create({
+          //   //message: 'You have successfully signup.Please Login.',
+          //   message: result.msg,
+          //   duration: 4000,
+          //   position: 'top'
+          // });
+          // toast.present();
+         
+          let param={
+            'user_id':this.userid,
+            'phone_no':this.concat
+              }
+              //console.log("PARRAMM",param);
+                this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
+                 console.log(result);
+                  this.getresult = result;
+                  if(this.getresult.Ack == 1)
+                  { 
+                    loading.dismiss();               
+                    let modal = this.modalCtrl.create("ModalOtpPage");
+                    modal.present();
+                    modal.onDidDismiss(data => {
+                      console.log(data);
+                      this.navCtrl.setRoot('HomePage');
+                    });
+             
+                  }
+                  else{
+                    this.tost_message('No Detail Found')
+                  }
+                  
+                }, (err) => {
+                  console.log(err);
+                
+                });
+            
+       
 
-          this.navCtrl.setRoot('WelcomePage');
+          //this.navCtrl.setRoot('LPage');
         }else{
           let alert = this.alertCtrl.create({
             title: 'Error!',
@@ -140,6 +187,15 @@ export class SignupPage {
       });
     }
   }
+
+  tost_message(msg){
+    let toast = this.toastCtrl.create({
+     message: msg,
+     duration: 3000
+   });
+   toast.present(); 
+    }
+
 
   public validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

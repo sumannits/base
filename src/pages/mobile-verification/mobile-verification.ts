@@ -69,10 +69,7 @@ export class MobileVerificationPage {
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
-
-        this.navCtrl.push('VerificationPage');
-       
- 
+        this.navCtrl.push('VerificationPage',{'phoneno':this.concat});
       }
       else{
         this.tost_message('No Detail Found')

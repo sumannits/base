@@ -4,9 +4,9 @@ import { IonicPage, NavController, NavParams,ToastController,Platform } from 'io
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
 declare var SMS:any;
-//import { SMS } from '@ionic-native/sms';
+
 /**
- * Generated class for the VerificationPage page.
+ * Generated class for the ModalOtpPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -14,18 +14,15 @@ declare var SMS:any;
 
 @IonicPage()
 @Component({
-  selector: 'page-verification',
-  templateUrl: 'verification.html',
+  selector: 'page-modal-otp',
+  templateUrl: 'modal-otp.html',
 })
-
-
-export class VerificationPage {
+export class ModalOtpPage {
 
   public getresult:any;
   public orderdetail:any;
   public form:FormGroup;
   public otp:any;
-  public mobileno:any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder,public androidPermissions: AndroidPermissions,public platform:Platform) {
   
@@ -37,9 +34,9 @@ export class VerificationPage {
   
   
   }
+
   ionViewDidLoad() {
-    this.mobileno=this.navParams.get('phoneno');
-    console.log('ionViewDidLoad VerificationPage');
+    console.log('ionViewDidLoad ModalOtpPage');
     this.ReadSMS();
     //let text = 'Hey! This is your otp : 1258 no for Base mobile verification';
     
@@ -94,6 +91,11 @@ if(SMS) SMS.startWatch(()=>{
 }
 }
  
+dismiss() {
+  // this.viewCtrl.dismiss();
+  this.navCtrl.pop();
+ 
+ }
   verify(data){
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.user_id=loguser.id;
@@ -103,8 +105,10 @@ if(SMS) SMS.startWatch(()=>{
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
-        this.tost_message('Verified');
-        this.navCtrl.push('MobileVerificationPage');
+        this.tost_message('Signup Successful');
+       
+        this.dismiss();
+       
    
       }
       else{
@@ -119,28 +123,6 @@ if(SMS) SMS.startWatch(()=>{
 
   }
 
-  resend(){
-    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-  let param={
-'user_id':loguser.id,
-'phone_no': this.mobileno
-  }
-    this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
-     console.log(result);
-      this.getresult = result;
-      if(this.getresult.Ack == 1)
-      {
-        this.tost_message('Your otp Sent to mobile')
-      }
-      else{
-        this.tost_message('No Detail Found')
-      }
-    }, (err) => {
-      console.log(err);
-      this.tost_message('No Detail Found')
-    });
-  }
-
   tost_message(msg){
     let toast = this.toastCtrl.create({
      message: msg,
@@ -149,5 +131,6 @@ if(SMS) SMS.startWatch(()=>{
    toast.present(); 
     }
 
+  
 
 }
