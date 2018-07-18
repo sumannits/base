@@ -24,7 +24,7 @@
           <h3> Order Id :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>#{{order.transaction_id}}</p>
+          <p>#{{order.order_id}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -54,7 +54,7 @@
           <h3> Delivery Address :</h3>
         </ion-col>
         <ion-col col-6>
-<p>{{shipmentdetails}}</p>
+<p>{{shipmentdetails}},{{landmark}},{{shipmentzip}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -77,9 +77,25 @@
           <h3> Order Date :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>{{order.order_date| date:'dd-mm-yyyy'}}</p>
+          <p>{{order.order_date| date:'dd MMM, yyyy'}}</p>
         </ion-col>
       </ion-row>
+      <ion-row>
+          <ion-col col-4>
+            <h3> Delivery Date :</h3>
+          </ion-col>
+          <ion-col col-8>
+            <p>{{order.delivery_date| date:'dd MMM, yyyy'}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-4>
+              <h3> Special Note :</h3>
+            </ion-col>
+            <ion-col col-8>
+              <p>{{order.spacial_note}}</p>
+            </ion-col>
+          </ion-row>
     </ion-item>
 
     <ion-item>

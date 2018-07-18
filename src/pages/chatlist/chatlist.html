@@ -18,8 +18,8 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let chat of chatlist">
-      <ion-avatar item-start>
+    <ion-item *ngFor="let chat of chatlist" (click)="gotoChatDet(chat.room_id)">
+      <ion-avatar item-start >
         <img alt="" [src]="chat.image_url">
       </ion-avatar>
       <h2>{{chat.first_name}}  {{chat.last_name}}  </h2>

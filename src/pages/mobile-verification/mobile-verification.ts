@@ -15,6 +15,8 @@ import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from 
   templateUrl: 'mobile-verification.html',
 })
 export class MobileVerificationPage {
+
+  public myCartCnt:number = 0;
   public getresult:any;
   public orderdetail:any;
   public form:FormGroup;
@@ -24,18 +26,24 @@ export class MobileVerificationPage {
   public userid:any;
   public isphoneverify:any;
   public isverify:any;
+  public loginUserId:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder) {
   
     this.form = builder.group({  
       'mobileno': ['', Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(13),Validators.pattern('^[0-9]*$'),Validators.required])],
-      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.required])]
+      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern('^[0-9+]*$'),Validators.required])]
     });
 
     this.mobileno = this.form.controls['mobileno'];
     this.isd = this.form.controls['isd'];
   
-  
+    let isUserLogedin = localStorage.getItem('isUserLogedin');
+    if (isUserLogedin == '1') {
+      let userDetailsJson:any = localStorage.getItem('userPrfDet');
+      userDetailsJson = JSON.parse(userDetailsJson);
+      this.loginUserId = userDetailsJson.id;
+    }
   }
 
   ionViewDidLoad() {
@@ -48,9 +56,23 @@ export class MobileVerificationPage {
       else{
         this.isverify=0;
       }
+
+      if(this.loginUserId > 0){
+        this.getMyCartCount();
+      }
     
     
   }
+
+  getMyCartCount(){
+    this.serviceApi.postData({"user_id": this.loginUserId},'users/get_quantity_count').then((result:any) => {
+      if(result.Ack == 1){
+        this.myCartCnt = result.count;
+      }
+    }, (err) => {
+    
+    }); 
+}
 
   verify(data){
 

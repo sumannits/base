@@ -21,4 +21,6 @@ p{ text-overflow: normal; white-space: normal; word-wrap: break-all;}
 .sub-total{ display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border-bottom: 1px solid #e1e1e1;}
 .sub-total-text{ color: #646464; font-size: 1.4rem !important; font-weight: 500;}
 .price{ font-weight: 600; font-size: 1.6rem;}
+.add-note{ width: 20px; margin: 0 auto; }
+.item [item-end]{ margin: 0; }
 }

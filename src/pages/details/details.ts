@@ -69,7 +69,7 @@ export class DetailsPage {
       this.serviceApi.getData('category/product_details/'+this.prdId).then((result:any) => {
         if(result.Ack == 1){
           this.prdDetails = result.product_details;
-          //console.log(this.allPrdList);
+          console.log(this.prdDetails);
         }
       }, (err) => {
       
@@ -104,20 +104,21 @@ export class DetailsPage {
         alert.present();
       });
     }else{
-      let alert = this.alertCtrl.create({
-        title: 'Alert!',
-        subTitle: 'Please login first to add this product in your cart.' ,
-        buttons: [
-          {
-            text: 'Ok',
-            role: 'Ok',
-          handler: () => {
-            this.navCtrl.push('LoginPage',{'prd_id': this.prdId});
-            }
-          }
-        ]
-      });
-      alert.present();
+      this.navCtrl.push('LoginPage',{'prd_id': this.prdId});
+      // let alert = this.alertCtrl.create({
+      //   title: 'Alert!',
+      //   subTitle: 'Please login first to add this product in your cart.' ,
+      //   buttons: [
+      //     {
+      //       text: 'Ok',
+      //       role: 'Ok',
+      //     handler: () => {
+      //       this.navCtrl.push('LoginPage',{'prd_id': this.prdId});
+      //       }
+      //     }
+      //   ]
+      // });
+      // alert.present();
     }
     this.getMyCartCount();
   }

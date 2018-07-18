@@ -19,7 +19,7 @@
       <button ion-button icon-only color="royal">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
-      <div class="cart-item">2</div>
+      <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

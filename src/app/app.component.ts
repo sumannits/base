@@ -125,7 +125,7 @@ export class MyApp {
       this.isloggedin = false;
     }
     platform.ready().then(() => {
-     console.log = function(){};
+    // console.log = function(){};
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

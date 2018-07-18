@@ -38,6 +38,8 @@ export class CardPaymentPage {
   public cardlist:any;
 public selectedSection:any;
 public card_id:any;
+public ordateto:any;
+public concat:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private stripe:Stripe,public toastCtrl:ToastController, public loadingCtrl: LoadingController,public alertCtrl: AlertController,public serviceApi: Api,private builder:FormBuilder) {
     this.pet ='puppies';
@@ -62,7 +64,9 @@ public card_id:any;
   }
 
   ionViewDidLoad() {
-    this.orderdate=this.navParams.get('date')
+    this.orderdate=this.navParams.get('datefrom');
+    this.ordateto=this.navParams.get('dateto');
+    console.log("CONCATTATATAT",this.ordateto);
     this.paycostamount=this.navParams.get('Payamount');
     console.log("TOTalAMOUNTT",this.paycostamount)
     this.shipid=this.navParams.get('Shipment');
@@ -97,6 +101,7 @@ this.card_id=card;
       "user_id":this.id,
       "amount": this.paycostamount,
       "delivery_date": this.orderdate,
+      "time":this.ordateto,
       "shipping_id":this.shipid,
       "payment_type":"card",
       "card_id":this.card_id
@@ -123,7 +128,7 @@ this.card_id=card;
       "user_id":this.id,
       "amount": this.paycostamount,
       "delivery_date": this.orderdate,
-      "shipping_id":this.shipid,
+      "time":this.ordateto,
       "payment_type":"cash",
       "card_id":""
       };
