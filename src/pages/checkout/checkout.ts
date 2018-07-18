@@ -22,7 +22,9 @@ export class CheckoutPage {
   private form: FormGroup;
   public loginUserDet:any;
   public dateselect:any;
+  public dateselectto:any;
   public isdateselect:any;
+  public isdateselectto:any;
   public paycost:any;
 
   constructor(
@@ -115,12 +117,17 @@ export class CheckoutPage {
     this.isdateselect=this.dateselect;
     console.log("DATEET",this.isdateselect);
   }
-  goToPayment(date,shipping)
+  dateselctto(data){
+     this.isdateselectto=this.dateselectto;
+     console.log("DATEET",this.isdateselectto);
+   }
+  goToPayment(datefrom,dateto,shipping)
   {
     //this.isdateselect=this.dateselect;
-    console.log("DATEET",date);
+    console.log("DATEET",datefrom);
+    console.log("DATEET",dateto);
     console.log("shipping",shipping);
-    this.navCtrl.push('CardPaymentPage',{'date':date,'Shipment':shipping,'Payamount':this.paycost});
+    this.navCtrl.push('CardPaymentPage',{'datefrom':datefrom,'dateto':dateto,'Shipment':shipping,'Payamount':this.paycost});
   }
 
   goToCart(){

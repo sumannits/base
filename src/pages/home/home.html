@@ -28,8 +28,8 @@
     </ion-item>-->
 
 
-    <ion-buttons end>
-      <button ion-button icon-only (click)="goToCart()" *ngIf="myCartCnt > 0">
+    <ion-buttons end (click)="goToCart()">
+      <button ion-button icon-only  *ngIf="myCartCnt > 0">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
       <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>
@@ -49,7 +49,7 @@
       <ion-col col-8 class="pl-0 pb-0" (click)="goToSearch()">
         <ion-searchbar color="primary" placeholder="Search for product">
         </ion-searchbar>
-      <p class="sub-head-text text-center">Today, 9am-11am, Address</p>
+      <p class="sub-head-text text-center">Anything on the steps of your door</p>
       </ion-col>
     </ion-row>
     
@@ -125,10 +125,12 @@
       <h4 *ngIf="catData.product_list.length>0" class="baby-txt" >{{catData.name}}</h4>
       <ion-item scrollx="true" class="top-cate-area" *ngIf="catData.product_list.length>0" >
         <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list">
-          <img src="{{subcatData.image_url}}" alt="">
+            
+          <img src="{{subcatData.image_url}}" alt="" (click)="goToPrdDetails(subcatData.id)" >
           <h2>{{subcatData.name}}</h2>
-          <p text-center>${{subcatData.min_price}}</p>
-          <button ion-button (click)="addToCart(subcatData.cat_id,subcatData.id)">Add</button>
+          <p text-center>${{subcatData.min_price}}/{{subcatData.unit_type}}</p>
+          <!-- <div class="cart-item" (click)="getMyProductCount(subcatData.id)">{{myProductCnt}}</div> -->
+          <button ion-button (click)="addToCart(subcatData.cat_id,subcatData.id)">Add </button>
         </div>
       </ion-item>
     </div>

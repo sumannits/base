@@ -36,6 +36,8 @@ export class OrderDetailPage {
   public paymenttype:any;
   public type:any;
   public shipmentdetails:any;
+  public shipmentzip:any;
+  public landmark:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -65,7 +67,8 @@ export class OrderDetailPage {
       this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
       this.paymenttype=this.getresult.order_details[0].payment_status;
    this.shipmentdetails=this.getresult.shipping_details[0].address;
-
+   this.shipmentzip=this.getresult.shipping_details[0].zip;
+   this.landmark=this.getresult.shipping_details[0].landmark;
       if(this.paymenttype==3){
         this.type=0;
       }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, Keyboard } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 @IonicPage()
@@ -18,7 +18,8 @@ export class SearchPage {
     public serviceApi: Api,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public keyboard: Keyboard
   ) { 
       let isUserLogedin = localStorage.getItem('isUserLogedin');
       if (isUserLogedin == '1') {
@@ -32,6 +33,9 @@ export class SearchPage {
     if(this.loginUserId > 0){
       this.getMyCartCount();
     }
+    // if(this.searchItem==''){
+    //   this.keyboard.close()
+    // }
     //console.log(this.loginUserId);
   }
 
@@ -50,6 +54,7 @@ export class SearchPage {
     let searchKeyWord = '';
     if (!val || !val.trim()) {
       searchKeyWord = ''
+      this.keyboard.close();
     }else{
       searchKeyWord = val
     } 
