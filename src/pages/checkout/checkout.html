@@ -25,7 +25,7 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content>
 
   <ion-list *ngIf="myAddressList?.length > 0 && !isEditFrm">
     <h5 class="deliver">Delivering In</h5>
@@ -50,13 +50,22 @@
        <ion-datetime displayFormat="DD-MM-YYYY hh:mm A"  formControlName="date"></ion-datetime>
     </ion-item>
 </form> -->
-<ion-icon class="more-icon"></ion-icon> Select Date & Time Slot
-<button ion-button class="change-btn" clear outline>
-  <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Date"  [min]="minDate" [(ngModel)]="dateselect"></ion-datetime>
-</button>
-<button ion-button class="change-btn" clear outline>
-        <ion-label stacked class="segment-label">Time</ion-label>
-        <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Time" [(ngModel)]="dateselectto">
+
+<!-- <ion-icon class="more-icon"></ion-icon>  -->
+<h6 class="sel-tx" >Select Date & Time Slot</h6>
+
+<ion-row>
+  <ion-col col-6>
+    <button ion-button class="change-btn date-btn" clear outline>
+      <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Date" [min]="minDate" [(ngModel)]="dateselect"></ion-datetime>
+    </button>
+  </ion-col>
+  <ion-col col-6>
+    <button ion-button class="change-btn" clear outline>
+    
+      <ion-label stacked class="segment-label">Time</ion-label>
+      <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Time"
+        [(ngModel)]="dateselectto">
           <ion-option value="07:00"  [disabled]="time > 6">7am - 8am</ion-option>
           <ion-option value="08:00"  [disabled]="time > 7">8am - 9am</ion-option>
           <ion-option value="09:00"  [disabled]="time > 8">9am - 10am</ion-option>
@@ -72,8 +81,11 @@
           <ion-option value="19:00" [disabled]="time > 18">7pm - 8pm</ion-option>
           <ion-option value="20:00"  [disabled]="time > 19">8pm - 9pm</ion-option>
           <ion-option value="21:00"  [disabled]="time > 20">9pm - 10pm</ion-option>
-        </ion-select>
-</button>
+      </ion-select>
+    
+    </button>
+  </ion-col>
+</ion-row>
     <!-- <ion-item style="margin:0 !important; padding-left:0 !important;">
       <ion-label stacked>Date</ion-label>
        <ion-datetime displayFormat="DD-MM-YYYY hh:mm A" [(ngModel)]="dateselect"></ion-datetime>
