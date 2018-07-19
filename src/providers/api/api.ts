@@ -4,9 +4,9 @@ import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController } from 'ionic-angular';
 
-//let apiUrl = 'http://192.168.1.68/base/webservice/';
+let apiUrl = 'http://192.168.1.68/base/webservice/';
 //let apiUrl = 'http://111.93.169.90/team1/base/webservice/';
-let apiUrl = 'http://basemarket.mx/webservice/';
+//let apiUrl = 'http://basemarket.mx/webservice/';
 /*
   Generated class for the AuthServiceProvider provider.
 

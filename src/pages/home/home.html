@@ -123,6 +123,7 @@
     </ion-card>-->
     <div  *ngFor="let catData of allCatList" >
       <h4 *ngIf="catData.product_list.length>0" class="baby-txt" >{{catData.name}}</h4>
+      <img *ngIf="catData.product_list.length>0" src="{{catData.image_url}}" alt="" >
       <ion-item scrollx="true" class="top-cate-area" *ngIf="catData.product_list.length>0" >
         <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list">
             
