@@ -1,6 +1,6 @@
 page-login {
 
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+    // @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
     
       .logo { padding: 60px 0 30px; min-height: 100px;  text-align: center;
     
@@ -19,7 +19,7 @@ page-login {
     .label + ion-input .text-input{ margin-left: 0 !important;}
     .text-input{ margin: 0 8px 0 0;}
     .item-block{ min-height: 3rem; border: 1px solid #d2d2d2; }
-    ion-input{ font-size: 1.4rem; font-family: 'Open Sans', sans-serif; color: #434343;}
+    ion-input{ font-size: 1.4rem; color: #434343;}
     .brdr-none{ border: 0;}
     .item-inner{ border-bottom: 0 !important;}
     .item .label ion-icon{ color: #787878; }
@@ -36,8 +36,12 @@ page-login {
     .social-icon{ width: auto; height: 27px; margin: 0; padding: 0;}
     
     .button-default.dark{ background-color: #000000 !important; text-transform: uppercase;}
-    
-    p{font-family: 'Open Sans', sans-serif; font-weight: 400;}
+    .item .item-inner .input-wrapper .label{ display: flex; align-items: center; }
+
+
+
+
+    p{ font-weight: 400;}
     
     .mt-0{ margin-top: 0 !important;}
     

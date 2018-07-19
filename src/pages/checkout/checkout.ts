@@ -22,6 +22,9 @@ export class CheckoutPage {
   private form: FormGroup;
   public loginUserDet:any;
   public dateselect:any;
+  public minDate:any;
+  public time:any;
+ // public dateselect:any;
   public dateselectto:any;
   public isdateselect:any;
   public isdateselectto:any;
@@ -73,11 +76,17 @@ export class CheckoutPage {
       
 
       });
+
+      this.minDate = new Date().toISOString();
+      this.time=(new Date().getHours())+4.00;
+      
   }
 
   ionViewDidLoad() {
     this.paycost=this.navParams.get('Total');
     console.log("AMOUNTT",this.paycost)
+    console.log("timmmmmmmee",(new Date().getHours())+4.00);
+    //console.log("timmmmmmmee",(new Date().getMinutes()));
     this.getShippingAddList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
@@ -100,6 +109,8 @@ export class CheckoutPage {
     
     }); 
   }
+
+
 
   getMyCartCount(){
       this.serviceApi.postData({"user_id": this.loginUserId},'users/get_quantity_count').then((result:any) => {
