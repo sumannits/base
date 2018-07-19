@@ -18,7 +18,7 @@ export class CartPage {
   public loginUserId:number = 0;
   public subTot:number = 0;
   public prdActTot:number = 0;
-  public DeliveryCharge:number = 1.00;
+  public DeliveryCharge:number = 25.00;
   public userCartList = [];
   public alltotal:any;
 public response:any;
@@ -161,8 +161,8 @@ public adminpercentage:any;
       if(this.response.Ack == 1)
       {
         this.siteresults =  this.response.site_settings;
-        this.adminpercentage=this.siteresults[0].admin_percentage
-        console.log('PPPPPPP',this.adminpercentage);
+        this.adminpercentage=this.siteresults[0].admin_percentage;
+        console.log('PPPPPPP',this.siteresults);
       }
       else
       {
