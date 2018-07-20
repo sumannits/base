@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController,ModalController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,ModalController,AlertController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 /**
@@ -15,7 +15,7 @@ import { Api, ResponseMessage } from '../../providers';
   templateUrl: 'my-order-detail.html',
 })
 export class MyOrderDetailPage {
-  public order:any;
+  public order:number;
   public getresult:any;
   public ordershow:any;
   public orderid:any;
@@ -36,13 +36,15 @@ export class MyOrderDetailPage {
   public paymenttype:any;
   public type:any;
   public shipmentdetails:any;
+  public buttonchange:any;
+  public status:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
     responseData : any;
     public isjobdone:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController, public modalCtrl: ModalController,public alertCtrl:AlertController) {
   }
 
   ionViewDidLoad() {
@@ -57,7 +59,11 @@ export class MyOrderDetailPage {
     console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
-       
+        this.status=this.getresult.order_details[0].order_status;
+      
+       if(this.status=='P'){
+         this.buttonchange=1;
+       }
       this.ordershow = this.getresult.order_details;
     console.log("result99999999999999tt",this.ordershow);
      // this.productquantity= this.getresult.order_details[0].quantity;
@@ -90,6 +96,53 @@ export class MyOrderDetailPage {
   gotoChatDet(ordId){
     this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
   }
+  goloc(id){
+    this.navCtrl.push('RiderMapPage',{'order_id':id});
+  }
+  startjourney(){
+      let alert = this.alertCtrl.create({
+        title: 'Alert!',
+        subTitle: 'Are You Want to Sure?' ,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Ok',
+            role: 'Ok',
+          handler: () => {
+            let paramval={
+              "id": this.order,
+              "status":"P"
+             };
+            this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
+              this.getresult = result;
+            console.log("resulttt",this.getresult);
+             if(this.getresult.Ack == 1)
+              {
+                this.buttonchange=1;
+             //this.navCtrl.push('MyOrderDetailPage');
+             }
+              else{
+                this.tost_message('No Detail Found')
+               }
+              
+            }, (err) => {
+              console.log(err);
+              // Error log
+            });
+            }
+          }
+        ]
+      });
+      alert.present();
+ 
+  }
+
 
   openModal(ordDet:any) {
 
