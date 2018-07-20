@@ -67,7 +67,7 @@ export class OrderDetailPage {
       {
 
       this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
-      console.log(" this.deliverydate", this.deliverydate);
+      console.log("this.deliverydate", this.deliverydate);
       this.ordershow = this.getresult.order_details;
       this.sevtax=this.getresult.order_details[0].service_charge;
       this.productquantity= this.getresult.order_details[0].quantity;

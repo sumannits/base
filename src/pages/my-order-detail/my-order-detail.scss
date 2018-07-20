@@ -51,7 +51,7 @@ ion-icon{ color: #ffffff !important;  }
 .price-area{ width: auto; display: flex; align-items: center; justify-content: space-between; margin: 1rem 0 0;  }
 .total-price { color: #000000; font-weight: 600; padding-top: 1rem; }
 
-.chat-icon{ color: #0032a0 !important; font-size: 2.2rem;}
+.chat-icon{ color: #0032a0 !important; font-size: 2.2rem; float:right;}
 .creat-icon{ color: #488aff !important; font-size: 2.2rem;}
 .status-icon{ color: #488aff !important; font-size: 2rem !important; margin-bottom: 1rem;}
 
@@ -60,6 +60,13 @@ ion-icon{ color: #ffffff !important;  }
     height: 2.6rem;
     font-size: 0.4rem;
 }
-
+.button-md.right-btn{   
+    font-size: 13px;  
+}
+p.align-right-p{
+width: 100%;
+display: flex;
+justify-content: space-between;
+}
 
 }
