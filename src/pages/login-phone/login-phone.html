@@ -31,16 +31,21 @@
   <ion-card>
     <ion-card-content>
       <p>We will send an SMS with a confirmation code to this number</p>
+      <form [formGroup]="form" #loginForm="ngForm">
       <ion-list>
         <ion-item>
-            <ion-input type="text" placeholder="+91 9831990587"></ion-input>
+          <ion-input type="text" placeholder="Isd"  [formControl]="isd" required></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>
+      </ion-item>
 
         <ion-item class="btn-lt">
-          <button class="btn-area" ion-button round block>Next</button>
+          <button class="btn-area"  [disabled]="(!loginForm.valid)" (click)="doSignup(form.value)" ion-button round block>Login</button>
         </ion-item>
         
       </ion-list>
+      </form>
     </ion-card-content>
   </ion-card>
 
