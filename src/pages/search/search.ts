@@ -58,7 +58,7 @@ export class SearchPage {
     }else{
       searchKeyWord = val
     } 
-    this.serviceApi.postData({"keyword": searchKeyWord, "cat_id":""},'users/product_search').then((result:any) => {
+    this.serviceApi.postData({"keyword": searchKeyWord, "cat_id":"","user_id":this.loginUserId},'users/product_search').then((result:any) => {
       if(result.Ack == 1){
         this.allPrdList = result.product_list;
         //console.log(this.allPrdList);

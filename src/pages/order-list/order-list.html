@@ -5,30 +5,37 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons start menuToggle>
-      <button ion-button icon-only color="royal">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>My Order</ion-title>
-  </ion-toolbar>
+    <ion-navbar>
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Order List</ion-title>
+        <ion-buttons end>
+          <!--<button ion-button icon-only (click)="goToSearch()">
+            <ion-icon name="search"></ion-icon>
+          </button>-->
+          <!-- <button ion-button icon-only (click)="goToCart()" *ngIf="myCartCnt > 0">
+            <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
+          </button>
+          <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div> -->
+        </ion-buttons>
+      </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-card *ngFor="let order of orderdetail">
+  <ion-card *ngFor="let order of orderdetail" (click)="goToDetails(order.id)">
     <ion-item>
-      <ion-thumbnail item-start (click)="goToDetails(order.id)">
+      <ion-thumbnail item-start >
           <img src="{{order.image_url}}"  alt=""/>
         <!-- <img src="assets/img/home-pic-a.png" alt=""> -->
       </ion-thumbnail>
 
-      <h3 class="d-flex">#{{order.ord_slno}}
+      <h3 class="d-flex">#{{order.order_id}}
         <!-- <button class="close-btn" ion-button>
           <ion-icon name="close"></ion-icon>
         </button> -->
-        <div  *ngIf="order.shop_id > 0"><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(order.id)"></ion-icon></div> 
+        <!-- <div  *ngIf="order.shop_id > 0"><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(order.id)"></ion-icon></div>  -->
         <!-- <button *ngIf="order.shop_id > 0" class="close-btn" ion-button (click)="gotoChatDet(order.id)">
             chaty
         </button> -->
@@ -36,17 +43,17 @@
 
       <p>{{order.order_date|  date:'dd MMM, yyyy'}}</p>
       <ion-row class="top-brdr">
-        <ion-col col-4 class="p-b">
+        <!-- <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Price</h4>
           <p text-center>${{order.amount}}</p>
-        </ion-col>
+        </ion-col> -->
         <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Quantity</h4>
-          <p text-center>{{order.quantity}}</p>
+          <p text-center>{{order.total_quantity}}</p>
         </ion-col>
         <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Total</h4>
-          <p text-center>${{(order.quantity)*(order.price)}}</p>
+          <p text-center>${{order.total_amount}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
