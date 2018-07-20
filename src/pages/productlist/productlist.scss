@@ -14,11 +14,13 @@ page-productlist {
 
 
 .pro-area{display: flex; align-items: center; flex-wrap: wrap;}
- .pro-area .item{padding-left: 0; width: 31%; border-bottom: 0; margin-right: 1%; margin-left: 1%; margin-bottom: 2%;}
+ .pro-area .item{padding-left: 0; width: 31%; height: 200px;; border-bottom: 0; margin-right: 1%; margin-left: 1%; margin-bottom: 2%;}
+.img-pic{height: 80px; width: 100%; min-width: 100%;;}
+
 
  .pro-area .item.item-block .item-inner{ border-bottom: 0; padding-right: 0;}
  .top-cate p {text-align: center; color: #1e1e1e; font-weight: 500;}
-.pro-area .item-inner .input-wrapper .label{margin-right: 0;}
+.pro-area .item-inner .input-wrapper .label{margin-right: 0; margin-top: 0 !important; margin-bottom: 0 !important;}
 .pro-area .item-inner .input-wrapper .label h2{ text-align: center; color: #1e1e1e; font-weight: bold; font-family: 'American Typewriter'; padding: 5px; font-size: 1.4rem !important; }
 .pro-area .item-inner .input-wrapper .label p{ text-align: center; color: #1e1e1e; font-weight: 500;}
 // .pro-area .item-inner .input-wrapper .label ion-button{border: 1px solid #0032a0; color: #ffffff; height: auto !important; background: #0032a0 !important; padding: 6px 20px !important; font-family: 'American Typewriter'; font-weight: bold;}

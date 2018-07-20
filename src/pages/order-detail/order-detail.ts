@@ -15,6 +15,7 @@ import { Api, ResponseMessage } from '../../providers';
   templateUrl: 'order-detail.html',
 })
 export class OrderDetailPage {
+  public DeliveryCharge:number = 25.00;
   public order:any;
   public getresult:any;
   public ordershow:any;
@@ -38,6 +39,10 @@ export class OrderDetailPage {
   public shipmentdetails:any;
   public shipmentzip:any;
   public landmark:any;
+  public destination:any;
+  public mobno:any;
+  public sevtax:any;
+  public deliverydate:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -45,6 +50,8 @@ export class OrderDetailPage {
     public isjobdone:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController) {
+  
+  this.DeliveryCharge=25.00
   }
 
   ionViewDidLoad() {
@@ -58,14 +65,19 @@ export class OrderDetailPage {
       console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
-       
+
+      this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
+      console.log(" this.deliverydate", this.deliverydate);
       this.ordershow = this.getresult.order_details;
+      this.sevtax=this.getresult.order_details[0].service_charge;
       this.productquantity= this.getresult.order_details[0].quantity;
       this.productprice=this.getresult.order_details[0].price;
       this.productshippingcost=this.getresult.order_details[0].shipping_cost;
       this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
       this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
       this.paymenttype=this.getresult.order_details[0].payment_status;
+      this.mobno=this.getresult.shipping_details[0].phone;
+    this.destination=this.getresult.shipping_details[0].save_as;
    this.shipmentdetails=this.getresult.shipping_details[0].address;
    this.shipmentzip=this.getresult.shipping_details[0].zip;
    this.landmark=this.getresult.shipping_details[0].landmark;

@@ -145,35 +145,17 @@ public prdId:any;
   }
 
   getCatList(){
-    this.serviceApi.getData('category/catwise_prd_list').then((result:any) => {
+    this.serviceApi.getData('category/catwise_prd_list/'+this.loginUserId).then((result:any) => {
       if(result.Ack == 1){
-        result.cat_list.forEach(element => {
-          element.product_list.forEach(element1 => {
-            if(this.loginUserId > 0){
-
-              element1.my_cart_cnt = this.serviceApi.postData({"user_id": this.loginUserId,"prd_id":element.id},'users/check_cart_cnt').then((result:any) => {
-                //console.log("CXOUNTTT",result);
-                return result.prd_qty;
-              }, (err) => {
-                
-              }); 
-              //element1.my_cart_cnt = this.getMyProductCount(element.id);
-              //console.log(element1.my_cart_cnt);
-            }else{
-              element1.my_cart_cnt = 0;
-            }
-          }); 
-        });
         this.allCatList = result.cat_list;
-        //this.subcatlist=result.cat_list.product_list;
-        console.log(this.allCatList);
-        //console.log("SUBCATTATAT",this.subcatlist);
+        console.log("CATTATAT",  this.allCatList);
       }
       //console.log(this.userDetails);
     }, (err) => {
      
     });
   }
+
 
   goToPrdDetails(prdId){
     this.navCtrl.push('DetailsPage',{'prd_id':prdId})

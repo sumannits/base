@@ -59,7 +59,7 @@ export class ProductlistPage {
   getCatWisePrdList(){
     //console.log(this.catId);
     if(this.catId > 0){
-      this.serviceApi.getData('category/catwise_prdlist/'+this.catId).then((result:any) => {
+      this.serviceApi.getData('category/catwise_prdlist/'+this.catId+"/"+this.loginUserId).then((result:any) => {
         if(result.Ack == 1){
           this.allPrdList = result.product_list;
           this.catDet=result.category_details[0];

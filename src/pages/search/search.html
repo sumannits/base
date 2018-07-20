@@ -39,6 +39,7 @@
       <ion-item>
         <ion-thumbnail item-start>
           <img [src]="prddata.image_url" alt="" (click)="goToPrdDetails(prddata.id)">
+          <div class="cart-item" *ngIf="prddata.my_cart_qty > 0" >{{prddata.my_cart_qty}}</div>
           <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) | number:'1.2-2'}}</p>
         </ion-thumbnail>
         <h2 (click)="goToPrdDetails(prddata.id)">{{prddata.name | limitTo:30}}</h2>
