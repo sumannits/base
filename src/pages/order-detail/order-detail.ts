@@ -43,6 +43,7 @@ export class OrderDetailPage {
   public mobno:any;
   public sevtax:any;
   public deliverydate:any;
+  public status:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -65,7 +66,7 @@ export class OrderDetailPage {
       console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
-
+      
       this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
       console.log("this.deliverydate", this.deliverydate);
       this.ordershow = this.getresult.order_details;
@@ -99,6 +100,10 @@ export class OrderDetailPage {
       console.log(err);
       // Error log
     });
+  }
+
+  track(){
+    this.navCtrl.push('UserMapPage',{'order_id': this.order});
   }
 
   tost_message(msg){

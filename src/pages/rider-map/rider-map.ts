@@ -280,12 +280,10 @@ export class RiderMapPage {
 //      // Start/Finish icons
 //   directionsDisplay.setMap(this.maprider);
 //   directionsDisplay.setPanel(document.getElementById('directions-panel'));
-
 //   var control = document.getElementById('control');
 //   control.style.display = 'block';
 //   map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
 // }
-
 // function calcRoute() {
     
   
@@ -312,7 +310,6 @@ export class RiderMapPage {
 //   title: title
 //  });
 // }
-
 // }
    
 
