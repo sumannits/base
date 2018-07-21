@@ -96,8 +96,6 @@
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAS0yhJ09aHZAd9X7TBy4i6_0duz1itPcc" />
         <variable name="PLAY_SERVICES_VERSION" value="15.0.1" />
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="26.1.0" />
-    </plugin>
-    <plugin name="cordova-google-api-version" spec="0.0.1">
-        <variable name="GOOGLE_API_VERSION" value="11.2.0" />
+        <variable name="API_KEY_FOR_IOS" value="(API_KEY_FOR_IOS)" />
     </plugin>
 </widget>
