@@ -8,6 +8,7 @@ import { Broadcaster } from '../../providers/eventEmitter';
 import { HomePage } from '../home/home';
 import { ProductlistPage } from '../productlist/productlist';
 import {DetailsPage} from '../details/details';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -70,7 +71,7 @@ public loguserDet:any;
         if(result.Ack == 1){
           let userId= result.UserDetails.id
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
-          console.log("USERRR",localStorage.getItem('userPrfDet'));
+          //console.log("USERRR",localStorage.getItem('userPrfDet'));
           localStorage.setItem('isUserLogedin', '1');
           if(localStorage.getItem('userPrfDet')){
             this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
@@ -91,43 +92,20 @@ public loguserDet:any;
               this.navCtrl.setRoot('HomePage');
 
              }
-        //     if (this.navCtrl.getPrevious().component.name=="LoginPage"){
-        //       let alert = this.alertCtrl.create({
-        //        title: 'Success',
-        //        subTitle: 'Login Successful',
-        //        buttons: ['Ok']
-        //      });
-        //      alert.present();
-        //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-        //      this.navCtrl.setRoot('HomePage');
-        //        }
- 
-
-        //    // let componentName =this.navCtrl.getPrevious().component;
-        //  else if (this.navCtrl.getPrevious().component.name=="ProductlistPage"){
-        //     //console.log("Previousss22222",this.navCtrl.getPrevious().component);
-        //     let alert = this.alertCtrl.create({
-        //      title: 'Success',
-        //      subTitle: 'Login Successful',
-        //      buttons: ['Ok']
-        //    });
-        //    alert.present();
-        //    this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-        //     this.navCtrl.push('ProductlistPage',{'catid':this.catId});
-        //      }
-        //      else if (this.navCtrl.getPrevious().component.name=="DetailsPage"){
-        //      // console.log("Previousss22222",this.navCtrl.getPrevious().component);
-        //       let alert = this.alertCtrl.create({
-        //        title: 'Success',
-        //        subTitle: 'Login Successful',
-        //        buttons: ['Ok']
-        //      });
-        //      alert.present();
-        //      this.broadCastre.broadcast('userLoggedIn', result.UserDetails);
-        //      this.navCtrl.push('DetailsPage',{'prd_id':this.prdId});
-        //        }
-               
-              }
+          }
+          firebase.auth().signInWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)
+          .then(res => {
+            
+          })
+          .catch(err => {
+            firebase.auth().createUserWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)
+              .then(res => {
+                //console.log(res);
+              })
+              .catch(err2 => {
+                //console.log(err2);
+              });
+          });
           // let toast = this.toastCtrl.create({
           //   message: 'You have successfully login.',
           //   duration: 4000,

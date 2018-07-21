@@ -70,7 +70,7 @@ const configFirebase = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(configFirebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    //AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     AngularFireDatabaseModule,
     IonicStorageModule.forRoot()
   ],
