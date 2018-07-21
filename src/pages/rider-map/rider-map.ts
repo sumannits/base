@@ -48,27 +48,27 @@ export class RiderMapPage {
     this.initMap();
   }
 
-  getgeolocationchanges(){
-    //console.log('hi');
-    const getFBId = this.db.collection('geolocations', ref => { 
-      return ref.where('order_id', '==', this.order);
-    }).snapshotChanges().map(actions => { 
-      return actions.map(action => { 
-        const data1 = action.payload.doc.data();
-        const id = action.payload.doc.id;
-        //console.log(data1);
-        return { id, ...data1 };
-      });
-    });
+  // getgeolocationchanges(){
+  //   //console.log('hi');
+  //   const getFBId = this.db.collection('geolocations', ref => { 
+  //     return ref.where('order_id', '==', this.order);
+  //   }).snapshotChanges().map(actions => { 
+  //     return actions.map(action => { 
+  //       const data1 = action.payload.doc.data();
+  //       const id = action.payload.doc.id;
+  //       //console.log(data1);
+  //       return { id, ...data1 };
+  //     });
+  //   });
 
-    getFBId.subscribe(data => {  
-      if(data.length>0){
-        this.getFbPId = data[0].id;
-        //console.log(data);
-      } 
-    });
+  //   getFBId.subscribe(data => {  
+  //     if(data.length>0){
+  //       this.getFbPId = data[0].id;
+  //       //console.log(data);
+  //     } 
+  //   });
 
-  }
+  // }
   initMap() {
     this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
       let mylocation = new google.maps.LatLng(resp.coords.latitude,resp.coords.longitude);
@@ -85,8 +85,8 @@ export class RiderMapPage {
       this.addgeolocation(this.order,data.coords.latitude,data.coords.longitude);
       let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
       this.calculateAndDisplayRoute(data.coords.latitude,data.coords.longitude);
-      //let image = 'assets/img/blue-dot.png';
-    // this.addMarker(updatelocation);
+      let image = 'assets/img/blue-dot.png';
+    this.addMarker(updatelocation,image);
       this.setMapOnAll(this.maprider);
     });
   }
@@ -145,6 +145,7 @@ export class RiderMapPage {
       if(data.length>0){
         this.getFbPId = data[0].id;
         this.db.collection('geolocations').doc(this.getFbPId).update(data_fb).then(res => {
+          console.log("FIREBASEEEE",data[0]);
         }).catch(err => {
         });
         
@@ -167,14 +168,7 @@ export class RiderMapPage {
      let that = this;
      let directionsService = new google.maps.DirectionsService;
      let directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    let image = {
-      MyLocation: new google.maps.MarkerImage(
-       'assets/img/mapicon.png'
-      ),
-      Destination: new google.maps.MarkerImage(
-       'assets/img/blue-dot.png'
-      )
-     };
+ 
      directionsDisplay.setMap(this.maprider);
          console.log("CURRENTPOS",latt);
          console.log("CURRENTPOS",longg);
@@ -199,9 +193,9 @@ export class RiderMapPage {
            console.log("DIRECTIONN",response);
            if (status === 'OK') {
              directionsDisplay.setDirections(response);
-            var leg = response.routes[ 0 ].legs[ 0 ];
-             this.addMarker(leg.start_location,image.MyLocation);
-             this.addMarker(leg.end_location,image.Destination);
+            //var leg = response.routes[ 0 ].legs[ 0 ];
+            // this.addMarker(leg.start_location,image.MyLocation);
+            // this.addMarker(leg.end_location,image.Destination);
            } else {
              window.alert('Directions request failed due to ' + status);
            }
