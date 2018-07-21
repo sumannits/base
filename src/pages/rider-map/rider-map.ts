@@ -12,6 +12,7 @@ import {
  } from '@ionic-native/google-maps';
  import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /**
  * Generated class for the RiderMapPage page.
@@ -37,8 +38,24 @@ export class RiderMapPage {
  public dbRef:any;
  markers = [];
  public getFbPId:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, public db: AngularFirestore) {
+ public currentFireUserId: string;
+ 
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private geolocation: Geolocation, 
+    private afAuth: AngularFireAuth,
+    public db: AngularFirestore
+  ) {
     this.order=this.navParams.get('order_id');
+    // this.afAuth.authState.do(user => {
+    //   if (user) {
+    //     this.currentFireUserId = user.uid;
+    //     //console.log(this.currentFireUserId);
+    //     //this.updateTrackData();
+    //   }
+    // }).subscribe();
+    console.log(this.afAuth.authState);
     //this.getgeolocationchanges();
   }
 
@@ -46,6 +63,25 @@ export class RiderMapPage {
     
     //this.calculateAndDisplayRoute(22.717666, 88.478630);
     this.initMap();
+  }
+
+  private updateTrackData(orderId, locLat, locLong) {
+    //console.log('hi');
+    let usersRef = firebase.database().ref('presence/' + this.currentFireUserId);
+    let connectedRef = firebase.database().ref('.info/connected');
+    //const orderId = this.order;
+    connectedRef.on('value', function (snapshot) {
+      if (snapshot.val()) {
+        // User is online.
+        //usersRef.onDisconnect().set({ online: false, userid: fUserId });
+        usersRef.set({ longitude: locLong, latitude: locLat, order_id: orderId });
+        //console.log('online');
+      } else {
+        // User is offline.
+        // WARNING: This won't work! See an explanation below.
+        //usersRef.set({ online: false, userid: fUserId });
+      }
+    });
   }
 
   getgeolocationchanges(){
@@ -78,15 +114,17 @@ export class RiderMapPage {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
     });
+    //this.calculateAndDisplayRoute(22.5837286,88.4695656);
     let watch = this.geolocation.watchPosition();
     watch.subscribe((data) => {
       //this.getgeolocationchanges();
       this.deleteMarkers();
-      this.addgeolocation(this.order,data.coords.latitude,data.coords.longitude);
+      //this.updateTrackData(this.order,data.coords.latitude,data.coords.longitude);
+      //this.addgeolocation(this.order,data.coords.latitude,data.coords.longitude);
       let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
       this.calculateAndDisplayRoute(data.coords.latitude,data.coords.longitude);
-      //let image = 'assets/img/blue-dot.png';
-    // this.addMarker(updatelocation);
+      let image = 'assets/img/blue-dot.png';
+    this.addMarker(updatelocation,image);
       this.setMapOnAll(this.maprider);
     });
   }
@@ -167,14 +205,14 @@ export class RiderMapPage {
      let that = this;
      let directionsService = new google.maps.DirectionsService;
      let directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    let image = {
-      MyLocation: new google.maps.MarkerImage(
-       'assets/img/mapicon.png'
-      ),
-      Destination: new google.maps.MarkerImage(
-       'assets/img/blue-dot.png'
-      )
-     };
+    // let image = {
+    //   MyLocation: new google.maps.MarkerImage(
+    //    'assets/img/mapicon.png'
+    //   ),
+    //   Destination: new google.maps.MarkerImage(
+    //    'assets/img/blue-dot.png'
+    //   )
+    //  };
      directionsDisplay.setMap(this.maprider);
          console.log("CURRENTPOS",latt);
          console.log("CURRENTPOS",longg);
@@ -196,12 +234,12 @@ export class RiderMapPage {
          directionsService.route({ origin: this.MyLocation,
           destination: this.Destination,
           travelMode: google.maps.TravelMode.DRIVING}, function(response, status) {
-           console.log("DIRECTIONN",response);
+           //console.log("DIRECTIONN",response);
            if (status === 'OK') {
              directionsDisplay.setDirections(response);
-            var leg = response.routes[ 0 ].legs[ 0 ];
-             this.addMarker(leg.start_location,image.MyLocation);
-             this.addMarker(leg.end_location,image.Destination);
+            // var leg = response.routes[ 0 ].legs[ 0 ];
+            //  this.addMarker(leg.start_location,image.MyLocation);
+            //  this.addMarker(leg.end_location,image.Destination);
            } else {
              window.alert('Directions request failed due to ' + status);
            }
