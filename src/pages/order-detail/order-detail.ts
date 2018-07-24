@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController,AlertController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
-
+import { Ionic2RatingModule } from 'ionic2-rating';
 /**
  * Generated class for the OrderDetailPage page.
  *
@@ -44,7 +44,8 @@ export class OrderDetailPage {
   public sevtax:any;
   public deliverydate:any;
   public status:any;
-  public buttonchange:any;
+   public buttonchange:any;
+   public button:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -57,6 +58,7 @@ export class OrderDetailPage {
   }
 
   ionViewDidLoad() {
+    
     this.order=this.navParams.get('order_id');
     console.log('ionViewDidLoad OrderDetailPage',this.order);
     let paramval={
@@ -107,6 +109,12 @@ export class OrderDetailPage {
       console.log(err);
       // Error log
     });
+    this.ratecheck();
+  }
+
+  gotoRate(){
+
+    this.navCtrl.push('RatingPage',{'order_id': this.order});
   }
 
   track(){
@@ -154,16 +162,46 @@ export class OrderDetailPage {
       ]
     });
     alert.present();
-
   }
+
+ ratecheck(){
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+    let paramval={
+      "order_id": this.order,
+      "user_id":loguser.id
+     };
+     console.log("PARAMMMMM",paramval);
+     this.serviceApi.postData(paramval,'users/check_ratting').then((result) => { //console.log(result);
+      this.getresult = result;
+      console.log("ratecheckkkkkk",this.getresult);
+    
+      if(this.getresult.Ack == 0)
+      {
+        this.button=0;
+        
+       this.tost_message('You have already given the ratting');
+      }
+      else{
+        this.button=1;
+      }
+     
+    },
+    (err) => {
+      console.log(err);
+      // Error log
+    });
+}
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
-     message: msg,
-     duration: 3000
-   });
-   toast.present(); 
-    }
+      message: msg,
+      duration: 3000
+    });
+    toast.present(); 
+  }
 
+    gotoChatDet(ordId){
+      this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
+    }
 
 }

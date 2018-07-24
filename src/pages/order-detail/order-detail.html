@@ -28,11 +28,12 @@
     <ion-item>
       <ion-row>
         <ion-col col-4>
-          <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="buttonchange==1">Track</button>
+           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="buttonchange==1">Track</button>
           <button ion-button class="right-btn"   *ngIf="buttonchange==0" (click)="endtrack()">Complete</button>
         </ion-col>
         <ion-col col-8>
           <p>#{{order.order_id}}</p>
+          <button ion-button class="right-btn" *ngIf="button==1" (click)="gotoRate()">Rate & Review</button>
         </ion-col>
       </ion-row>
     </ion-item>
