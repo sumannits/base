@@ -8,7 +8,7 @@
   <ion-toolbar>
     <ion-buttons start menuToggle>
       <button ion-button icon-only color="royal">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>My Order Detail</ion-title>
@@ -64,8 +64,8 @@
         </ion-col>
         <ion-col col-11>
           <p class="p-text align-right-p">
-            Ordered & Approved  <button ion-button class="right-btn" *ngIf="buttonchange!=1" (click)="startjourney()">Start Journey</button>
-                                <button ion-button class="right-btn"  *ngIf="buttonchange==1" (click)="startjourney()">Delivery Complete</button>
+            Ordered & Approved  <button ion-button class="right-btn" *ngIf="buttonchange!=1 && buttonchange!=0" (click)="startjourney()">Start Journey</button>
+                                <button ion-button class="right-btn"  *ngIf="buttonchange==1" (click)="endjourney()">Delivery Complete</button>
           </p>
           <div item-end> 
             <div></div> 

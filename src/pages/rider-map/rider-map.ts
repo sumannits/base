@@ -1,5 +1,5 @@
 import { Component ,ViewChild,ElementRef} from '@angular/core';
-import { IonicPage, NavController, NavParams} from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController,AlertController} from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import {
   GoogleMaps,
@@ -27,8 +27,10 @@ declare var google;
   templateUrl: 'rider-map.html',
 })
 export class RiderMapPage {
-  @ViewChild('map') mapElement: ElementRef;
-  maprider: any;
+//  @ViewChild('map') mapElement: ElementRef;
+ // maprider: any;
+ @ViewChild('map1') mapElement: ElementRef;
+ map1: any;
   lat: number = 22.5726;
   lng: number = 88.3639;
   Destination:any;
@@ -37,15 +39,21 @@ export class RiderMapPage {
  responseData : any;
  public dbRef:any;
  markers = [];
+ public deliverylat:any;
+ public deliverylong:any;
  public getFbPId:any;
  public currentFireUserId: string;
- 
+ watch : any;
+ directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private geolocation: Geolocation, 
     private afAuth: AngularFireAuth,
-    public db: AngularFirestore
+    public db: AngularFirestore,
+    public loadingCntrl:LoadingController,
+    public alertCtrl:AlertController
   ) {
     this.order=this.navParams.get('order_id');
     // this.afAuth.authState.do(user => {
@@ -55,31 +63,45 @@ export class RiderMapPage {
     //     //this.updateTrackData();
     //   }
     // }).subscribe();
-    console.log(this.afAuth.authState);
+    //console.log(this.afAuth.authState);
     //this.getgeolocationchanges();
+    
   }
 
   ionViewDidLoad() {
-    
-    //this.calculateAndDisplayRoute(22.717666, 88.478630);
-    this.initMap();
+    this.order=this.navParams.get('order_id');
+    this.deliverylat=this.navParams.get('Latitude');
+    this.deliverylong=this.navParams.get('Lognitude');
+    console.log('DELIVERYLATTTTTTT',  this.deliverylat);
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude;
+      this.lng = resp.coords.longitude;
+      this.initMap();
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+    this.watch = this.geolocation.watchPosition();
+      this.watch.subscribe((data) => {
+        this.lat = data.coords.latitude; this.lng = data.coords.longitude;
+       // this.gotodropoff();
+       this.updateTrackData(this.order, data.coords.latitude,data.coords.longitude);
+        this.calculateAndDisplayRoute();
+    });
+
   }
 
   private updateTrackData(orderId, locLat, locLong) {
-    //console.log('hi');
-    let usersRef = firebase.database().ref('presence/' + this.currentFireUserId);
+    this.calculateAndDisplayRoute();
+    let usersRef = firebase.database().ref('geolocations/' + orderId);
     let connectedRef = firebase.database().ref('.info/connected');
     //const orderId = this.order;
     connectedRef.on('value', function (snapshot) {
       if (snapshot.val()) {
-        // User is online.
-        //usersRef.onDisconnect().set({ online: false, userid: fUserId });
         usersRef.set({ longitude: locLong, latitude: locLat, order_id: orderId });
         //console.log('online');
       } else {
-        // User is offline.
-        // WARNING: This won't work! See an explanation below.
-        //usersRef.set({ online: false, userid: fUserId });
+       
+        usersRef.set({ longitude: locLong, latitude: locLat, order_id: orderId });
       }
     });
   }
@@ -105,46 +127,37 @@ export class RiderMapPage {
     });
 
   }
+
   initMap() {
-    this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
-      let mylocation = new google.maps.LatLng(resp.coords.latitude,resp.coords.longitude);
-      this.maprider = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: mylocation,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      });
+    let loading = this.loadingCntrl.create({
+      content: 'Fetching your location...'
     });
-    //this.calculateAndDisplayRoute(22.5837286,88.4695656);
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe((data) => {
-      //this.getgeolocationchanges();
-      this.deleteMarkers();
-      //this.updateTrackData(this.order,data.coords.latitude,data.coords.longitude);
-      //this.addgeolocation(this.order,data.coords.latitude,data.coords.longitude);
-      let updatelocation = new google.maps.LatLng(data.coords.latitude,data.coords.longitude);
-      this.calculateAndDisplayRoute(data.coords.latitude,data.coords.longitude);
-      let image = 'assets/img/blue-dot.png';
-    this.addMarker(updatelocation,image);
-      this.setMapOnAll(this.maprider);
+    loading.present();
+    this.map1 = new google.maps.Map(document.getElementById('map1'), {
+      zoom: 20,
+      center: {lat: this.lat, lng: this.lng}
     });
+    this.directionsDisplay.setMap(this.map1);
+    loading.dismiss();
   }
 
-  addMarker(location,image) {
-    // let image = {
-    //   MyLocation: new google.maps.MarkerImage(
-    //    'assets/img/mapicon.png'
-    //   ),
-    //   Destination: new google.maps.MarkerImage(
-    //    'assets/img/blue-dot.png'
-    //   )
-    //  };
-    let marker = new google.maps.Marker({
-      position: location,
-      map: this.maprider,
-      icon: image
-    });
-    this.markers.push(marker);
-  }
+ 
+  // addMarker(location,image) {
+  //   // let image = {
+  //   //   MyLocation: new google.maps.MarkerImage(
+  //   //    'assets/img/mapicon.png'
+  //   //   ),
+  //   //   Destination: new google.maps.MarkerImage(
+  //   //    'assets/img/blue-dot.png'
+  //   //   )
+  //   //  };
+  //   let marker = new google.maps.Marker({
+  //     position: location,
+  //     map: this.maprider,
+  //     icon: image
+  //   });
+  //   this.markers.push(marker);
+  // }
 
   setMapOnAll(map) {
     for (var i = 0; i < this.markers.length; i++) {
@@ -161,156 +174,65 @@ export class RiderMapPage {
     this.markers = [];
   }
 
-
-  addgeolocation(order_id,lat,lng){
-    const getFBId = this.db.collection('geolocations', ref => { 
-      return ref.where('order_id', '==', order_id);
-    }).snapshotChanges().map(actions => { 
-      return actions.map(action => { 
-        const data1 = action.payload.doc.data();
-        const id = action.payload.doc.id;
-        //console.log(data1);
-        return { id, ...data1 };
-      });
+  navigate(){
+    this.map1 = new google.maps.Map(document.getElementById('map1'), {
+      zoom: 20,
+      center: {lat: this.lat, lng: this.lng}
     });
+    this.directionsDisplay.setMap(this.map1);
+  }
 
-    const data_fb = {
-      order_id: order_id,
-      latitude: lat,
-      longitude : lng
+  calculateAndDisplayRoute() {
+  
+    let image = {
+      MyLocation: new google.maps.MarkerImage(
+       'assets/img/mapicon.png'
+      ),
+      Destination: new google.maps.MarkerImage(
+       'assets/img/blue-dot.png'
+      )
+     };
+    let pos = {
+      lat: this.lat,
+      lng: this.lng
     };
-    getFBId.subscribe(data => {  
-      if(data.length>0){
-        this.getFbPId = data[0].id;
-        this.db.collection('geolocations').doc(this.getFbPId).update(data_fb).then(res => {
-        }).catch(err => {
+    const MyLocation = new google.maps.LatLng(pos);
+    let posstore = {
+      lat: this.deliverylat,
+      lng:this.deliverylong
+    };
+    const Destination = new google.maps.LatLng(posstore);
+    this.directionsService.route({
+      origin: MyLocation,
+      destination: Destination,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        this.directionsDisplay.setDirections(response);
+        var leg = response.routes[ 0 ].legs[ 0 ];
+        this.makeMarker( leg.start_location, image.MyLocation);
+        this.makeMarker( leg.end_location, image.Destination);
+      } else {
+        let alert = this.alertCtrl.create({
+          title: 'Failed',
+          subTitle: 'Directions request failed due to ' + status,
+          buttons: ['Dismiss']
         });
-        
-      }else{
-        this.db.collection('geolocations').add(data_fb).then(res => {
-          console.log(res);
-          //console.log(res.id);
-        }).catch(err => {
-        });
-      } 
-      
+        alert.present();
+      }
     });
-    
-    
-  }  
-  
-
-  calculateAndDisplayRoute(latt,longg) {
-  
-     let that = this;
-     let directionsService = new google.maps.DirectionsService;
-     let directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    // let image = {
-    //   MyLocation: new google.maps.MarkerImage(
-    //    'assets/img/mapicon.png'
-    //   ),
-    //   Destination: new google.maps.MarkerImage(
-    //    'assets/img/blue-dot.png'
-    //   )
-    //  };
-     directionsDisplay.setMap(this.maprider);
-         console.log("CURRENTPOS",latt);
-         console.log("CURRENTPOS",longg);
-        
-         var pos = {
-           lat:latt,
-           lng: longg
-         };
-      
-         this.maprider.setCenter(pos);
-         that.MyLocation = new google.maps.LatLng(pos);
-      
-         var posstore={
-           lat: 22.5726,
-           lng:88.3639
-         };
-         that.Destination=new google.maps.LatLng(posstore);
-        
-         directionsService.route({ origin: this.MyLocation,
-          destination: this.Destination,
-          travelMode: google.maps.TravelMode.DRIVING}, function(response, status) {
-           //console.log("DIRECTIONN",response);
-           if (status === 'OK') {
-             directionsDisplay.setDirections(response);
-            // var leg = response.routes[ 0 ].legs[ 0 ];
-            //  this.addMarker(leg.start_location,image.MyLocation);
-            //  this.addMarker(leg.end_location,image.Destination);
-           } else {
-             window.alert('Directions request failed due to ' + status);
-           }
-         });
-
-   }
-
-// cal(){
-//   var directionsDisplay;
-// var start = document.getElementById('start').value;
-// var end = "1883 Walnut Cres, Coquitlam V3J 7T3";
-// var directionsService = new google.maps.DirectionsService();
-// var map = null;
-//  var icons = {
-//   start: new google.maps.MarkerImage(
-//    // URL
-//    'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png',
-//    // (width,height)
-//    new google.maps.Size( 44, 32 ),
-//    // The origin point (x,y)
-//    new google.maps.Point( 0, 0 ),
-//    // The anchor point (x,y)
-//    new google.maps.Point( 22, 32 )
-//   ),
-//   end: new google.maps.MarkerImage(
-//    // URL
-//    'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png',
-//    // (width,height)
-//    new google.maps.Size( 44, 32 ),
-//    // The origin point (x,y)
-//    new google.maps.Point( 0, 0 ),
-//    // The anchor point (x,y)
-//    new google.maps.Point( 22, 32 )
-//   )
-//  };
-//  function initialize() {
-//   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
-//      // Start/Finish icons
-//   directionsDisplay.setMap(this.maprider);
-//   directionsDisplay.setPanel(document.getElementById('directions-panel'));
-//   var control = document.getElementById('control');
-//   control.style.display = 'block';
-//   map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
-// }
-// function calcRoute() {
-    
-  
-    
-//   var request = {
-//     origin: start,
-//     destination: end,
-//     travelMode: google.maps.TravelMode.DRIVING
-//   };
-//   directionsService.route(request, function(response, status) {
-//     if (status == google.maps.DirectionsStatus.OK) {
-//       directionsDisplay.setDirections(response);
-//         var leg = response.routes[ 0 ].legs[ 0 ];
-//   makeMarker( leg.start_location, icons.start, "title" );
-//   makeMarker( leg.end_location, icons.end, 'title' );
-//     }
-//   });
-// }
-// function makeMarker( position, icon, title ) {
-//  new google.maps.Marker({
-//   position: position,
-//   map: map,
-//   icon: icon,
-//   title: title
-//  });
-// }
-// }
    
+   
+
+}
+
+makeMarker(position,icon) {
+  new google.maps.Marker({
+   position: position,
+   map: this.map1,
+   icon: icon
+  });
+}
+  
 
 }

@@ -38,6 +38,8 @@ export class MyOrderDetailPage {
   public shipmentdetails:any;
   public buttonchange:any;
   public status:any;
+  public restaurantLatitude:any;
+  public restaurantLongitude:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
@@ -60,9 +62,13 @@ export class MyOrderDetailPage {
      if(this.getresult.Ack == 1)
       {
         this.status=this.getresult.order_details[0].order_status;
-      
+        this.restaurantLatitude = parseFloat(this.getresult.order_details[0].lati);
+         this.restaurantLongitude = parseFloat(this.getresult.order_details[0].logni);
        if(this.status=='P'){
          this.buttonchange=1;
+       }
+       else if(this.status=='D'){
+        this.buttonchange=0;
        }
       this.ordershow = this.getresult.order_details;
     console.log("result99999999999999tt",this.ordershow);
@@ -97,7 +103,7 @@ export class MyOrderDetailPage {
     this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
   }
   goloc(id){
-    this.navCtrl.push('RiderMapPage',{'order_id':id});
+    this.navCtrl.push('RiderMapPage',{'order_id':id,'Latitude':this.restaurantLatitude,'Lognitude':this.restaurantLongitude});
   }
   startjourney(){
       let alert = this.alertCtrl.create({
@@ -141,6 +147,51 @@ export class MyOrderDetailPage {
       });
       alert.present();
  
+  }
+
+  endjourney(){
+    let alert = this.alertCtrl.create({
+      title: 'Alert!',
+      subTitle: 'Are You Want to Sure?' ,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          role: 'Ok',
+        handler: () => {
+          let paramval={
+            "id": this.order,
+            "status":"D"
+           };
+          this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
+            this.getresult = result;
+          console.log("resulttt",this.getresult);
+           if(this.getresult.Ack == 1)
+            {
+              this.buttonchange=0;
+           //this.navCtrl.push('MyOrderDetailPage');
+           }
+            else{
+              this.tost_message('No Detail Found')
+             }
+            
+          }, (err) => {
+            console.log(err);
+            // Error log
+          });
+          }
+        }
+      ]
+    });
+    alert.present();
+
+
   }
 
 
