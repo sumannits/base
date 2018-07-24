@@ -3,7 +3,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
-
+import { Ionic2RatingModule } from 'ionic2-rating';
+import { AppRate } from '@ionic-native/app-rate';
 import { FirstRunPage } from '../pages';
 import { Broadcaster } from '../providers/eventEmitter';
 import { SpeakerListPage } from '../pages/speaker-list/speaker-list';

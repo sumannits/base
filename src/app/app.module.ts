@@ -36,7 +36,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
+import { Ionic2RatingModule } from 'ionic2-rating';
+import { AppRate } from '@ionic-native/app-rate';
 
 const configFirebase = {
   apiKey: "AIzaSyDivtVgy4Gj_t7PymCTKR6bX7wSNyny6NM",
@@ -104,7 +105,8 @@ const configFirebase = {
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserData,
-    InAppBrowser
+    InAppBrowser,
+    AppRate
   ]
 })
 export class AppModule { }
