@@ -95,7 +95,7 @@ public loguserDet:any;
           }
           firebase.auth().signInWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)
           .then(res => {
-            
+             console.log("firebase",res);
           })
           .catch(err => {
             firebase.auth().createUserWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)

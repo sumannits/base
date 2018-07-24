@@ -44,8 +44,29 @@ export class UserMapPage {
 }
 
   ionViewDidLoad() {
+    this.order=this.navParams.get('order_id');
+    this.updateTrackData(this.order);
     console.log('ionViewDidLoad UserMapPage');
     this.initMap();
+  }
+
+  private updateTrackData(orderId) {
+    let onlineUsersRef = firebase.database().ref('geolocations/'+ orderId);
+    onlineUsersRef.on('value', (snapshot)=> {
+      console.log(snapshot.val());
+    //  if (snapshot.val()){
+      this.lat=snapshot.val().latitude;
+      this.lng=snapshot.val().longitude;
+      this.calculateAndDisplayRoute(this.lat,this.lng);
+     // }
+      // if (snapshot.val()) {
+      // //  usersRef.set({ longitude: locLong, latitude: locLat, order_id: orderId });
+      // console.log('onlineVALUUEE',snapshot);
+      // } else {
+       
+      //   //usersRef.set({ longitude: locLong, latitude: locLat, order_id: orderId });
+      // }
+    });
   }
 
   initMap() {
@@ -137,7 +158,7 @@ export class UserMapPage {
   
     let that = this;
     let directionsService = new google.maps.DirectionsService;
-    let directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+    let directionsDisplay = new google.maps.DirectionsRenderer();
   
     directionsDisplay.setMap(this.maprider);
         console.log("CURRENTPOS",latt);
