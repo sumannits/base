@@ -34,4 +34,8 @@ p{ text-overflow: normal; white-space: normal; word-wrap: break-all;}
 .card-part .item .item-inner{ padding: 10px 5px; }
 .d-flex{font-weight: 600 !important;}
 .top-brdr { border-top:1px solid #e1e1e1;}
+
+.card .item.item-block .item-inner{ align-items: flex-start;}
+
+
 }
