@@ -66,14 +66,14 @@ public concat:any;
   ionViewDidLoad() {
     this.orderdate=this.navParams.get('datefrom');
     this.ordateto=this.navParams.get('dateto');
-    console.log("CONCATTATATAT",this.ordateto);
+    //console.log("CONCATTATATAT",this.ordateto);
     this.paycostamount=this.navParams.get('Payamount');
-    console.log("TOTalAMOUNTT",this.paycostamount)
+    //console.log("TOTalAMOUNTT",this.paycostamount)
     this.shipid=this.navParams.get('Shipment');
     let sign_val = JSON.parse(localStorage.getItem('userPrfDet'));
     this.id=sign_val.id;
-   console.log("0000000000",sign_val);
-    console.log('ionViewDidLoad CardPaymentPage');
+   //console.log("0000000000",sign_val);
+    //console.log('ionViewDidLoad CardPaymentPage');
     this.getMyCartCount();
     this.savedcard();
   }
@@ -84,10 +84,10 @@ this.card_id=card;
   }
   savedcard(){
     this.serviceApi.postData({"user_id": this.id},'users/card_list').then((result:any) => {
-      console.log("anyyy",result);
+      //console.log("anyyy",result);
       if(result.Ack == 1){
         this.cardlist = result.response;
-        console.log("cardsss",this.cardlist);
+        //console.log("cardsss",this.cardlist);
       }
     }, (err) => {
     
@@ -129,11 +129,12 @@ this.card_id=card;
       "amount": this.paycostamount,
       "delivery_date": this.orderdate,
       "time":this.ordateto,
+      "shipping_id":this.shipid,
       "payment_type":"cash",
       "card_id":""
       };
     
-  console.log("savedcard",param);
+  //console.log("savedcard",param);
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
        if(this.chekoutresult.Ack=1){
@@ -168,7 +169,7 @@ this.card_id=card;
 
   pay(){
     let data:any=this.form.value;
-    console.log("datattatat",data);
+    //console.log("datattatat",data);
     if (!data.user_name) {
       const alert = this.alertCtrl.create({
         title: 'Enter Card Holder Name!',
@@ -212,7 +213,7 @@ this.card_id=card;
     
      this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
       this.getresult = result;
-      console.log("PAYYYYRESLT",result);
+      //console.log("PAYYYYRESLT",result);
       if(this.getresult.Ack == 1)
       {
         
@@ -221,6 +222,7 @@ this.card_id=card;
     "amount": this.paycostamount,
     "delivery_date": this.orderdate,
     "shipping_id":this.shipid,
+    "time":this.ordateto,
     "payment_type":"card",
     "card_id":this.getresult.user_savecardId
     };
@@ -234,10 +236,7 @@ this.card_id=card;
     });
 
          loading.dismiss();
-      // this.navCtrl.setRoot('PaymentSuccessPage');
-
-      }
-      else{
+      }else{
         loading.dismiss();
         this.tost_message('Not Found')
       }
