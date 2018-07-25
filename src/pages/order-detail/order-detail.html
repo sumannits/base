@@ -91,7 +91,7 @@
           </ion-col>
       </ion-row>
     </ion-item>
-    <ion-item>
+    <ion-item class="order-det">
       <ion-row>
         <ion-col col-4>
           <h3> Order Date :</h3>
@@ -108,6 +108,14 @@
             <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <h2>Order Details :</h2>
+          </ion-col>
+          <!-- <ion-col col-8>
+            <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
+          </ion-col> -->
+        </ion-row>
     </ion-item>  
     <!-- <ion-item class="pl-0" *ngIf="buttonchange=2">
       <p item-start>
@@ -121,7 +129,7 @@
       <p text-uppercase item-end>Write A Review</p>
     
     </ion-item> -->
-    <ion-card *ngFor="let orderlist of getresult.order_sub_details">
+    <ion-card class="card-part" *ngFor="let orderlist of getresult.order_sub_details">
         <ion-item>
           <ion-thumbnail item-start>
               <img src="{{orderlist.image_url}}"  alt=""/>
@@ -150,26 +158,21 @@
           <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>
           <p>Special Note: {{orderlist.spacial_note}}</p>
           <ion-row class="top-brdr">
-            <ion-col col-4 class="p-b">
+            <ion-col col-6 class="p-b">
               <h4 class="font-13" text-center>Quantity</h4>
               <p text-center>{{orderlist.quantity}}</p>
             </ion-col>
-            <ion-col col-4 class="p-b">
+            <ion-col col-6  class="p-b">
               <h4 class="font-13" text-center>Price</h4>
               <p text-center>${{orderlist.price}}</p>
             </ion-col>
-            <ion-col col-4 class="p-b">
-                <!-- <button class="close-btn" ion-button>
-                    <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
-                  </button> -->
-                  <ion-icon class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
-              </ion-col>
+            
            
           </ion-row>
         </ion-item>
       </ion-card>
       <ion-item>
-      <h2>Order Details :</h2>
+      
       
       <!-- <ion-row>
         <ion-col col-2>

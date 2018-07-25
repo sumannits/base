@@ -190,13 +190,14 @@
           </ion-item>
       </form>
   </ion-list>
-  <ion-footer *ngIf="myAddressList.length > 0 && !isEditFrm && dateselect">
-    <ion-toolbar class="ftr-part">
-      <ion-item *ngFor="let addData of myAddressList" (click)="goToPayment(dateselect,dateselectto,addData.id)">
-        <button  ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; ">Proceed to Payment</button>
-      </ion-item>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer *ngIf="myAddressList.length > 0 && !isEditFrm && dateselect">
+  <ion-toolbar class="ftr-part">
+    <ion-item *ngFor="let addData of myAddressList" (click)="goToPayment(dateselect,dateselectto,addData.id)">
+      <button ion-button block style="background:none !important; font-size: 18px !important; font-weight: 400 !important; font-family: 'Open Sans', sans-serif !important; box-shadow:none !important; ">Proceed to Payment</button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
 
 
