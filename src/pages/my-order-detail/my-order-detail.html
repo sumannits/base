@@ -64,15 +64,17 @@
         </ion-col>
         <ion-col col-11>
           <p class="p-text align-right-p">
-            Ordered & Approved  <button ion-button class="right-btn" *ngIf="buttonchange!=1 && buttonchange!=0" (click)="startjourney()">Start Journey</button>
-                                <button ion-button class="right-btn"  *ngIf="buttonchange==1" (click)="endjourney()">Delivery Complete</button>
+            Ordered & Approved  
+            <button ion-button class="right-btn" *ngIf="order.order_status == 'U'" (click)="startjourney()">Start Journey</button>
+                                
+            <button ion-button class="right-btn"  *ngIf="order.order_status == 'P'" (click)="endjourney()">Delivery Complete</button>
               <button ion-button class="right-btn" *ngIf="order.order_status == 'C'" (click)="getMyRatting(order.id)">View Ratting</button>                  
           </p>
           <div item-end> 
             <div></div> 
            </div>
           
-          <p style="line-height:inherit; margin-bottom:0;" >Delivered <ion-icon style="color:#000000 !important;" name="arrow-forward"></ion-icon> <ion-icon name="navigate" class="chat-icon item-end" *ngIf="buttonchange==1" (click)="goloc(order.id)"></ion-icon></p>
+          <p style="line-height:inherit; margin-bottom:0;" ><!--Delivered --><ion-icon style="color:#000000 !important;" name="arrow-forward"></ion-icon> <ion-icon name="navigate" class="chat-icon item-end" *ngIf="buttonchange==1" (click)="goloc(order.id)"></ion-icon></p>
           <span class="gray-text">{{order.delivery_date | date:'dd-mm-yyyy'}}</span>
         </ion-col>
       </ion-row>
@@ -105,7 +107,10 @@
       <ion-item>
         <h2 class="ship-det" text-uppercase >Shipping Details</h2>
         <h3 class="name" >{{order.first_name}} {{order.last_name}}</h3>
+        <p class="text">{{order.save_as}}</p>
+        <p class="text">{{order.address}}</p>
         <p class="text">{{order.landmark}}</p>
+        <p class="text">Phone No: {{order.phone}}</p>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -116,7 +121,7 @@
         </ion-thumbnail>
         <div class="top-area">
           <span>
-            <h3 class="d-flex">#{{order.order_id}}
+            <h3 class="d-flex">{{orderlist.product_name}}
             
               <!-- <button class="close-btn" ion-button>
                         <ion-icon name="close"></ion-icon>
@@ -135,14 +140,12 @@
             <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
                         Status
                       </button> -->
-            <p>{{orderlist.order_date| date:'dd-MM-yyyy'}}</p>
+            <!--<p>{{orderlist.order_date| date:'dd-MM-yyyy'}}</p>-->
             <p>Special Note: {{orderlist.spacial_note}}</p>
           </span>
           <span item-end>
           
-            <ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon>
-          
-          
+            <!--<ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon>-->
             <ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon>
           
           
@@ -150,7 +153,7 @@
         </div>
         
         <ion-row class="top-brdr">
-          <ion-col col-4 text-center class="p-b">
+          <ion-col col-5 text-center class="p-b">
             <h4 class="font-13">Quantity</h4>
             <p text-center>{{orderlist.quantity}}</p>
           </ion-col>
@@ -158,7 +161,7 @@
             <h4 class="font-13">Price</h4>
             <p text-center>${{orderlist.price}}</p>
           </ion-col>
-          <ion-col col-4 text-center class="p-b">
+          <ion-col col-3 text-center class="p-b">
               <!-- <button class="close-btn" ion-button>
                   <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
                 </button> -->
@@ -175,21 +178,21 @@
     <ion-card-content>
       <ion-item>
         <h2 class="ship-det" text-uppercase>Price Details</h2>
-        <div class="price-area">
+        <!--<div class="price-area">
           <span>Last Price</span>
           <span>$155</span>
         </div>
         <div class="price-area">
           <span>Selling Price</span>
           <span>$155</span>
-        </div>
+        </div>-->
         <div class="price-area">
-          <span>Promotion Discount</span>
-          <span>$155</span>
+          <span>Shipping Cost</span>
+          <span>${{order.service_charge}}</span>
         </div>
         <div class="price-area" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Total Price </span>
-          <span class="total-price">$155</span>
+          <span class="total-price">${{order.total_amount}}</span>
         </div>
         
       </ion-item>
