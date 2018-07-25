@@ -45,7 +45,7 @@ export class RiderMapPage {
  public currentFireUserId: string;
  watch : any;
  directionsService = new google.maps.DirectionsService;
-  directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+  directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: false});
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -184,14 +184,14 @@ export class RiderMapPage {
 
   calculateAndDisplayRoute() {
   
-    let image = {
-      MyLocation: new google.maps.MarkerImage(
-       'assets/img/mapicon.png'
-      ),
-      Destination: new google.maps.MarkerImage(
-       'assets/img/blue-dot.png'
-      )
-     };
+    // let image = {
+    //   MyLocation: new google.maps.MarkerImage(
+    //    'assets/img/mapicon.png'
+    //   ),
+    //   Destination: new google.maps.MarkerImage(
+    //    'assets/img/blue-dot.png'
+    //   )
+    //  };
     let pos = {
       lat: this.lat,
       lng: this.lng
@@ -210,8 +210,8 @@ export class RiderMapPage {
       if (status === 'OK') {
         this.directionsDisplay.setDirections(response);
         var leg = response.routes[ 0 ].legs[ 0 ];
-        this.makeMarker( leg.start_location, image.MyLocation);
-        this.makeMarker( leg.end_location, image.Destination);
+        //this.makeMarker( leg.start_location, image.MyLocation);
+        //this.makeMarker( leg.end_location, image.Destination);
       } else {
         let alert = this.alertCtrl.create({
           title: 'Failed',
