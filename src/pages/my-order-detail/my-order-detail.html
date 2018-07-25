@@ -108,43 +108,56 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card *ngFor="let orderlist of order.product_list">
+  <ion-card class="card-part" *ngFor="let orderlist of order.product_list">
       <ion-item>
         <ion-thumbnail item-start>
             <img src="{{orderlist.image_url}}"  alt=""/>
         </ion-thumbnail>
-  
-        <h3 class="d-flex">#{{order.order_id}}
-           
-          <!-- <button class="close-btn" ion-button>
-            <ion-icon name="close"></ion-icon>
-          </button> -->
-          <!-- <button class="close-btn" ion-button (click)="gotoChatDet(orderlist.id)">
-              chat
-            </button> -->
+        <div class="top-area">
+          <span>
+            <h3 class="d-flex">#{{order.order_id}}
             
-        </h3>
-       
-        <div item-end> 
-          <div><ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon></div>
-          <div><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon></div> 
+              <!-- <button class="close-btn" ion-button>
+                        <ion-icon name="close"></ion-icon>
+                      </button> -->
+              <!-- <button class="close-btn" ion-button (click)="gotoChatDet(orderlist.id)">
+                          chat
+                        </button> -->
+            
+            </h3>
+            
+            <!-- <div item-end> 
+                      <div><ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon></div>
+                      <div><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon></div> 
+                      
+                     </div> -->
+            <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
+                        Status
+                      </button> -->
+            <p>{{orderlist.order_date| date:'dd-MM-yyyy'}}</p>
+            <p>Special Note: {{orderlist.spacial_note}}</p>
+          </span>
+          <span item-end>
           
-         </div>
-        <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
-            Status
-          </button> -->
-        <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>
-        <p>Special Note: {{orderlist.spacial_note}}</p>
+            <ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon>
+          
+          
+            <ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon>
+          
+          
+          </span>
+        </div>
+        
         <ion-row class="top-brdr">
-          <ion-col col-4 class="p-b">
-            <h4 class="font-13" text-center>Quantity</h4>
+          <ion-col col-4 text-center class="p-b">
+            <h4 class="font-13">Quantity</h4>
             <p text-center>{{orderlist.quantity}}</p>
           </ion-col>
-          <ion-col col-4 class="p-b">
-            <h4 class="font-13" text-center>Price</h4>
+          <ion-col col-4 text-center class="p-b">
+            <h4 class="font-13">Price</h4>
             <p text-center>${{orderlist.price}}</p>
           </ion-col>
-          <ion-col col-4 class="p-b">
+          <ion-col col-4 text-center class="p-b">
               <!-- <button class="close-btn" ion-button>
                   <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
                 </button> -->
@@ -152,6 +165,7 @@
             </ion-col>
          
         </ion-row>
+        
       </ion-item>
     </ion-card>
  
