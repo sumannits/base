@@ -32,8 +32,8 @@
       <ion-row>
         <ion-col col-9 class="row-lt">
           <h3>Order ID: #{{order.order_id}}</h3>
-          <h2> {{order.product_name}} </h2>
-          <p> Black </p>
+          <!--<h2> {{order.product_name}} </h2>
+          <p> Black </p>-->
           <!-- <button class="close-btn" ion-button (click)="openModal()">
               Track
             </button> -->
@@ -47,7 +47,7 @@
 
       <ion-row>
         <ion-col col-7 class="row-lt">
-            <h1>{{order.price}} <span class="offer" > 1 Offer </span></h1>
+            <h1>{{order.price}} <!--<span class="offer" > 1 Offer </span>--></h1>
         </ion-col>
         <!-- <ion-col col-5>
           <ion-input placeholder="Quantity:1" type="text"></ion-input>
@@ -66,6 +66,7 @@
           <p class="p-text align-right-p">
             Ordered & Approved  <button ion-button class="right-btn" *ngIf="buttonchange!=1 && buttonchange!=0" (click)="startjourney()">Start Journey</button>
                                 <button ion-button class="right-btn"  *ngIf="buttonchange==1" (click)="endjourney()">Delivery Complete</button>
+              <button ion-button class="right-btn" *ngIf="order.order_status == 'C'" (click)="getMyRatting(order.id)">View Ratting</button>                  
           </p>
           <div item-end> 
             <div></div> 
