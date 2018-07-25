@@ -44,7 +44,7 @@ export class OrderDetailPage {
   public sevtax:any;
   public deliverydate:any;
   public status:any;
-   public buttonchange:any;
+   public buttonchange:number = 0;
    public button:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
@@ -60,59 +60,74 @@ export class OrderDetailPage {
   ionViewDidLoad() {
     
     this.order=this.navParams.get('order_id');
-    //console.log('ionViewDidLoad OrderDetailPage',this.order);
+    this.getOrderDet();
+  }
+
+  getOrderDet(){
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     let paramval={
       "details_id": this.order
      };
-    this.serviceApi.postData(paramval,'users/orderdetails').then((result:any) => { //console.log(result);
-      
+    this.serviceApi.postData(paramval,'users/orderdetails').then((result:any) => { 
       //console.log(result);
      if(result.Ack == 1){
         this.getresult = result;
         this.status=this.getresult.order_details[0].order_status;
-        if(this.status=='P'){
-          this.buttonchange=1;
+        this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
+        //console.log("this.deliverydate", this.deliverydate);
+        this.ordershow = this.getresult.order_details;
+        this.sevtax=this.getresult.order_details[0].service_charge;
+        this.productquantity= this.getresult.order_details[0].quantity;
+        this.productprice=this.getresult.order_details[0].price;
+        this.productshippingcost=this.getresult.order_details[0].shipping_cost;
+        this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
+        this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
+        this.paymenttype=this.getresult.order_details[0].payment_status;
+        this.mobno=this.getresult.shipping_details[0].phone;
+        this.destination=this.getresult.shipping_details[0].save_as;
+        this.shipmentdetails=this.getresult.shipping_details[0].address;
+        this.shipmentzip=this.getresult.shipping_details[0].zip;
+        this.landmark=this.getresult.shipping_details[0].landmark;
+        if(this.paymenttype==3){
+          this.type=0;
+        }else{
+          this.type=1
         }
-        else if(this.status=='D'){
-         this.buttonchange=0;
-        }
-      this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
-      //console.log("this.deliverydate", this.deliverydate);
-      this.ordershow = this.getresult.order_details;
-      this.sevtax=this.getresult.order_details[0].service_charge;
-      this.productquantity= this.getresult.order_details[0].quantity;
-      this.productprice=this.getresult.order_details[0].price;
-      this.productshippingcost=this.getresult.order_details[0].shipping_cost;
-      this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
-      this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
-      this.paymenttype=this.getresult.order_details[0].payment_status;
-      this.mobno=this.getresult.shipping_details[0].phone;
-      this.destination=this.getresult.shipping_details[0].save_as;
-      this.shipmentdetails=this.getresult.shipping_details[0].address;
-      this.shipmentzip=this.getresult.shipping_details[0].zip;
-      this.landmark=this.getresult.shipping_details[0].landmark;
-      if(this.paymenttype==3){
-        this.type=0;
-      }
-      else{
-        this.type=1
-      }
       
-     }
-      else{
+     }else{
         this.tost_message('No Detail Found')
        }
       
     }, (err) => {
-      //console.log(err);
-      // Error log
+      
     });
-    this.ratecheck();
+
+    this.serviceApi.postData({"order_id": this.order,"user_id":loguser.id},'users/check_ratting').then((result:any) => {   
+      if(result.Ack == 0) {
+        this.buttonchange = 0;
+      } else{
+        this.buttonchange = 1;
+      }
+    },
+    (err) => {
+    });
   }
 
   gotoRate(){
-
-    this.navCtrl.push('RatingPage',{'order_id': this.order});
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+    let paramval={
+      "order_id": this.order,
+      "user_id":loguser.id
+     };
+     this.serviceApi.postData(paramval,'users/check_ratting').then((result:any) => {   
+      if(result.Ack == 0) {
+        this.tost_message('You have already given the ratting');
+      } else{
+        this.navCtrl.push('RatingPage',{'order_id': this.order});
+      }
+    },
+    (err) => {
+    });    
   }
 
   track(){
@@ -144,8 +159,7 @@ export class OrderDetailPage {
           //console.log("resulttt",this.getresult);
            if(this.getresult.Ack == 1)
             {
-              this.buttonchange=2;
-           //this.navCtrl.push('MyOrderDetailPage');
+              this.getOrderDet();
            }
             else{
               this.tost_message('No Detail Found')
@@ -161,34 +175,6 @@ export class OrderDetailPage {
     });
     alert.present();
   }
-
- ratecheck(){
-    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-    let paramval={
-      "order_id": this.order,
-      "user_id":loguser.id
-     };
-     //console.log("PARAMMMMM",paramval);
-     this.serviceApi.postData(paramval,'users/check_ratting').then((result) => { //console.log(result);
-      this.getresult = result;
-      //console.log("ratecheckkkkkk",this.getresult);
-    
-      if(this.getresult.Ack == 0)
-      {
-        this.button=0;
-        
-       //this.tost_message('You have already given the ratting');
-      }
-      else{
-        this.button=1;
-      }
-     
-    },
-    (err) => {
-      //console.log(err);
-      // Error log
-    });
-}
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
