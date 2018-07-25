@@ -28,10 +28,12 @@
     <ion-item>
       <ion-row>
         <ion-col col-4>
-          <h3> Order Id :</h3>
+           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="buttonchange==1">Track</button>
+          <button ion-button class="right-btn"   *ngIf="buttonchange==0" (click)="endtrack()">Complete</button>
         </ion-col>
         <ion-col col-8>
           <p>#{{order.order_id}}</p>
+          <button ion-button class="right-btn" *ngIf="button==1" (click)="gotoRate()">Rate & Review</button>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -106,7 +108,19 @@
             <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
           </ion-col>
         </ion-row>
-    </ion-item>
+    </ion-item>  
+    <!-- <ion-item class="pl-0" *ngIf="buttonchange=2">
+      <p item-start>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+      </p>
+    
+      <p text-uppercase item-end>Write A Review</p>
+    
+    </ion-item> -->
     <ion-card *ngFor="let orderlist of getresult.order_sub_details">
         <ion-item>
           <ion-thumbnail item-start>
