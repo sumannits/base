@@ -31,7 +31,7 @@
         <ion-thumbnail item-start (click)="goToPrdDetails(prddata.id)">
           <!-- <img src="assets/img/chilli-garlic.png" alt=""> -->
           <img [src]="prddata.image_url" alt="">
-          <p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) | number:'1.2-2'}}</p>
+          <!--<p *ngIf="(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) >0">{{(((prddata.max_price-prddata.min_price)*100)/prddata.max_price) | number:'1.2-2'}}</p>-->
         </ion-thumbnail>
          
         <!-- <h2><a (click)="openModal(prddata.cart_pid)">Add Note</a></h2> -->
@@ -98,7 +98,11 @@
           <p>Your Total Savings</p>
           <h3 class="red-text" item-end> ${{prdActTot - subTot}} ({{(((prdActTot-subTot)*100)/prdActTot).toFixed(2)}}%)</h3>
         </ion-item> -->
+        <ion-item class="price-part">
+          <p>&nbsp;</p>
+        </ion-item>
       </ion-list>
+
     </ion-card>
   
   </ion-content>

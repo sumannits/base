@@ -157,19 +157,19 @@ public adminpercentage:any;
   getdata(){
     this.serviceApi.getData('category/site_settings  ').then((result) => {
       this.response = result
-  console.log("RESULTTTTTTTTTTTTTTTTTT",result);
+  //console.log("RESULTTTTTTTTTTTTTTTTTT",result);
       if(this.response.Ack == 1)
       {
         this.siteresults =  this.response.site_settings;
         this.adminpercentage=this.siteresults[0].admin_percentage;
-        console.log('PPPPPPP',this.siteresults);
+        //console.log('PPPPPPP',this.siteresults);
       }
       else
       {
         this.siteresults = '';
       }
     }, (err) => {
-      console.log(err);
+      //console.log(err);
       // Error log
     });
 

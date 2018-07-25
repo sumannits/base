@@ -33,30 +33,42 @@
           <img src="{{order.image_url}}"  alt=""/>
         <!-- <img src="assets/img/home-pic-a.png" alt=""> -->
       </ion-thumbnail>
-
-      <h3 class="d-flex">#{{order.order_id}}
-        <!-- <button class="close-btn" ion-button>
-          <ion-icon name="close"></ion-icon>
-        </button>
-        <button class="close-btn" ion-button (click)="gotoChatDet(order.id)">
-          chat
-        </button> -->
-      </h3>
-      <p>{{order.order_date|  date:'dd-MM-yyyy'}}</p>
+      <div class="top-area">
+       
+          <h3 class="d-flex">#{{order.order_id}}
+            <!-- <button class="close-btn" ion-button>
+                            <ion-icon name="close"></ion-icon>
+                          </button>
+                          <button class="close-btn" ion-button (click)="gotoChatDet(order.id)">
+                            chat
+                          </button> -->
+          
+          </h3>
+          <p>{{order.order_date| date:'dd-MM-yyyy'}}
+            <span *ngIf="order.order_status == 'U'" class="status"> Processing </span>
+            <span *ngIf="order.order_status == 'P'" class="status"> Out for Delivery </span>
+            <span *ngIf="order.order_status == 'D'" class="status"> Delivered </span>
+            <span *ngIf="order.order_status == 'C'" class="status"> Complete </span>
+          </p>
+       
+        
+      </div>
+      
       <ion-row class="top-brdr">
         <!-- <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Price</h4>
           <p text-center>${{order.amount}}</p>
         </ion-col> -->
-        <ion-col col-4 class="p-b">
-          <h4 class="font-13" text-center>Quantity</h4>
+        <ion-col col-6 text-center class="pl-0 p-b">
+          <h4 class="font-13">Quantity</h4>
           <p text-center>{{order.total_quantity}}</p>
         </ion-col>
-        <ion-col col-4 class="p-b">
-          <h4 class="font-13" text-center>Total</h4>
+        <ion-col col-6 text-center class="pr-0 p-b">
+          <h4 class="font-13">Total</h4>
           <p text-center>${{(order.total_amount)}}</p>
         </ion-col>
       </ion-row>
+      
     </ion-item>
   </ion-card>
 

@@ -25,19 +25,25 @@
 <ion-content >
 
   <ion-card *ngFor="let order of ordershow">
-    <ion-item>
+    <ion-item style="padding-top:16px;">
       <ion-row>
         <ion-col col-4>
-           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="buttonchange==1">Track</button>
-          <button ion-button class="right-btn"   *ngIf="buttonchange==0" (click)="endtrack()">Complete</button>
+           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="order.order_status == 'P'">Track</button>
+          <button ion-button class="right-btn"   *ngIf="order.order_status == 'D'" (click)="endtrack()">Complete</button>
         </ion-col>
         <ion-col col-8>
-          <p>#{{order.order_id}}</p>
-          <button ion-button class="right-btn" *ngIf="button==1" (click)="gotoRate()">Rate & Review</button>
+          <p>#{{order.order_id}}</p>          
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button style="background-color: #0032a0; height:4.4rem; font-size: 1.7rem;"  class="right-btn" *ngIf="order.order_status == 'C' && buttonchange == 1" block (click)="gotoRate()"> <ion-icon name="star" style="font-size:1.7rem; margin-right: 0.7rem;" ></ion-icon>  Rate & Review</button>
         </ion-col>
       </ion-row>
     </ion-item>
-    <ion-item>
+    
+
+    <!-- <ion-item>
       <ion-row>
         <ion-col col-6>
           <h3> Restuarant Name :</h3>
@@ -47,7 +53,8 @@
         </ion-col>
       </ion-row>
     </ion-item>
-    <!-- <ion-item>
+
+    <ion-item>
       <ion-row>
         <ion-col col-3>
           <h3> Name :</h3>
@@ -64,11 +71,31 @@
         </ion-col>
         <ion-col col-6><p>{{destination}}</p>
           <p>{{mobno}}</p>
-<p>{{shipmentdetails}},{{landmark}},{{shipmentzip}}</p>
+          <p>{{shipmentdetails}},{{landmark}},{{shipmentzip}}</p>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <h3> Order Status :</h3>
+        </ion-col>
+        <ion-col col-6>
+          <p class="p-text align-right-p" *ngIf="order.order_status == 'U'">
+            Ordered & Approved  
+          </p>
+          <!--<p class="p-text align-right-p" *ngIf="order.order_status == 'P'">
+            Processing 
+          </p>-->
+          <p class="p-text align-right-p" *ngIf="order.order_status == 'P'">
+            Out for Delivery 
+          </p>
+          <p class="p-text align-right-p" *ngIf="order.order_status == 'C'">
+            Delivered
+          </p>
+        </ion-col>
+      </ion-row>
+
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="getresult.delivery_agent?.length > 0">
         <ion-row *ngFor="let deliver of getresult.delivery_agent">
           <ion-col col-6>
             <h3> Delivery Agent Name</h3>
@@ -77,7 +104,7 @@
         
           </ion-col>
         </ion-row>
-      </ion-item>
+    </ion-item>
     <ion-item>
       <ion-row>
         <ion-col col-4>
@@ -91,13 +118,13 @@
           </ion-col>
       </ion-row>
     </ion-item>
-    <ion-item>
+    <ion-item class="order-det">
       <ion-row>
         <ion-col col-4>
           <h3> Order Date :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>{{order.order_date| date:'dd MMM, yyyy'}}</p>
+          <p>{{order.order_date | date:'dd MMM, yyyy'}}</p>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -105,8 +132,16 @@
             <h3> Delivery Date :</h3>
           </ion-col>
           <ion-col col-8>
-            <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
+            <p>{{deliverydate | date:'dd MMM, yyyy'}}</p>
           </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <h2>Order Details :</h2>
+          </ion-col>
+          <!-- <ion-col col-8>
+            <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
+          </ion-col> -->
         </ion-row>
     </ion-item>  
     <!-- <ion-item class="pl-0" *ngIf="buttonchange=2">
@@ -121,13 +156,12 @@
       <p text-uppercase item-end>Write A Review</p>
     
     </ion-item> -->
-    <ion-card *ngFor="let orderlist of getresult.order_sub_details">
+    <ion-card class="card-part" *ngFor="let orderlist of getresult.order_sub_details">
         <ion-item>
           <ion-thumbnail item-start>
               <img src="{{orderlist.image_url}}"  alt=""/>
-          </ion-thumbnail>
-    
-          <h3 class="d-flex">#{{order.order_id}}
+          </ion-thumbnail>   
+          <h3 class="d-flex">{{orderlist.product_name}}
              
             <!-- <button class="close-btn" ion-button>
               <ion-icon name="close"></ion-icon>
@@ -138,38 +172,30 @@
               
           </h3>
          
-          <div item-end> 
-            <!-- <div><ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon></div> -->
-            <div  *ngIf="orderlist.shop_id > 0"><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(order.id)"></ion-icon></div>
-            
-            
-           </div>
-          <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
+            <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
               Status
-            </button> -->
-          <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>
+            </button> 
+          <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>-->
           <p>Special Note: {{orderlist.spacial_note}}</p>
+          
           <ion-row class="top-brdr">
-            <ion-col col-4 class="p-b">
+            <ion-col col-6 class="p-b">
               <h4 class="font-13" text-center>Quantity</h4>
               <p text-center>{{orderlist.quantity}}</p>
             </ion-col>
-            <ion-col col-4 class="p-b">
+            <ion-col col-6  class="p-b">
               <h4 class="font-13" text-center>Price</h4>
               <p text-center>${{orderlist.price}}</p>
             </ion-col>
-            <ion-col col-4 class="p-b">
-                <!-- <button class="close-btn" ion-button>
-                    <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
-                  </button> -->
-                  <ion-icon class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
-              </ion-col>
+            
            
           </ion-row>
+
+          <ion-icon *ngIf="orderlist.shop_id > 0" name="chatbubbles" class="chat-icon" item-end (click)="gotoChatDet(orderlist.id)"></ion-icon>
         </ion-item>
       </ion-card>
       <ion-item>
-      <h2>Order Details :</h2>
+      
       
       <!-- <ion-row>
         <ion-col col-2>

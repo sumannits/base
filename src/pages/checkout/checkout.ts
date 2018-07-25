@@ -84,8 +84,8 @@ export class CheckoutPage {
 
   ionViewDidLoad() {
     this.paycost=this.navParams.get('Total');
-    console.log("AMOUNTT",this.paycost)
-    console.log("timmmmmmmee",(new Date().getHours())+4.00);
+    //console.log("AMOUNTT",this.paycost)
+    //console.log("timmmmmmmee",(new Date().getHours())+4.00);
     //console.log("timmmmmmmee",(new Date().getMinutes()));
     this.getShippingAddList();
     if(this.loginUserId > 0){
@@ -103,7 +103,7 @@ export class CheckoutPage {
         if(this.myAddressList.length >0){
           //this.isEditFrm = true;
         }
-        console.log(this.myAddressList);
+        //console.log(this.myAddressList);
       }
     }, (err) => {
     
@@ -126,18 +126,18 @@ export class CheckoutPage {
 
    // this.form.get('date').setValue(this.dateselect);
     this.isdateselect=this.dateselect;
-    console.log("DATEET",this.isdateselect);
+    //console.log("DATEET",this.isdateselect);
   }
   dateselctto(data){
      this.isdateselectto=this.dateselectto;
-     console.log("DATEET",this.isdateselectto);
+     //console.log("DATEET",this.isdateselectto);
    }
   goToPayment(datefrom,dateto,shipping)
   {
     //this.isdateselect=this.dateselect;
-    console.log("DATEET",datefrom);
-    console.log("DATEET",dateto);
-    console.log("shipping",shipping);
+    //console.log("DATEET",datefrom);
+    //console.log("DATEET",dateto);
+    //console.log("shipping",shipping);
     this.navCtrl.push('CardPaymentPage',{'datefrom':datefrom,'dateto':dateto,'Shipment':shipping,'Payamount':this.paycost});
   }
 

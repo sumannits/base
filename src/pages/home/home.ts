@@ -55,8 +55,8 @@ public prdId:any;
 
   addToCart(catId,prdId){
    // this.getMyProductCount(prdId);
-    console.log("cat",catId);
-    console.log("prd",prdId);
+    //console.log("cat",catId);
+    //console.log("prd",prdId);
     if(this.loginUserId > 0){
       this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId},'users/addto_cart').then((result:any) => {
         if(result.Ack == 1){
@@ -148,7 +148,7 @@ public prdId:any;
     this.serviceApi.getData('category/catwise_prd_list/'+this.loginUserId).then((result:any) => {
       if(result.Ack == 1){
         this.allCatList = result.cat_list;
-        console.log("CATTATAT",  this.allCatList);
+        //console.log("CATTATAT",  this.allCatList);
       }
       //console.log(this.userDetails);
     }, (err) => {

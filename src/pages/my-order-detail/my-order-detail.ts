@@ -50,15 +50,16 @@ export class MyOrderDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MyOrderDetailPage');
+    //console.log('ionViewDidLoad MyOrderDetailPage');
     this.order=this.navParams.get('order_id');
-    console.log('ionViewDidLoad OrderDetailPage',this.order);
+    //console.log('ionViewDidLoad OrderDetailPage',this.order);
     let paramval={
       "order_id": this.order
      };
-    this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => { //console.log(result);
+    this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => {
+      console.log(result);
       this.getresult = result;
-    console.log("resulttt",this.getresult);
+    //console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
         this.status=this.getresult.order_details[0].order_status;
@@ -71,22 +72,6 @@ export class MyOrderDetailPage {
         this.buttonchange=0;
        }
       this.ordershow = this.getresult.order_details;
-    console.log("result99999999999999tt",this.ordershow);
-     // this.productquantity= this.getresult.order_details[0].quantity;
-     // this.productprice=this.getresult.order_details[0].price;
-     // this.productshippingcost=this.getresult.order_details[0].shipping_cost;
-      //this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
-     // this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
-      //this.paymenttype=this.getresult.order_details[0].payment_status;
-  // this.shipmentdetails=this.getresult.shipping_details[0].landmark;
-
-      // if(this.paymenttype==3){
-      //   this.type=0;
-      // }
-      // else{
-      //   this.type=1
-      // }
-    //  console.log("SUBTOTALLL",this.subtotal)
     
        
      }
@@ -95,13 +80,18 @@ export class MyOrderDetailPage {
        }
       
     }, (err) => {
-      console.log(err);
       // Error log
     });
   }
   gotoChatDet(ordId){
-    this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
+    this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId});
   }
+
+  getMyRatting(ordId){
+    //console.log(ordId);
+    this.navCtrl.push('RatingListPage',{'ord_id':ordId})
+  }
+  
   goloc(id){
     this.navCtrl.push('RiderMapPage',{'order_id':id,'Latitude':this.restaurantLatitude,'Lognitude':this.restaurantLongitude});
   }
@@ -114,7 +104,7 @@ export class MyOrderDetailPage {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
-              console.log('Cancel clicked');
+              
             }
           },
           {
@@ -127,7 +117,6 @@ export class MyOrderDetailPage {
              };
             this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
               this.getresult = result;
-            console.log("resulttt",this.getresult);
              if(this.getresult.Ack == 1)
               {
                 this.buttonchange=1;
@@ -138,8 +127,7 @@ export class MyOrderDetailPage {
                }
               
             }, (err) => {
-              console.log(err);
-              // Error log
+             
             });
             }
           }
@@ -171,7 +159,6 @@ export class MyOrderDetailPage {
            };
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
-          console.log("resulttt",this.getresult);
            if(this.getresult.Ack == 1)
             {
               this.buttonchange=0;
@@ -182,7 +169,6 @@ export class MyOrderDetailPage {
              }
             
           }, (err) => {
-            console.log(err);
             // Error log
           });
           }

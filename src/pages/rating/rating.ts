@@ -50,33 +50,27 @@ this.rate=event;
 
 
 
-rateReview()
-{
-  let data:any=this.form.value;
-    console.log("datattatat",data);
-  const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-  let paramval={
-    "order_id": this.order,
-    "user_id":loguser.id,
-    "ratting":this.rate,
-    "message":data.message
-   };
-   console.log("VALUEEEEEE",paramval);
-   this.serviceApi.postData(paramval,'users/ratting').then((result) => { //console.log(result);
+rateReview(){
+    let data:any=this.form.value;
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+    let paramval={
+      "order_id": this.order,
+      "user_id":loguser.id,
+      "ratting":this.rate,
+      "message":data.message
+    };
+    this.serviceApi.postData(paramval,'users/ratting').then((result) => { //console.log(result);
     this.getresult = result;
-  console.log("result",this.getresult);
-   if(this.getresult.Ack == 1)
-    {
+    if(this.getresult.Ack == 1){
+      this.tost_message('You have successfully give the ratting.')
       this.navCtrl.push('OrderListPage');
-   }
-    else{
+    }else{
       this.tost_message('No Detail Found')
       //alert('tost_message');
-     }
+    }
     
   }, (err) => {
-    console.log(err);
-    // Error log
+    
   });
  
 }
