@@ -37,7 +37,7 @@
         </ion-col>
       </ion-row>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-row>
         <ion-col col-6>
           <h3> Restuarant Name :</h3>
@@ -47,7 +47,8 @@
         </ion-col>
       </ion-row>
     </ion-item>
-    <!-- <ion-item>
+
+    <ion-item>
       <ion-row>
         <ion-col col-3>
           <h3> Name :</h3>
@@ -97,7 +98,7 @@
           <h3> Order Date :</h3>
         </ion-col>
         <ion-col col-8>
-          <p>{{order.order_date| date:'dd MMM, yyyy'}}</p>
+          <p>{{order.order_date | date:'dd MMM, yyyy'}}</p>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -105,7 +106,7 @@
             <h3> Delivery Date :</h3>
           </ion-col>
           <ion-col col-8>
-            <p>{{deliverydate| date:'dd MMM, yyyy'}}</p>
+            <p>{{deliverydate | date:'dd MMM, yyyy'}}</p>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -135,7 +136,7 @@
               <img src="{{orderlist.image_url}}"  alt=""/>
           </ion-thumbnail>
     
-          <h3 class="d-flex">#{{order.order_id}}
+          <h3 class="d-flex">{{orderlist.product_name}}
              
             <!-- <button class="close-btn" ion-button>
               <ion-icon name="close"></ion-icon>
@@ -154,8 +155,8 @@
            </div>
           <!-- <button class="close-btn" ion-button (click)="openstatusModal()">
               Status
-            </button> -->
-          <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>
+            </button> 
+          <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>-->
           <p>Special Note: {{orderlist.spacial_note}}</p>
           <ion-row class="top-brdr">
             <ion-col col-6 class="p-b">

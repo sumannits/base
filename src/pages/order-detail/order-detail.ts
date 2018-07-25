@@ -60,15 +60,15 @@ export class OrderDetailPage {
   ionViewDidLoad() {
     
     this.order=this.navParams.get('order_id');
-    console.log('ionViewDidLoad OrderDetailPage',this.order);
+    //console.log('ionViewDidLoad OrderDetailPage',this.order);
     let paramval={
       "details_id": this.order
      };
-    this.serviceApi.postData(paramval,'users/orderdetails').then((result) => { //console.log(result);
-      this.getresult = result;
-      console.log("resulttt",this.getresult);
-     if(this.getresult.Ack == 1)
-      {
+    this.serviceApi.postData(paramval,'users/orderdetails').then((result:any) => { //console.log(result);
+      
+      //console.log(result);
+     if(result.Ack == 1){
+        this.getresult = result;
         this.status=this.getresult.order_details[0].order_status;
         if(this.status=='P'){
           this.buttonchange=1;
@@ -77,7 +77,7 @@ export class OrderDetailPage {
          this.buttonchange=0;
         }
       this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
-      console.log("this.deliverydate", this.deliverydate);
+      //console.log("this.deliverydate", this.deliverydate);
       this.ordershow = this.getresult.order_details;
       this.sevtax=this.getresult.order_details[0].service_charge;
       this.productquantity= this.getresult.order_details[0].quantity;
@@ -87,26 +87,24 @@ export class OrderDetailPage {
       this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
       this.paymenttype=this.getresult.order_details[0].payment_status;
       this.mobno=this.getresult.shipping_details[0].phone;
-    this.destination=this.getresult.shipping_details[0].save_as;
-   this.shipmentdetails=this.getresult.shipping_details[0].address;
-   this.shipmentzip=this.getresult.shipping_details[0].zip;
-   this.landmark=this.getresult.shipping_details[0].landmark;
+      this.destination=this.getresult.shipping_details[0].save_as;
+      this.shipmentdetails=this.getresult.shipping_details[0].address;
+      this.shipmentzip=this.getresult.shipping_details[0].zip;
+      this.landmark=this.getresult.shipping_details[0].landmark;
       if(this.paymenttype==3){
         this.type=0;
       }
       else{
         this.type=1
       }
-      console.log("SUBTOTALLL",this.subtotal)
-    
-       
+      
      }
       else{
         this.tost_message('No Detail Found')
        }
       
     }, (err) => {
-      console.log(err);
+      //console.log(err);
       // Error log
     });
     this.ratecheck();
@@ -130,7 +128,7 @@ export class OrderDetailPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            //console.log('Cancel clicked');
           }
         },
         {
@@ -143,7 +141,7 @@ export class OrderDetailPage {
            };
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
-          console.log("resulttt",this.getresult);
+          //console.log("resulttt",this.getresult);
            if(this.getresult.Ack == 1)
             {
               this.buttonchange=2;
@@ -154,7 +152,7 @@ export class OrderDetailPage {
              }
             
           }, (err) => {
-            console.log(err);
+            //console.log(err);
             // Error log
           });
           }
@@ -170,16 +168,16 @@ export class OrderDetailPage {
       "order_id": this.order,
       "user_id":loguser.id
      };
-     console.log("PARAMMMMM",paramval);
+     //console.log("PARAMMMMM",paramval);
      this.serviceApi.postData(paramval,'users/check_ratting').then((result) => { //console.log(result);
       this.getresult = result;
-      console.log("ratecheckkkkkk",this.getresult);
+      //console.log("ratecheckkkkkk",this.getresult);
     
       if(this.getresult.Ack == 0)
       {
         this.button=0;
         
-       this.tost_message('You have already given the ratting');
+       //this.tost_message('You have already given the ratting');
       }
       else{
         this.button=1;
@@ -187,7 +185,7 @@ export class OrderDetailPage {
      
     },
     (err) => {
-      console.log(err);
+      //console.log(err);
       // Error log
     });
 }
