@@ -11,8 +11,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>    
-      <ion-title>BASE</ion-title>
-    
+      <ion-title>BASE
+        <p class="sub-head-text text-center">Anything on the steps of your door</p>
+      </ion-title>
+      
     <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
       <ion-segment-button value="all">
         All
@@ -49,7 +51,7 @@
       <ion-col col-8 class="pl-0 pb-0" (click)="goToSearch()">
         <ion-searchbar color="primary" placeholder="Search for product">
         </ion-searchbar>
-      <p class="sub-head-text text-center">Anything on the steps of your door</p>
+      <!-- <p class="sub-head-text text-center">Anything on the steps of your door</p> -->
       </ion-col>
     </ion-row>
     
@@ -131,7 +133,22 @@
           <h2>{{subcatData.name}}</h2>
           <p text-center>${{subcatData.min_price}}/{{subcatData.unit_type}}</p>
           <!-- <div class="cart-item" (click)="getMyProductCount(subcatData.id)">{{myProductCnt}}</div> -->
-          <button ion-button (click)="addToCart(subcatData.cat_id,subcatData.id)">Add </button>
+          <ion-row>
+            <ion-col class="pr-0">
+              <div class="qty">
+                <span class="qty-span">
+                  <ion-icon name="remove"></ion-icon>
+                </span>
+                <span>1</span>               
+                <span class="qty-span">
+                  <ion-icon name="add-circle"></ion-icon>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col class="pl-0">
+              <button ion-button (click)="addToCart(subcatData.cat_id,subcatData.id)">Add </button>
+            </ion-col>
+          </ion-row>          
         </div>
       </ion-item>
     </div>
