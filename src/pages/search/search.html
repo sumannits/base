@@ -35,7 +35,7 @@
       <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
     </button>
   </ion-list>-->
-  <ion-card *ngFor="let prddata of allPrdList">
+  <ion-card *ngFor="let prddata of allPrdList; let key = index">
       <ion-item>
         <ion-thumbnail item-start>
           <img [src]="prddata.image_url" alt="" (click)="goToPrdDetails(prddata.id)">
@@ -46,14 +46,15 @@
         <p>{{prddata.description | limitTo:20}}</p>
         <!--<p>200 gm + 200 gm +200gm</p>-->
         <!-- <span *ngIf="prddata.max_price > 0">${{prddata.max_price}}</span> -->
-        <h4>${{prddata.min_price}}  </h4>
+        <h4>${{prddata.min_price}}/{{prddata.unit_type}}  </h4>
         <div item-end>
           <div class="qty">
-            <span class="qty-span">
+            <span class="qty-span" (click)="decreseQtyCart(prddata,key)">
               <ion-icon name="remove"></ion-icon>
             </span>
-            <span>100</span>
-            <span class="qty-span">
+            <span *ngIf="prddata.prd_qty_add">{{prddata.prd_qty_add}}</span> 
+            <span *ngIf="!prddata.prd_qty_add">1</span>   
+            <span class="qty-span" (click)="increseQtyCart(prddata,key)">
               <ion-icon name="add-circle"></ion-icon>
             </span>
           </div>

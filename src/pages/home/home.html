@@ -123,11 +123,11 @@
         </button>
       </ion-card-content>
     </ion-card>-->
-    <div  *ngFor="let catData of allCatList"  >
+    <div  *ngFor="let catData of allCatList; let key = index"  >
         <ion-item *ngIf="catData.product_list.length>0"><h4  class="baby-txt">{{catData.name}} </h4> 
         <img *ngIf="catData.product_list.length>0" item-end src="{{catData.image_url}}" alt=""> </ion-item>
       <ion-item scrollx="true" class="top-cate-area" *ngIf="catData.product_list.length>0" >
-        <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list">
+        <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list; let pkey = index">
             <div class="cart-item" *ngIf="subcatData.my_cart_qty > 0">{{subcatData.my_cart_qty}}</div>
           <img src="{{subcatData.image_url}}" alt="" (click)="goToPrdDetails(subcatData.id)" >
           <h2>{{subcatData.name}}</h2>
@@ -136,11 +136,12 @@
           <ion-row>
             <ion-col class="pr-0">
               <div class="qty">
-                <span class="qty-span">
+                <span class="qty-span" (click)="decreseQtyCart(subcatData,key,pkey)">
                   <ion-icon name="remove"></ion-icon>
                 </span>
-                <span>1</span>               
-                <span class="qty-span">
+                <span *ngIf="subcatData.prd_qty_add">{{subcatData.prd_qty_add}}</span> 
+                <span *ngIf="!subcatData.prd_qty_add">1</span>               
+                <span class="qty-span" (click)="increseQtyCart(subcatData,key,pkey)">
                   <ion-icon name="add-circle"></ion-icon>
                 </span>
               </div>
@@ -152,9 +153,6 @@
         </div>
       </ion-item>
     </div>
-
-  
-    
 
   </ion-list>
 

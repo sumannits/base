@@ -20,8 +20,10 @@ export class HomePage {
   public myProductCnt:number = 0;
   public loginUserId:number = 0;
   public subcatlist:any;
-public catId:any;
-public prdId:any;
+  public catId:any;
+  public prdId:any;
+  public prdCartQty:number = 1;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -53,17 +55,39 @@ public prdId:any;
     this.navCtrl.push('CartPage');
   }
 
+  decreseQtyCart(prd_list:any,catKey, prdKey){
+    let currQty:number = 1;
+    if(prd_list.prd_qty_add && prd_list.prd_qty_add >1){
+      currQty = prd_list.prd_qty_add -1;
+    }else{
+      currQty =1;
+    }
+    this.allCatList[catKey].product_list[prdKey].prd_qty_add = currQty;
+    this.prdCartQty = currQty;
+  }
+
+  increseQtyCart(prd_list:any, catKey, prdKey){
+    //console.log(prd_list);
+    let currQty:number = 1;
+    if(prd_list.prd_qty_add && prd_list.prd_qty_add > 0){
+      currQty = prd_list.prd_qty_add +1;
+    }else{
+      currQty =1;
+    }
+    this.allCatList[catKey].product_list[prdKey].prd_qty_add = currQty;
+    this.prdCartQty = currQty;
+    //console.log(currQty);
+  }
+
   addToCart(catId,prdId){
-   // this.getMyProductCount(prdId);
-    //console.log("cat",catId);
-    //console.log("prd",prdId);
     if(this.loginUserId > 0){
-      this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId},'users/addto_cart').then((result:any) => {
+      this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId,"prd_qty":this.prdCartQty},'users/addto_cart').then((result:any) => {
         if(result.Ack == 1){
+          this.prdCartQty = 1;
           let toast = this.toastCtrl.create({
             message: result.msg,
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
           this.getMyCartCount();
@@ -71,7 +95,7 @@ public prdId:any;
           let toast = this.toastCtrl.create({
             message: result.msg,
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
         }
@@ -85,20 +109,6 @@ public prdId:any;
       });
     }else{
       this.navCtrl.push('LoginPage',{'catid':catId});
-      // let alert = this.alertCtrl.create({
-      //   title: 'Alert!',
-      //   subTitle: 'Please login first to add this product in your cart.' ,
-      //   buttons: [
-      //     {
-      //       text: 'Ok',
-      //       role: 'Ok',
-      //     handler: () => {
-           
-      //       }
-      //     }
-      //   ]
-      // });
-      // alert.present();
       
     }
     

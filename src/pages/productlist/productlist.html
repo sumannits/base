@@ -21,7 +21,7 @@
   
   <ion-content>
     <ion-list class="pro-area">
-        <ion-item text-center *ngFor="let prddata of allPrdList">
+        <ion-item text-center *ngFor="let prddata of allPrdList; let key = index">
             <img class="img-pic" [src]="prddata.image_url" alt="" (click)="goToPrdDetails(prddata.id)">
             <div class="cart-item"  *ngIf="prddata.my_cart_qty > 0">{{prddata.my_cart_qty}}</div>
           <!-- <img src="assets/img/all-fruit.png" alt=""> -->
@@ -31,11 +31,12 @@
           <ion-row>
             <ion-col col-6 class="pr-0">
               <div class="qty">
-                <span class="qty-span">
+                <span class="qty-span" (click)="decreseQtyCart(prddata,key)">
                   <ion-icon name="remove"></ion-icon>
                 </span>
-                <span>1</span>
-                <span class="qty-span">
+                <span *ngIf="prddata.prd_qty_add">{{prddata.prd_qty_add}}</span> 
+                <span *ngIf="!prddata.prd_qty_add">1</span>  
+                <span class="qty-span" (click)="increseQtyCart(prddata,key)">
                   <ion-icon name="add-circle"></ion-icon>
                 </span>
               </div>
