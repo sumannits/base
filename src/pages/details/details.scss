@@ -10,8 +10,8 @@ page-details {
     .item-lt h4 .line-through{ color: #7d7d7d; text-decoration: line-through; margin-left: 16px;}
     .item-rt{ padding-left: 5px;}
     .item-rt .button-default{ height: 2.8rem; padding: 0; border-radius: 3px;}
-    .item-rt .button-default .button-inner{ justify-content: space-between; padding-left: 14px; font-size: 1.4rem;}
-    .item-rt .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 8px; }
+    .item-rt .button-default .button-inner{ justify-content: center; background-color: #0032a0; font-size: 1.4rem;}
+    // .item-rt .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 8px; }
 
   
     .cart-item{ position: absolute; width: 18px; height: 18px; border-radius: 50%; color: #ffffff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 1.2rem; background-color: #0032a0; z-index: 100; right: 0; top: 0;}
@@ -26,7 +26,7 @@ page-details {
 
 
     .qty{ background-color: #e9ecef; border: 1px solid #d9d9d9;  border-radius: 3px; margin-top: 0.4rem;  display: flex; align-items: center;justify-content: space-between;}
-    .qty-span{ background-color: #e0e0e0; padding: 3px !important; }
+    .qty-span{ background-color: #e0e0e0; padding: 3px 6px !important; }
     .qty-span ion-icon{ font-size: 1.8rem; color: #4e555c !important;}
 
 

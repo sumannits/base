@@ -52,8 +52,8 @@
             <span class="qty-span" (click)="decreseQtyCart(prddata,key)">
               <ion-icon name="remove"></ion-icon>
             </span>
-            <span *ngIf="prddata.prd_qty_add">{{prddata.prd_qty_add}}</span> 
-            <span *ngIf="!prddata.prd_qty_add">1</span>   
+            <span style="padding:3px 5px;" *ngIf="prddata.prd_qty_add">{{prddata.prd_qty_add}}</span> 
+            <span style="padding:3px 5px;" *ngIf="!prddata.prd_qty_add">1</span>   
             <span class="qty-span" (click)="increseQtyCart(prddata,key)">
               <ion-icon name="add-circle"></ion-icon>
             </span>

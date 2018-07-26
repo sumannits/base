@@ -9,7 +9,7 @@ ion-header ion-navbar .item{ background-color: transparent; padding-left: 0;}
 ion-header ion-navbar .item input{ color: #ffffff; font-family: 'American Typewriter'; font-weight: 500; font-size: 1.5rem; }
 ion-header ion-navbar .item ion-label{ color: #ffffff !important; margin-top: 0; font-family: 'American Typewriter'; font-weight: 400; font-size: 1.4rem; }
 
-.toolbar ion-title{ padding: 0 60px 1px;}
+.toolbar ion-title{ padding: 0 50px 1px 50px;}
 
 
 .item ion-avatar img{ width: 60px; height: 60px; margin-left: 1rem;}
@@ -41,9 +41,10 @@ ion-content{position: relative;}
 
 ion-slides{ position: relative;}
 ion-slides .slide-text{ position: absolute; z-index: 100; top: 0; left: 0; right: 0; width: 40%; margin: 0 auto; text-align: left; }
-ion-slides .slide-text h2{font-weight: 600; font-size: 2.2rem; color: #1e1e1e; font-family: 'American Typewriter';}
+ion-slides .slide-text h2:first-child{ padding-top: 2.1rem;}
+ion-slides .slide-text h2{font-weight: 600; margin-bottom: 0; font-size: 2.4rem; color: #1e1e1e; font-family: 'American Typewriter';}
 .bnr-car{width: 40px; height: auto;}
-ion-slides p{position: absolute; z-index: 100; bottom: 18px; left: 0; right: 0; color: #1e1e1e;   font-size: 1.6rem; font-weight: 400;}
+ion-slides p{position: absolute; z-index: 100; bottom: 28px; left: 0; right: 0; color: #1e1e1e;   font-size: 1.6rem; font-weight: 400;}
 .swiper-pagination-bullet-active{ background: #0032a0;}
 
 ion-card-content ion-item h3{ text-overflow: normal; white-space: normal; word-wrap: break-all; font-family: 'American Typewriter'; font-weight: 600 !important; color: #1e1e1e !important;}
@@ -75,7 +76,7 @@ ion-card-content ion-item p{text-overflow: normal; white-space: normal; word-wra
 .qty-span{ background-color: #e0e0e0; padding: 4px !important; }
 .qty-span ion-icon{ font-size: 1.8rem; color: #4e555c;}
 
-
+.time-slot{font-size: 1.4rem; font-weight: 400; float: right; color: #7398f7; }
 
 
 
