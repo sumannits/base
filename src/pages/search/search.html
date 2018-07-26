@@ -47,7 +47,23 @@
         <!--<p>200 gm + 200 gm +200gm</p>-->
         <!-- <span *ngIf="prddata.max_price > 0">${{prddata.max_price}}</span> -->
         <h4>${{prddata.min_price}}  </h4>
-         <button ion-button  item-end (click)="addToCart(prddata.id)">Add <ion-icon name="add"></ion-icon> </button> 
+        <div item-end>
+          <div class="qty">
+            <span class="qty-span">
+              <ion-icon name="remove"></ion-icon>
+            </span>
+            <span>100</span>
+            <span class="qty-span">
+              <ion-icon name="add-circle"></ion-icon>
+            </span>
+          </div>
+
+          <button ion-button item-end (click)="addToCart(prddata.id)">Add
+            <!-- <ion-icon name="add"></ion-icon> -->
+          </button>
+        </div>
+        
+         
       </ion-item>
   </ion-card>
   <ion-card *ngIf="allPrdList?.length == 0 && searchItem !=''">

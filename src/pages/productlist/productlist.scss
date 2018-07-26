@@ -50,8 +50,14 @@ page-productlist {
     // .item ion-thumbnail[item-start] p{ color: #1cb111;  font-size: 1.2rem; text-align: center;}
     // .label{margin: 0; padding: 10px 0;}
 
-    .button-default{ padding-left: 5px; font-family: 'American Typewriter'; background-color: #0032a0; border-radius: 2px; text-transform: inherit; padding: 0 0 0 0.6rem !important;  }
-    .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 5px; margin: 0 0 0 5px; }
+    .button-default{ padding: 0 1.1rem; height: 2.9rem; font-family: 'American Typewriter'; font-size: 1.5rem; background-color: #0032a0; border-radius: 2px; text-transform: inherit; }
+    // .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 5px; margin: 0 0 0 5px; }
+
+    .qty{ background-color: #e9ecef; border: 1px solid #d9d9d9;  border-radius: 3px; margin-top: 0.4rem;  display: flex; align-items: center;justify-content: space-between;}
+    .qty-span{ background-color: #e0e0e0; padding: 3px !important; }
+    .qty-span ion-icon{ font-size: 1.8rem; color: #4e555c !important;}
+
+
 
     .pt-0{padding-top: 0;}
     .pr-0{padding-right: 0;}

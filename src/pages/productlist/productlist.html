@@ -27,7 +27,26 @@
           <!-- <img src="assets/img/all-fruit.png" alt=""> -->
           <h2>{{prddata.name | limitTo:30}}</h2>
           <p text-center>${{prddata.min_price}}/{{prddata.unit_type}}</p>
-          <button ion-button (click)="addToCart(prddata.id)">Add<ion-icon name="add"></ion-icon></button>
+          <!-- <button ion-button (click)="addToCart(prddata.id)">Add<ion-icon name="add"></ion-icon></button> -->
+          <ion-row>
+            <ion-col col-6 class="pr-0">
+              <div class="qty">
+                <span class="qty-span">
+                  <ion-icon name="remove"></ion-icon>
+                </span>
+                <span>1</span>
+                <span class="qty-span">
+                  <ion-icon name="add-circle"></ion-icon>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col col-6 class="pl-0">
+              <!-- <button ion-button (click)="addToCart(subcatData.cat_id,subcatData.id)">Add </button> -->
+              <button ion-button (click)="addToCart(prddata.id)">Add
+                <!-- <ion-icon name="add"></ion-icon> -->
+              </button>
+            </ion-col>
+          </ion-row>
         </ion-item>
         
 
