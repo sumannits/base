@@ -79,8 +79,7 @@ public concat:any;
   }
 
   onchange(card){
-  
-this.card_id=card;
+    this.card_id=card;
   }
   savedcard(){
     this.serviceApi.postData({"user_id": this.id},'users/card_list').then((result:any) => {
@@ -97,6 +96,11 @@ this.card_id=card;
   }
 
   savecardpayment(){
+    let loading = this.loadingCtrl.create({
+      spinner: 'show',
+      content: 'Please Wait...'
+    });
+    loading.present();
     let param={
       "user_id":this.id,
       "amount": this.paycostamount,
@@ -109,13 +113,11 @@ this.card_id=card;
   
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
-       if(this.chekoutresult.Ack=1){
-        this.navCtrl.push('OrderListPage');
-  }
-  
+        if(this.chekoutresult.Ack=1){
+          this.navCtrl.push('OrderListPage');
+          loading.dismiss();
+        }
       });
-
-
   }
 
   savecashpayment(){
@@ -137,26 +139,22 @@ this.card_id=card;
   //console.log("savedcard",param);
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
-       if(this.chekoutresult.Ack=1){
-       
-        this.navCtrl.push('OrderListPage');
-        loading.dismiss();
-  }
-  
+        if(this.chekoutresult.Ack=1){
+          this.navCtrl.push('OrderListPage');
+          loading.dismiss();
+        }
       });
-
-
   }
 
   getMyCartCount(){
-    this.serviceApi.postData({"user_id": this.id},'users/get_quantity_count').then((result:any) => {
-      if(result.Ack == 1){
-        this.myCartCnt = result.count;
-      }
-    }, (err) => {
-    
-    }); 
-}
+      this.serviceApi.postData({"user_id": this.id},'users/get_quantity_count').then((result:any) => {
+        if(result.Ack == 1){
+          this.myCartCnt = result.count;
+        }
+      }, (err) => {
+      
+      }); 
+  }
 
 
   tost_message(msg){
@@ -193,65 +191,50 @@ this.card_id=card;
         buttons: ['Ok']
       });
       alert.present();
-    }
-    else{
-    let loading = this.loadingCtrl.create({
-      spinner: 'show',
-      content: 'Please Wait...'
-    });
-    loading.present();
+    }else{
+      let loading = this.loadingCtrl.create({
+        spinner: 'show',
+        content: 'Please Wait...'
+      });
+      loading.present();
   
-    let card = {
-      user_id:this.id,
-      name:data.user_name,
-      card_number: data.card_no,
-      expairy_month: data.exp_month,
-      expairy_year: data.exp_year,
-      cvv:data.cvv
-     };
+      let card = {
+        user_id:this.id,
+        name:data.user_name,
+        card_number: data.card_no,
+        expairy_month: data.exp_month,
+        expairy_year: data.exp_year,
+        cvv:data.cvv
+      };
   
     
-     this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
-      this.getresult = result;
+      this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
+        this.getresult = result;
       //console.log("PAYYYYRESLT",result);
-      if(this.getresult.Ack == 1)
-      {
+        if(this.getresult.Ack == 1){
         
-     let param={
-    "user_id":this.id,
-    "amount": this.paycostamount,
-    "delivery_date": this.orderdate,
-    "shipping_id":this.shipid,
-    "time":this.ordateto,
-    "payment_type":"card",
-    "card_id":this.getresult.user_savecardId
-    };
+          let param={
+            "user_id":this.id,
+            "amount": this.paycostamount,
+            "delivery_date": this.orderdate,
+            "shipping_id":this.shipid,
+            "time":this.ordateto,
+            "payment_type":"card",
+            "card_id":this.getresult.user_savecardId
+          };
 
-    this.serviceApi.postData(param,'users/card_checkout').then((result) => {
-      this.chekoutresult = result;
-     if(this.chekoutresult.Ack=1){
-      this.navCtrl.push('OrderListPage');
-}
-
-    });
-
+          this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+            this.chekoutresult = result;
+            if(this.chekoutresult.Ack=1){
+                this.navCtrl.push('OrderListPage');
+            }
+          });
          loading.dismiss();
-      }else{
-        loading.dismiss();
-        this.tost_message('Not Found')
-      }
-    
-      
-    })
-
-    
-     //})
-   //  .catch(error => console.error(error));
-
+        }else{
+          loading.dismiss();
+          this.tost_message('Not Found')
+        }
+      })
     }
-
   }
-
-
-
 }
