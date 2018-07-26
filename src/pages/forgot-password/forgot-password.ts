@@ -60,5 +60,8 @@ export class ForgotPasswordPage {
     
     }); 
   }
-
+  
+  public gotoLogin(){
+    this.navCtrl.setRoot('LoginPage');
+  }
 }

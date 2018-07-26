@@ -67,6 +67,7 @@ export class EditProfilePage {
         Validators.required,
         Validators.pattern('[0-9]{10}')
       ])),
+      position: new FormControl(''),
       city: new FormControl(''),
       address: new FormControl(''),
       about: new FormControl(''),
@@ -86,7 +87,7 @@ export class EditProfilePage {
           this.form.get('first_name').setValue(this.userDetails.first_name);
           this.form.get('last_name').setValue(this.userDetails.last_name);
           this.form.get('email').setValue(this.userDetails.email);
-          //this.form.get('paypal_email').setValue(this.userDetails.paypal_email);
+          this.form.get('position').setValue(this.userDetails.position);
           this.form.get('phone').setValue(this.userDetails.phone);
           this.form.get('city').setValue(this.userDetails.city);
           this.form.get('address').setValue(this.userDetails.address);
@@ -115,7 +116,7 @@ export class EditProfilePage {
           //message: 'You have successfully signup.Please Login.',
           message: result.msg,
           duration: 4000,
-          position: 'top'
+          position: 'bottom'
         });
         toast.present();
         this.navCtrl.setRoot('EditProfilePage');
@@ -131,60 +132,5 @@ export class EditProfilePage {
       
     });
   }
-
-
-  // presentActionSheet() {
-  //   let actionSheet = this.actionSheetCtrl.create({
-  //     enableBackdropDismiss: true,
-  //     buttons: [
-  //       {
-  //         text: 'Take a picture',
-  //         icon: 'camera',
-  //         handler: () => {
-  //           this.uploadFromCamera(this.camera.PictureSourceType.CAMERA);
-  //         }
-  //       }, {
-  //         text: 'From gallery',
-  //         icon: 'images',
-  //         handler: () => {
-  //           this.uploadFromCamera(this.camera.PictureSourceType.PHOTOLIBRARY);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   actionSheet.present();
-  // }
-
-  // uploadFromCamera(sourceType){
-
-  //   var options = {
-  //     quality: 100,
-  //     sourceType: sourceType,
-  //     saveToPhotoAlbum: false,
-  //     correctOrientation: true
-  //   };
-   
-  //   // Get the data of an image
-  //   this.camera.getPicture(options).then((imagePath) => {
-  //     // Special handling for Android library
-  //     if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-  //       this.filePath.resolveNativePath(imagePath)
-  //         .then(filePath => {
-  //           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-  //           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-  //           this.copyFileToLocalDir(correctPath, currentName, this.createFileName(currentName));
-  //         });
-  //     } else {
-  //       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-  //       var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-  //       this.copyFileToLocalDir(correctPath, currentName, this.createFileName(currentName));
-  //     }
-  //   }, (err) => {
-  //     this.presentToast('Error while selecting image.');
-  //   });
-
-  // }
-
-  
 
 }

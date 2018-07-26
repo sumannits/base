@@ -176,7 +176,7 @@
               Status
             </button> 
           <p>{{orderlist.order_date|  date:'dd-MM-yyyy'}}</p>-->
-          <p>Special Note: {{orderlist.spacial_note}}</p>
+          <p class="sp_note" *ngIf="orderlist.spacial_note != null"><span>Special Note:</span> {{orderlist.spacial_note}}</p>
           
           <ion-row class="top-brdr">
             <ion-col col-6 class="p-b">
