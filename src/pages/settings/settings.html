@@ -1,45 +1,46 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>{{ pageTitle }}</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Change Password</ion-title>
+    </ion-navbar>
 </ion-header>
 
+
 <ion-content>
-
-  <form [formGroup]="form" *ngIf="settingsReady">
-    <ion-list *ngIf="page == 'main'">
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION1' | translate }}</ion-label>
-        <ion-toggle formControlName="option1"></ion-toggle>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION2' | translate }}</ion-label>
-        <ion-input formControlName="option2"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION3' | translate }}</ion-label>
-        <ion-select formControlName="option3">
-          <ion-option value="1" checked="true">1</ion-option>
-          <ion-option value="2">2</ion-option>
-          <ion-option value="3">3</ion-option>
-        </ion-select>
-      </ion-item>
-
-      <button ion-item [navPush]="subSettings" [navParams]="profileSettings">
-        {{ 'SETTINGS_PROFILE_BUTTON' | translate }}
-      </button>
-    </ion-list>
-
-    <ion-list *ngIf="page == 'profile'">
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
-        <ion-input formControlName="option4"></ion-input>
-      </ion-item>
-    </ion-list>
-  </form>
-
-</ion-content>
+    <ion-card>
+      <form [formGroup]="form" #editPrfForm="ngForm">
+        <ion-item>
+          <ion-label stacked>Password</ion-label>
+          <ion-input type="password" formControlName="pass" placeholder="Password" ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container >
+            <div class="error-message" *ngIf="form.get('pass').hasError('required')">
+                Password required.
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label stacked>Confirm Password</ion-label>
+          <ion-input type="password" formControlName="cpass" placeholder="Confirm Password"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container >
+            <div class="error-message" *ngIf="form.get('cpass').hasError('required')">
+                Confirm Password required.
+            </div>
+            <div class="error-message" *ngIf="!pwsCheck">
+             Password and Confirm Password does not match.
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <button ion-button block [disabled]="!editPrfForm.valid" (click)="updatePassword(form.value)">Submit</button>
+        </ion-item>
+      </form>
+    </ion-card>
+  
+  </ion-content>
+  

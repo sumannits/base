@@ -52,10 +52,10 @@ export class CheckoutPage {
           Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
           Validators.required
         ])),
-        email: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-        ])),
+        // email: new FormControl('', Validators.compose([
+        //   Validators.required,
+        //   Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        // ])),
         phone: new FormControl('', Validators.compose([
           Validators.required,
           Validators.pattern('[0-9]{10}')
@@ -91,7 +91,7 @@ export class CheckoutPage {
     if(this.loginUserId > 0){
       this.getMyCartCount();
       this.form.get('name').setValue(this.loginUserDet.first_name +' '+this.loginUserDet.last_name);
-      this.form.get('email').setValue(this.loginUserDet.email);
+      //this.form.get('email').setValue(this.loginUserDet.email);
     }
   
   }
@@ -178,7 +178,7 @@ export class CheckoutPage {
     this.form.get('id').setValue(fdata.id);
     this.form.get('save_as').setValue(fdata.save_as);
     this.form.get('name').setValue(fdata.name);
-    this.form.get('email').setValue(fdata.email);
+    //this.form.get('email').setValue(fdata.email);
     this.form.get('phone').setValue(fdata.phone);
     this.form.get('zip').setValue(fdata.zip);
     this.form.get('address').setValue(fdata.address);

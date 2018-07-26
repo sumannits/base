@@ -95,7 +95,7 @@ public loguserDet:any;
           }
           firebase.auth().signInWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)
           .then(res => {
-             console.log("firebase",res);
+             //console.log("firebase",res);
           })
           .catch(err => {
             firebase.auth().createUserWithEmailAndPassword(CheckvalidEmail, CheckvalidEmail)
@@ -162,5 +162,9 @@ public loguserDet:any;
 
   public gotoSignupPage(){
     this.navCtrl.setRoot('SignupPage');
+  }
+  
+  public forgotPassword(){
+    this.navCtrl.setRoot('ForgotPasswordPage');
   }
 }

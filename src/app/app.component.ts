@@ -260,9 +260,10 @@ export class MyApp {
   }
 
   public getUnreadMsgCnt(nRoomId:any, userData:any){
+    //console.log(nRoomId);
     this.chatCntlist = [];
     const messages1 = this.db.collection('livechat', ref => { 
-      return ref.where('room_id', '==', nRoomId).where("to_is_read", "==", false);
+      return ref.where('room_id', '==', nRoomId).where("to_is_read", "==", false).where("to_user_id", "==", this.loguserDet.id);
     }).snapshotChanges().map(actions => { 
       return actions.map(action => { 
         const data1 = action.payload.doc.data();
