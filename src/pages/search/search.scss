@@ -19,14 +19,21 @@ page-search {
     .item h2{ font-size: 1.3rem; font-weight: 600; font-family: 'Open Sans', sans-serif; text-overflow: normal; white-space: normal; word-wrap: break-all;}
     .item p{font-size: 1.2rem; font-weight: 400; font-family: 'Open Sans', sans-serif;}
     // .label{margin-top: 0;}
-    .item .item-button{ padding: 0; margin: 0; border-radius: 3px; }
+    .item .item-button{ padding: 0; margin: 0; border-radius: 3px; width: 100%; background: #0032a0; }
     .item h4{font-weight: 700; color: #000000; font-family: 'Open Sans', sans-serif; font-size: 1.2rem;}
     .item h4 .line-through{ color: #7d7d7d; text-decoration: line-through; margin-left: 16px;}
     .item ion-thumbnail[item-start] p{ color: #1cb111; font-size: 1.1rem; font-size: 1.1rem; text-align: center;}
     .label{margin: 0; padding: 10px 0;}
 
     .button-default .button-inner{ padding-left: 5px; }
-    .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 5px; margin: 0 0 0 5px; }
+    // .button-default .button-inner .icon{ background: #001a53; display: inline-block; padding: 5px; margin: 0 0 0 5px; }
+    .item [item-end]{ margin: 8px 0 !important; }
+
+    .qty{ background-color: #e9ecef; border: 1px solid #d9d9d9;  border-radius: 3px; margin-top: 0.4rem;  display: flex; align-items: center;justify-content: space-between;}
+    .qty-span{ background-color: #e0e0e0; padding: 3px !important; }
+    .qty-span ion-icon{ font-size: 1.8rem; color: #4e555c !important;}
+
+
 
     .pt-0{padding-top: 0;}
     .pr-0{padding-right: 0;}

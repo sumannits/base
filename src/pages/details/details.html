@@ -39,7 +39,20 @@
         </ion-col>
         <ion-col col-4>
           <div class="item-rt">
-             <button ion-button block (click)="addToCart(prdDetails?.id)">Add <ion-icon name="add"></ion-icon> </button> 
+            <div class="qty">
+              <span class="qty-span">
+                <ion-icon name="remove"></ion-icon>
+              </span>
+              <span>1</span>
+              <span class="qty-span">
+                <ion-icon name="add-circle"></ion-icon>
+              </span>
+            </div>
+
+            
+             <button ion-button block (click)="addToCart(prdDetails?.id)">Add 
+               <!-- <ion-icon name="add"></ion-icon>  -->
+              </button> 
           </div>
         </ion-col>
       </ion-row>
