@@ -12,6 +12,7 @@ export class SearchPage {
   public loginUserId:number = 0;
   public myCartCnt:number = 0;
   public searchItem: string = '';
+  public prdCartQty:number = 1;
 
   constructor(
     public navCtrl: NavController,
@@ -72,14 +73,39 @@ export class SearchPage {
     this.navCtrl.push('DetailsPage',{'prd_id':prdId})
   }
 
+  decreseQtyCart(prd_list:any,catKey){
+    let currQty:number = 1;
+    if(prd_list.prd_qty_add && prd_list.prd_qty_add >1){
+      currQty = prd_list.prd_qty_add -1;
+    }else{
+      currQty =1;
+    }
+    this.allPrdList[catKey].prd_qty_add = currQty;
+    this.prdCartQty = currQty;
+  }
+
+  increseQtyCart(prd_list:any, catKey){
+    //console.log(prd_list);
+    let currQty:number = 1;
+    if(prd_list.prd_qty_add && prd_list.prd_qty_add > 0){
+      currQty = prd_list.prd_qty_add +1;
+    }else{
+      currQty =1;
+    }
+    this.allPrdList[catKey].prd_qty_add = currQty;
+    this.prdCartQty = currQty;
+    //console.log(currQty);
+  }
+
   addToCart(prdId){
     if(this.loginUserId > 0){
-      this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId},'users/addto_cart').then((result:any) => {
+      this.serviceApi.postData({"user_id":this.loginUserId, "prd_id":prdId,"prd_qty":this.prdCartQty},'users/addto_cart').then((result:any) => {
         if(result.Ack == 1){
+          this.prdCartQty = 1;
           let toast = this.toastCtrl.create({
             message: result.msg,
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
           this.getMyCartCount();
@@ -87,7 +113,7 @@ export class SearchPage {
           let toast = this.toastCtrl.create({
             message: result.msg,
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
         }
