@@ -102,14 +102,14 @@ public adminpercentage:any;
           let toast = this.toastCtrl.create({
             message: 'Cart quantity updated successfully.',
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
         }else{
           let toast = this.toastCtrl.create({
             message: 'Something wrong Please try again!',
             duration: 4000,
-            position: 'top'
+            position: 'bottom'
           });
           toast.present();
         }
@@ -140,7 +140,7 @@ public adminpercentage:any;
                 let toast = this.toastCtrl.create({
                   message: 'Cart item deleted successfully.',
                   duration: 4000,
-                  position: 'top'
+                  position: 'bottom'
                 });
                 toast.present();
               }
