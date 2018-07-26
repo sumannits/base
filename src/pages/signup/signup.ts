@@ -144,7 +144,7 @@ public getresult:any;
               }
               //console.log("PARRAMM",param);
                 this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
-                 console.log(result);
+                 //console.log(result);
                   this.getresult = result;
                   if(this.getresult.Ack == 1)
                   { 
@@ -152,7 +152,7 @@ public getresult:any;
                     let modal = this.modalCtrl.create("ModalOtpPage");
                     modal.present();
                     modal.onDidDismiss(data => {
-                      console.log(data);
+                      //console.log(data);
                       this.navCtrl.setRoot('HomePage');
                     });
              
@@ -162,7 +162,7 @@ public getresult:any;
                   }
                   
                 }, (err) => {
-                  console.log(err);
+                  //console.log(err);
                 
                 });
             
@@ -208,5 +208,7 @@ public getresult:any;
     this.navCtrl.setRoot('LoginPage');
   }
 
-
+  public forgotPassword(){
+    this.navCtrl.setRoot('ForgotPasswordPage');
+  }
 }
