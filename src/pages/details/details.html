@@ -40,11 +40,12 @@
         <ion-col col-4>
           <div class="item-rt">
             <div class="qty">
-              <span class="qty-span">
+              <span class="qty-span" (click)="decreseQtyCart(prdDetails)">
                 <ion-icon name="remove"></ion-icon>
               </span>
-              <span>1</span>
-              <span class="qty-span">
+              <span *ngIf="prdDetails?.prd_qty_add">{{prdDetails?.prd_qty_add}}</span>
+              <span *ngIf="!prdDetails?.prd_qty_add">1</span>
+              <span class="qty-span" (click)="increseQtyCart(prdDetails)">
                 <ion-icon name="add-circle"></ion-icon>
               </span>
             </div>
