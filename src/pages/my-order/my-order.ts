@@ -25,9 +25,9 @@ export class MyOrderPage {
   ionViewDidLoad() {
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     // this.usertype=loguser.utype
-     this.serviceApi.postData({"user_id": loguser.id},'users/rider_assign_orderlist').then((result) => { 
+     this.serviceApi.postData({"user_id": loguser.id,"type":"U"},'users/rider_assign_orderlist').then((result) => { 
        this.getresult = result;
-       console.log("LISTTT",this.getresult);
+       //console.log("LISTTT",this.getresult);
        if(this.getresult.Ack == 1)
        {
         

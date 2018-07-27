@@ -84,14 +84,10 @@ export class CheckoutPage {
 
   ionViewDidLoad() {
     this.paycost=this.navParams.get('Total');
-    //console.log("AMOUNTT",this.paycost)
-    //console.log("timmmmmmmee",(new Date().getHours())+4.00);
-    //console.log("timmmmmmmee",(new Date().getMinutes()));
     this.getShippingAddList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
       this.form.get('name').setValue(this.loginUserDet.first_name +' '+this.loginUserDet.last_name);
-      //this.form.get('email').setValue(this.loginUserDet.email);
     }
   
   }
@@ -132,13 +128,16 @@ export class CheckoutPage {
      this.isdateselectto=this.dateselectto;
      //console.log("DATEET",this.isdateselectto);
    }
-  goToPayment(datefrom,dateto,shipping)
-  {
-    //this.isdateselect=this.dateselect;
-    //console.log("DATEET",datefrom);
-    //console.log("DATEET",dateto);
-    //console.log("shipping",shipping);
-    this.navCtrl.push('CardPaymentPage',{'datefrom':datefrom,'dateto':dateto,'Shipment':shipping,'Payamount':this.paycost});
+  goToPayment(datefrom,dateto,shipping){
+    if(!shipping){
+      this.alertMsgFun('Please fillup the shipping address.');
+    }else if(!datefrom){
+      this.alertMsgFun('Please select the date and try again.');
+    }else if(!dateto){
+      this.alertMsgFun('Please select the time slot and try again.');
+    }else{
+      this.navCtrl.push('CardPaymentPage',{'datefrom':datefrom,'dateto':dateto,'Shipment':shipping,'Payamount':this.paycost});
+    }
   }
 
   goToCart(){
@@ -184,5 +183,27 @@ export class CheckoutPage {
     this.form.get('address').setValue(fdata.address);
     this.form.get('landmark').setValue(fdata.landmark);
     this.isEditFrm = true;
+  }
+
+  dateChanged(){
+    let selDate=this.dateselect;
+    let todayDate = new Date().toISOString();
+    todayDate = todayDate.substring(0, 10);
+    if(selDate == todayDate){
+      this.time=(new Date().getHours())+4.00;
+      this.dateselectto='';
+    }else{
+      this.time = 0;
+    }
+    //console.log(todayDate);
+  }
+
+  alertMsgFun(msg:any){
+    let alert = this.alertCtrl.create({
+      title: 'Alert!',
+      subTitle: msg ,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 }

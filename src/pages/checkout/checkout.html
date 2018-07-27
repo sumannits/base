@@ -57,7 +57,7 @@
 <ion-row>
   <ion-col col-6>
     <button ion-button class="change-btn date-btn" clear outline>
-      <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Date" [min]="minDate" [(ngModel)]="dateselect"></ion-datetime>
+      <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Date" [min]="minDate" [(ngModel)]="dateselect" (ngModelChange)="dateChanged()"></ion-datetime>
     </button>
   </ion-col>
   <ion-col col-6>

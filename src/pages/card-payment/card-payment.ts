@@ -114,7 +114,13 @@ public concat:any;
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
         if(this.chekoutresult.Ack=1){
-          this.navCtrl.push('OrderListPage');
+          let toast = this.toastCtrl.create({
+            message: 'Order has been successfully placed.',
+            duration: 4000,
+            position: 'bottom'
+          });
+          toast.present();
+          this.navCtrl.setRoot('OrderListPage');
           loading.dismiss();
         }
       });
@@ -140,7 +146,13 @@ public concat:any;
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
         if(this.chekoutresult.Ack=1){
-          this.navCtrl.push('OrderListPage');
+          let toast = this.toastCtrl.create({
+            message: 'Order has been successfully placed.',
+            duration: 4000,
+            position: 'bottom'
+          });
+          toast.present();
+          this.navCtrl.setRoot('OrderListPage');
           loading.dismiss();
         }
       });
@@ -226,7 +238,13 @@ public concat:any;
           this.serviceApi.postData(param,'users/card_checkout').then((result) => {
             this.chekoutresult = result;
             if(this.chekoutresult.Ack=1){
-                this.navCtrl.push('OrderListPage');
+              let toast = this.toastCtrl.create({
+                message: 'Order has been successfully placed.',
+                duration: 4000,
+                position: 'bottom'
+              });
+              toast.present();
+              this.navCtrl.setRoot('OrderListPage');
             }
           });
          loading.dismiss();
@@ -236,5 +254,12 @@ public concat:any;
         }
       })
     }
+  }
+  goToCart(){
+    this.navCtrl.setRoot('CartPage');
+  }
+
+  goToSearch(){
+    this.navCtrl.setRoot('SearchPage');
   }
 }
