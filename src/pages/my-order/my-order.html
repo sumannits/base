@@ -44,7 +44,7 @@
                           </button> -->
           
           </h3>
-          <p>{{order.order_date| date:'dd-MM-yyyy'}}
+          <p>{{order.order_date| date:'dd MMM yyyy'}}
             <span *ngIf="order.order_status == 'U'" class="status"> Processing </span>
             <span *ngIf="order.order_status == 'P'" class="status"> Out for Delivery </span>
             <span *ngIf="order.order_status == 'D'" class="status"> Delivered </span>

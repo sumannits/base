@@ -40,9 +40,9 @@ export class ModalTrackPage {
   }
   ionViewDidLoad() {
    this.order= this.navParams.get('orderDetails');
-   console.log("ORDERDEtailssss",this.order);
+   //console.log("ORDERDEtailssss",this.order);
    this.form.get('price').setValue(this.order.price);
-    console.log('ionViewDidLoad ModalTrackPage');
+    //console.log('ionViewDidLoad ModalTrackPage');
   }
 
   dismiss() {
@@ -53,9 +53,7 @@ export class ModalTrackPage {
    
   save(data){
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-    data.user_id=loguser.id;
-  //  data.id=this.cartId
-  console.log("PARRAMM",data);
+    data.id=this.order.id;
     this.serviceApi.postData(data,'users/change_rider_price').then((result) => { 
     //  console.log(result);
       this.getresult = result;
@@ -63,45 +61,24 @@ export class ModalTrackPage {
       {
      
        this.tost_message('Saved Successfully')
-       this.dismiss();
-       //this.navCtrl.push("MyOrderDetailPage");
+       this.navCtrl.setRoot("MyOrderDetailPage",{'order_id':this.order.order_id});
+       //this.dismiss();
       }
       else{
         this.tost_message('Not Found')
       }
     }, (err) => {
-      console.log(err);
+      //console.log(err);
       this.tost_message('Not Found')
     });
   }
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
-     message: msg,
-     duration: 3000
-   });
-   toast.present(); 
-    }
-
-  
-      // getnote(){
-  //   const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-  // let param={
-  //   "user_id": loguser.id,
-  //   "id":this.cartId
-  // }
-  //    this.serviceApi.postData(param,'users/get_cartnote').then((result) => { 
-  //    //  console.log("Result",result);
-  //      this.getresult = result;
-  //      if(this.getresult.Ack == 1)
-  //      {
-  //       this.form.controls['note'].setValue(this.getresult.cart_data[0].note);
-  //      }
-       
-  //    }, (err) => {
-  //      console.log(err);
-  //      this.tost_message('No Detail Found')
-  //    });  
-  // }
+      message: msg,
+      duration: 3000
+    });
+    toast.present(); 
+  }
 
 }

@@ -50,18 +50,20 @@ export class MyOrderDetailPage {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad MyOrderDetailPage');
     this.order=this.navParams.get('order_id');
-    //console.log('ionViewDidLoad OrderDetailPage',this.order);
+    this.getOrderDetdata();
+  }
+
+  getOrderDetdata(){
     let paramval={
       "order_id": this.order
      };
     this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => {
-      console.log(result);
-      this.getresult = result;
+        this.getresult = result;
     //console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
+        this.getresult.order_details[0].total_amount = (parseFloat(this.getresult.order_details[0].total_amount) + parseFloat(this.getresult.order_details[0].due_amt));
         this.status=this.getresult.order_details[0].order_status;
         this.restaurantLatitude = parseFloat(this.getresult.order_details[0].lati);
          this.restaurantLongitude = parseFloat(this.getresult.order_details[0].logni);
@@ -74,8 +76,7 @@ export class MyOrderDetailPage {
       this.ordershow = this.getresult.order_details;
     
        
-     }
-      else{
+     }else{
         this.tost_message('No Detail Found')
        }
       
@@ -83,6 +84,7 @@ export class MyOrderDetailPage {
       // Error log
     });
   }
+
   gotoChatDet(ordId){
     this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId});
   }
@@ -146,7 +148,7 @@ export class MyOrderDetailPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            //console.log('Cancel clicked');
           }
         },
         {
@@ -176,13 +178,10 @@ export class MyOrderDetailPage {
       ]
     });
     alert.present();
-
-
   }
 
 
   openModal(ordDet:any) {
-
     let modal = this.modalCtrl.create("ModalTrackPage",{'orderDetails':ordDet});
     modal.present();
   }
@@ -192,15 +191,50 @@ export class MyOrderDetailPage {
     modal.present();
   }
 
-  
+  isBroughtPrd(data:any, key){
+    //console.log(data);
+    let alert = this.alertCtrl.create({
+      title: 'Alert!',
+      subTitle: 'Are you sure Bought this Item?' ,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+          }
+        },
+        {
+          text: 'Ok',
+          role: 'Ok',
+          handler: () => {
+              let paramval={
+                "id": data.id,
+                "is_brought":1
+              };
+              this.serviceApi.postData(paramval,'users/isbrought_update').then((result:any) => { 
+                if(result.Ack == 1){
+                  this.ordershow[0].product_list[key].is_brought = 1;
+                  this.tost_message('Status has been updated.')
+                }else{
+                    this.tost_message('No Detail Found');
+                }
+              }, (err) => {
+              });
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
-     message: msg,
-     duration: 3000
-   });
-   toast.present(); 
-    }
+      message: msg,
+      duration: 3000
+    });
+    toast.present(); 
+  }
 
 
 }

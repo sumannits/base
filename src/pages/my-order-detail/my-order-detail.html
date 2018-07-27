@@ -58,7 +58,7 @@
       <ion-row>
         <ion-col col-1>
           <img class="green-round-b" style="margin-top:5px;" src="./assets/img/green-circle.png" alt="">
-          <div class="green-line"></div>
+          <div class="green-line" style="margin-right: 8px;"></div>
           <img class="green-round-b" src="./assets/img/green-circle.png" alt="">
         </ion-col>
         <ion-col col-11>
@@ -73,28 +73,19 @@
             <div></div> 
            </div>
           
-          <p style="line-height:inherit; margin-bottom:0;" ><!--Delivered --><ion-icon style="color:#000000 !important;" name="arrow-forward"></ion-icon> <ion-icon name="navigate" class="chat-icon item-end" *ngIf="buttonchange==1" (click)="goloc(order.id)"></ion-icon></p>
-          <span class="gray-text">{{order.delivery_date | date:'dd-mm-yyyy'}}</span>
+          <p style="line-height:inherit; margin-bottom:0;" > 
+            <ion-icon style="color:#000000 !important;" name="arrow-forward"></ion-icon> 
+            <span *ngIf="order.order_status == 'U'">Processing</span> 
+            <span *ngIf="order.order_status == 'P'">Out for delivery</span>
+            <span *ngIf="order.order_status == 'D'">Delivered</span>
+            <span *ngIf="order.order_status == 'C'">Complete</span>
+            <ion-icon name="navigate" class="chat-icon item-end" *ngIf="buttonchange==1" (click)="goloc(order.id)"></ion-icon></p>
+          <p>Order Date: <span class="gray-text">{{order.order_date | date:'dd MMM, yyyy'}}</span></p>
+
+         Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | date:'dd MMM, yyyy h:mm a'}}</span>
         </ion-col>
       </ion-row>
   
-      <!-- <ion-item class="pl-0">
-        <p item-start>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-        </p>
-      
-        <p text-uppercase item-end>Write A Review</p>
-      
-      </ion-item> -->
-      
-      <!-- <ion-item>
-        <p class="need-help" text-uppercase text-center> Need Help? </p>
-      </ion-item> -->
-       
         
         
       
@@ -113,7 +104,7 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card class="card-part" *ngFor="let orderlist of order.product_list">
+  <ion-card class="card-part" *ngFor="let orderlist of order.product_list; let key = index;">
       <ion-item>
         <ion-thumbnail item-start>
             <img src="{{orderlist.image_url}}"  alt=""/>
@@ -130,7 +121,7 @@
                         </button> -->
             
             </h3>
-            
+            <span *ngIf="orderlist.is_brought == 1" class="status"> Bought Item </span>
             <!-- <div item-end> 
                       <div><ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon></div>
                       <div><ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon></div> 
@@ -143,11 +134,8 @@
             <p class="sp_note" *ngIf="orderlist.spacial_note != null"><span>Special Note:</span> {{orderlist.spacial_note}}</p>
           </span>
           <span item-end>
-          
             <!--<ion-icon class="status-icon" name="build" (click)="openstatusModal()"></ion-icon>-->
             <ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon>
-          
-          
           </span>
         </div>
         
@@ -164,7 +152,8 @@
               <!-- <button class="close-btn" ion-button>
                   <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
                 </button> -->
-                <ion-icon class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
+                <ion-icon *ngIf="order.order_status == 'U'" class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
+                <ion-icon class="creat-icon" *ngIf="order.order_status == 'U' && orderlist.is_brought == 0" ios="ios-cart-outline" name="cart" (click)="isBroughtPrd(orderlist, key)"></ion-icon>
             </ion-col>
          
         </ion-row>
