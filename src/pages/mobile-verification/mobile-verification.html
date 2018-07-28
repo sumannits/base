@@ -51,14 +51,34 @@
         <ion-row>
           <ion-col col-4>
               <ion-item>
-                  <ion-input type="text" placeholder="Isd code"  [formControl]="isd" required></ion-input>
+                  <ion-input type="number" placeholder="Country Region Code"  [formControl]="isd" required></ion-input>
               </ion-item>
           </ion-col>
           <ion-col col-8>
               <ion-item>
-                  <ion-input type="text" placeholder="Mobile No"  [formControl]="mobileno" required></ion-input>
+                  <ion-input type="number" placeholder="Mobile No"  [formControl]="mobileno" required></ion-input>
               </ion-item>
           </ion-col>
+          <div class="validation-errors">
+            <ng-container >
+              <div class="error-message" *ngIf="form.get('isd').hasError('required')">
+                Country Region Code required.
+              </div>
+              <div class="error-message" *ngIf="form.get('isd').hasError('pattern')">
+                Please enter a number like 123 and  less than 3 digit.
+              </div>
+            </ng-container>
+          </div>
+          <div class="validation-errors">
+            <ng-container >
+              <div class="error-message" *ngIf="form.get('mobileno').hasError('required')">
+                Phone No required.
+              </div>
+              <div class="error-message" *ngIf="form.get('mobileno').hasError('pattern')">
+                Please enter a number like 12345678 and must be 10 digit.
+              </div>
+            </ng-container>
+          </div>
         </ion-row>
 
         <ion-item class="btn-lt">

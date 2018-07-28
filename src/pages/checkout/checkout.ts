@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
 /**
  * Generated class for the CheckoutPage page.
  *
@@ -95,18 +96,15 @@ export class CheckoutPage {
   getShippingAddList(){
     this.serviceApi.postData({"user_id": this.loginUserId},'users/get_shipping_addresses').then((result:any) => {
       if(result.Ack == 1){
-        this.myAddressList = result.shipping_list;
-        if(this.myAddressList.length >0){
-          //this.isEditFrm = true;
+        //this.myAddressList = result.shipping_list;
+        if(result.shipping_list.length >0){
+          this.myAddressList[0]=result.shipping_list[0];
         }
-        //console.log(this.myAddressList);
       }
     }, (err) => {
     
     }); 
   }
-
-
 
   getMyCartCount(){
       this.serviceApi.postData({"user_id": this.loginUserId},'users/get_quantity_count').then((result:any) => {
