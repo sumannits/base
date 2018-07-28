@@ -92,7 +92,8 @@
         </ion-item>
         <ion-item class="price-part">
           <p>Delivery Charges</p>
-          <h3 class="red-text" item-end> ${{adminpercentage}}</h3>
+          <h3 class="red-text" item-end *ngIf="subTot >= freeShippingCostAmt"> $0.00</h3>
+          <h3 class="red-text" item-end *ngIf="subTot < freeShippingCostAmt"> ${{adminpercentage}}</h3>
         </ion-item>
         <!-- <ion-item class="price-part">
           <p>Your Total Savings</p>

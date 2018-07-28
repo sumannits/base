@@ -18,12 +18,13 @@ export class CartPage {
   public loginUserId:number = 0;
   public subTot:number = 0;
   public prdActTot:number = 0;
-  public DeliveryCharge:number = 25.00;
+  public DeliveryCharge:number = 0;
   public userCartList = [];
   public alltotal:any;
-public response:any;
-public siteresults:any;
-public adminpercentage:any;
+  public response:any;
+  public siteresults:any;
+  public adminpercentage:any;
+  public freeShippingCostAmt:number = 0;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -41,6 +42,7 @@ public adminpercentage:any;
   }
 
   ionViewDidLoad() {
+    this.getdata();
     if(this.loginUserId == 0){
       let toast = this.toastCtrl.create({
         message: 'Please login first.',
@@ -52,13 +54,10 @@ public adminpercentage:any;
     }else{
       this.getMyCartList();
     }
-
-    this.getdata();
   }
 
-  goToCheckout(total,charge)
-  {
-    this.alltotal=parseInt(total)+parseInt(charge);
+  goToCheckout(total,charge){
+    this.alltotal=parseFloat(total)+parseFloat(charge);
     this.navCtrl.push('CheckoutPage',{'Total':this.alltotal});
   }
 
@@ -75,6 +74,12 @@ public adminpercentage:any;
        // console.log("cartlisttttt",this.userCartList);
         this.subTot = result.sub_tot;
         this.prdActTot = result.act_price;
+        if(this.subTot >= this.freeShippingCostAmt){
+          this.DeliveryCharge = 0;
+        }else{
+          this.DeliveryCharge = parseFloat(this.adminpercentage);
+        }
+        
       }
     }, (err) => {
     
@@ -162,14 +167,14 @@ public adminpercentage:any;
       {
         this.siteresults =  this.response.site_settings;
         this.adminpercentage=this.siteresults[0].admin_percentage;
-        //console.log('PPPPPPP',this.siteresults);
+        this.freeShippingCostAmt=this.siteresults[0].partner_percentage;
       }
       else
       {
         this.siteresults = '';
       }
     }, (err) => {
-      //console.log(err);
+      //console.log(11err);
       // Error log
     });
 

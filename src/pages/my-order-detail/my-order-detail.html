@@ -79,7 +79,7 @@
             <span *ngIf="order.order_status == 'P'">Out for delivery</span>
             <span *ngIf="order.order_status == 'D'">Delivered</span>
             <span *ngIf="order.order_status == 'C'">Complete</span>
-            <ion-icon name="navigate" class="chat-icon item-end" *ngIf="buttonchange==1" (click)="goloc(order.id)"></ion-icon></p>
+            <ion-icon name="navigate" class="chat-icon item-end" *ngIf="order.order_status == 'P'" (click)="goloc(order.id)"></ion-icon></p>
           <p>Order Date: <span class="gray-text">{{order.order_date | date:'dd MMM, yyyy'}}</span></p>
 
          Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | date:'dd MMM, yyyy h:mm a'}}</span>

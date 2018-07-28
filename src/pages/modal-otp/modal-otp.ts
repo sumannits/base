@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
-import { IonicPage, NavController, NavParams,ToastController,Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,Platform, LoadingController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
 declare var SMS:any;
@@ -23,50 +23,58 @@ export class ModalOtpPage {
   public orderdetail:any;
   public form:FormGroup;
   public otp:any;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder,public androidPermissions: AndroidPermissions,public platform:Platform) {
+  public getFrmPageName:any;
+  public phoneLoginUserId:any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public serviceApi: Api,
+    public toastCtrl:ToastController,
+    private builder:FormBuilder,
+    public loadingCtrl:LoadingController,
+    public androidPermissions: AndroidPermissions,
+    public platform:Platform
+  ) {
   
     this.form = builder.group({  
       'otp': ['', Validators.compose([Validators.required])]
     });
-
     this.otp = this.form.controls['otp'];
-  
-  
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ModalOtpPage');
+    this.getFrmPageName = this.navParams.get('fromPage');
     this.ReadSMS();
     //let text = 'Hey! This is your otp : 1258 no for Base mobile verification';
-    
+    this.phoneLoginUserId = localStorage.getItem('phoneLoginUserId');
+    //console.log(this.getFrmPageName);
+    //console.log(this.phoneLoginUserId);
   }
 
 
-  ionViewWillEnter()
-{
+ionViewWillEnter(){
   if (this.platform.is('cordova')) {
-this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-  success => console.log('Permission granted'),
-err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-);
-
-this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+      success => console.log('Permission granted'),
+    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+    );
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
   }
 }
 
-ReadSMS()
-{
+ReadSMS(){
   if (this.platform.is('cordova')) {
-this.platform.ready().then((readySource) => {
+    this.loadingCustomModal('open');
+    this.platform.ready().then((readySource) => {
 
-if(SMS) SMS.startWatch(()=>{
-           console.log('watching started');
-        }, Error=>{
-       console.log('failed to start watching');
-   });
+    if(SMS) SMS.startWatch(()=>{
+              //console.log('watching started');
+            }, Error=>{
+          //console.log('failed to start watching');
+      });
 
-  document.addEventListener('onSMSArrive', (e:any)=>{
+    document.addEventListener('onSMSArrive', (e:any)=>{
        let sms = e.data;
        let splitstring =sms.body;
        if(splitstring!=''){
@@ -77,60 +85,71 @@ if(SMS) SMS.startWatch(()=>{
               getOtp.forEach(element => {
                 if(element!='' && parseInt(element)){
                   this.form.controls['otp'].setValue(element);
+                  this.loadingCustomModal('close');  
                 }
               });
             }
           }
        }
-       //console.log("SMSMMS",sms.body);
-       //this.form.controls['otp'].setValue(sms);
-
+      
        });
-     
     });
-}
+  }
 }
  
 dismiss() {
-  // this.viewCtrl.dismiss();
   this.navCtrl.pop();
- 
- }
-  verify(data){
+}
+
+verify(data){
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
-    data.user_id=loguser.id;
+    if(this.getFrmPageName == 'LoginPhonePage'){
+      data.user_id=this.phoneLoginUserId;
+    }else{
+      data.user_id=loguser.id;
+    }
     data.otp=data.otp.trim();
-    this.serviceApi.postData(data,'users/phone_checkotp').then((result) => { 
-      console.log(result);
-      this.getresult = result;
-      if(this.getresult.Ack == 1)
-      {
-        this.tost_message('Signup Successful');
-       
-        this.dismiss();
-       
-   
-      }
-      else{
+    this.serviceApi.postData(data,'users/phone_checkotp').then((result:any) => { 
+      //console.log(result);
+      if(result.Ack == 1){
+        if(this.getFrmPageName == 'LoginPhonePage'){
+          localStorage.setItem('phoneLoginUserId', '');
+          let userId= result.user_details.id
+          localStorage.setItem('userPrfDet', JSON.stringify(result.user_details));
+          //console.log(result.user_details);
+          localStorage.setItem('isUserLogedin', '1');
+          this.tost_message('You have successful login with your phone no.');
+          this.navCtrl.setRoot('HomePage');
+        }else{
+          this.tost_message('Signup Successful');
+          this.navCtrl.setRoot('LoginPage');
+          //this.dismiss();
+        }
+      }else{
         this.tost_message('Not Found');
       }
-      
     }, (err) => {
-      console.log(err);
-    
+      
     });
-
-
-  }
+}
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
-     message: msg,
-     duration: 3000
-   });
-   toast.present(); 
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present(); 
+  }
+
+  loadingCustomModal(type:any){
+    let loading = this.loadingCtrl.create({
+      content: 'Please Wait...'
+    });
+    if(type == 'open'){
+      loading.present();
+    }else{
+      loading.dismiss();
     }
-
-  
-
+  }
 }

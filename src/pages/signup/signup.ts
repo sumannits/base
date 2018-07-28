@@ -25,9 +25,9 @@ export class SignupPage {
   public password: AbstractControl;
   public cpassword: AbstractControl;
   public isd:AbstractControl;
-public concat:any;
-public userid:any;
-public getresult:any;
+  public concat:any;
+  public userid:any;
+  public getresult:any;
   public isFrmValid:boolean = true;
    
 
@@ -63,7 +63,6 @@ public getresult:any;
 
   doSignup(val : any) {
     let loading = this.loadingCtrl.create({
-      spinner: 'show',
       content: 'Please Wait...'
     });
     loading.present();
@@ -130,14 +129,7 @@ public getresult:any;
           this.concat=this.isd.value.toString()+this.phone.value.toString();
           const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
           this.userid=loguser.id;
-          // let toast = this.toastCtrl.create({
-          //   //message: 'You have successfully signup.Please Login.',
-          //   message: result.msg,
-          //   duration: 4000,
-          //   position: 'top'
-          // });
-          // toast.present();
-         
+          let fromPage='SignupPage';
           let param={
             'user_id':this.userid,
             'phone_no':this.concat
@@ -148,8 +140,8 @@ public getresult:any;
                   this.getresult = result;
                   if(this.getresult.Ack == 1)
                   { 
-                    loading.dismiss();               
-                    let modal = this.modalCtrl.create("ModalOtpPage");
+                    loading.dismiss();    
+                    this.tost_message('You will receive a message from our system shortly.');   let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                     modal.present();
                     modal.onDidDismiss(data => {
                       //console.log(data);
