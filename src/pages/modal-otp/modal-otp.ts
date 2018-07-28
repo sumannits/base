@@ -65,7 +65,7 @@ ionViewWillEnter(){
 
 ReadSMS(){
   if (this.platform.is('cordova')) {
-    this.loadingCustomModal('open');
+    //this.loadingCustomModal('open');
     this.platform.ready().then((readySource) => {
 
     if(SMS) SMS.startWatch(()=>{
@@ -85,7 +85,7 @@ ReadSMS(){
               getOtp.forEach(element => {
                 if(element!='' && parseInt(element)){
                   this.form.controls['otp'].setValue(element);
-                  this.loadingCustomModal('close');  
+                  //this.loadingCustomModal('close');  
                 }
               });
             }
