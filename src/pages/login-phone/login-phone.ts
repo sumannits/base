@@ -62,10 +62,11 @@ export class LoginPhonePage {
             let userDet = result.user_details;
             let getUserId = userDet.id;
             localStorage.setItem('phoneLoginUserId', getUserId);
-            this.serviceApi.postData({"user_id":getUserId, "phone_no":phoneNo},'users/phone_sentotp').then((result:any) => { 
+            this.serviceApi.postData({"user_id":getUserId, "phone_no":newConcat},'users/phone_sentotp').then((result:any) => { 
                 if(result.Ack == 1){ 
                   this.loadingCustomModal('close');  
-                  this.tost_message('You will receive a message from our system shortly.');     let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
+                  this.tost_message('You will receive a message from our system shortly.');     
+                  let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                   modal.present();
                   modal.onDidDismiss(data => {
                     this.navCtrl.setRoot('HomePage');

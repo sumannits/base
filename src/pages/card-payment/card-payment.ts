@@ -224,99 +224,107 @@ export class CardPaymentPage {
           //  }
         }
       };
-      Conekta.Token.create(tokenParams, successResponseHandler, errorResponseHandler);
-      var successResponseHandler = function(token) {
-        let tockenId = token.id;
-        let card = {
-          user_id:this.id,
-          name:data.user_name,
-          card_number: data.card_no,
-          expairy_month: data.exp_month,
-          expairy_year: data.exp_year,
-          cvv:data.cvv,
-          tockenId:tockenId
-        };
-        this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
-          this.getresult = result;
-        //console.log("PAYYYYRESLT",result);
-          if(this.getresult.Ack == 1){
+      // Conekta.Token.create(tokenParams, successResponseHandler, errorResponseHandler);
+      // var successResponseHandler = function(token) {
+      //   let tockenId = token.id;
+      //   let card = {
+      //     user_id:this.id,
+      //     name:data.user_name,
+      //     card_number: data.card_no,
+      //     expairy_month: data.exp_month,
+      //     expairy_year: data.exp_year,
+      //     cvv:data.cvv,
+      //     tockenId:tockenId
+      //   };
+      //   this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
+      //     this.getresult = result;
+      //   //console.log("PAYYYYRESLT",result);
+      //     if(this.getresult.Ack == 1){
           
-            let param={
-              "user_id":this.id,
-              "amount": this.paycostamount,
-              "delivery_date": this.orderdate,
-              "shipping_id":this.shipid,
-              "time":this.ordateto,
-              "payment_type":"card",
-              "card_id":this.getresult.user_savecardId
-            };
+      //       let param={
+      //         "user_id":this.id,
+      //         "amount": this.paycostamount,
+      //         "delivery_date": this.orderdate,
+      //         "shipping_id":this.shipid,
+      //         "time":this.ordateto,
+      //         "payment_type":"card",
+      //         "card_id":this.getresult.user_savecardId
+      //       };
 
-            this.serviceApi.postData(param,'users/card_checkout').then((result) => {
-              this.chekoutresult = result;
-              if(this.chekoutresult.Ack=1){
-                let toast = this.toastCtrl.create({
-                  message: 'Order has been successfully placed.',
-                  duration: 4000,
-                  position: 'bottom'
-                });
-                toast.present();
-                this.navCtrl.setRoot('OrderListPage');
-              }
-            });
-            loading.dismiss();
-          }else{
-            loading.dismiss();
-            this.tost_message('Not Found')
-          }
-        })
-        //console.log(token);
-      };
+      //       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+      //         this.chekoutresult = result;
+      //         if(this.chekoutresult.Ack=1){
+      //           let toast = this.toastCtrl.create({
+      //             message: 'Order has been successfully placed.',
+      //             duration: 4000,
+      //             position: 'bottom'
+      //           });
+      //           toast.present();
+      //           this.navCtrl.setRoot('OrderListPage');
+      //         }
+      //       });
+      //       loading.dismiss();
+      //     }else{
+      //       loading.dismiss();
+      //       this.tost_message('Not Found')
+      //     }
+      //   })
+      //   //console.log(token);
+      // };
 
-      var errorResponseHandler = function(error) {
-        loading.dismiss();
-        if(error.message){
-          const alert = this.alertCtrl.create({
-            title: 'Error!',
-            subTitle: error.message,
-            buttons: ['OK']
-          });
-          alert.present();
-        }
-      };
-
-      // this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
-      //   this.getresult = result;
-      // //console.log("PAYYYYRESLT",result);
-      //   if(this.getresult.Ack == 1){
-        
-      //     let param={
-      //       "user_id":this.id,
-      //       "amount": this.paycostamount,
-      //       "delivery_date": this.orderdate,
-      //       "shipping_id":this.shipid,
-      //       "time":this.ordateto,
-      //       "payment_type":"card",
-      //       "card_id":this.getresult.user_savecardId
-      //     };
-
-      //     this.serviceApi.postData(param,'users/card_checkout').then((result) => {
-      //       this.chekoutresult = result;
-      //       if(this.chekoutresult.Ack=1){
-      //         let toast = this.toastCtrl.create({
-      //           message: 'Order has been successfully placed.',
-      //           duration: 4000,
-      //           position: 'bottom'
-      //         });
-      //         toast.present();
-      //         this.navCtrl.setRoot('OrderListPage');
-      //       }
+      // var errorResponseHandler = function(error) {
+      //   loading.dismiss();
+      //   if(error.message){
+      //     const alert = this.alertCtrl.create({
+      //       title: 'Error!',
+      //       subTitle: error.message,
+      //       buttons: ['OK']
       //     });
-      //    loading.dismiss();
-      //   }else{
-      //     loading.dismiss();
-      //     this.tost_message('Not Found')
+      //     alert.present();
       //   }
-      // })
+      // };
+
+      let card = {
+            user_id:this.id,
+            name:data.user_name,
+            card_number: data.card_no,
+            expairy_month: data.exp_month,
+            expairy_year: data.exp_year,
+            cvv:data.cvv
+          };
+      this.serviceApi.postData(card,'users/add_card').then((result) => { //console.log(result);
+        this.getresult = result;
+      //console.log("PAYYYYRESLT",result);
+        if(this.getresult.Ack == 1){
+        
+          let param={
+            "user_id":this.id,
+            "amount": this.paycostamount,
+            "delivery_date": this.orderdate,
+            "shipping_id":this.shipid,
+            "time":this.ordateto,
+            "payment_type":"card",
+            "card_id":this.getresult.user_savecardId
+          };
+
+          this.serviceApi.postData(param,'users/card_checkout').then((result) => {
+            this.chekoutresult = result;
+            if(this.chekoutresult.Ack=1){
+              let toast = this.toastCtrl.create({
+                message: 'Order has been successfully placed.',
+                duration: 4000,
+                position: 'bottom'
+              });
+              toast.present();
+              this.navCtrl.setRoot('OrderListPage');
+            }
+          });
+         loading.dismiss();
+        }else{
+          loading.dismiss();
+          this.tost_message('Not Found')
+        }
+      })
     }
   }
   goToCart(){
