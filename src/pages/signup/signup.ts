@@ -4,7 +4,7 @@ import { IonicPage, NavController, ToastController, AlertController,ModalControl
 import { Api } from '../../providers';
 import { FormControl, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
-
+import { Facebook } from '@ionic-native/facebook';
 
 @IonicPage()
 @Component({
@@ -29,7 +29,8 @@ export class SignupPage {
   public userid:any;
   public getresult:any;
   public isFrmValid:boolean = true;
-   
+  public loadingConst:any; 
+  public faceBookUId:any; 
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class SignupPage {
     public translateService: TranslateService,
     public modalCtrl: ModalController,
     public loadingCtrl:LoadingController,
+    private fb:Facebook,
     public serviceApi: Api
   ) {
 
@@ -72,8 +74,34 @@ export class SignupPage {
     let CheckvalidEmail = this.email.value.toString();
     CheckvalidEmail.trim();
     let isValidEmail = this.validateEmail(CheckvalidEmail);
-
-    if(password==cpassword && isValidEmail){
+    if(this.faceBookUId!=''){
+      let signupJsonData={
+        "first_name": this.first_name.value.toString(),
+        "last_name": this.last_name.value.toString(),
+        "email": CheckvalidEmail,
+        "password": this.password.value.toString(),
+        "user_type":1,
+        "is_active": 1,
+        "phone": this.phone.value.toString(),
+        "is_email_verified": 1,
+        "fb_user_id": this.faceBookUId,
+        //"deviceType": this.device.platform
+      };
+      
+      this.userService.postData(signupJsonData,'users/facebook_signup').then((result:any) => {
+        if(result.Ack == 1){
+          localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          //console.log("USERRR",localStorage.getItem('userPrfDet'));
+          localStorage.setItem('isUserLogedin', '1');
+          this.loadingCustomModal('close');
+          this.tost_message('You have successfully login.');   
+          this.navCtrl.setRoot('HomePage');
+        }
+        loading.dismiss();
+      }, (err) => {
+        loading.dismiss();
+      });
+    }else if(password==cpassword && isValidEmail){
       this.userService.postData({"email":CheckvalidEmail},'users/appsearchbyemail').then((result:any) => {
         if(result.Ack == 1){
           this.isFrmValid=false;
@@ -109,7 +137,7 @@ export class SignupPage {
       alert.present();
     }
 
-    if (this.form.valid && this.isFrmValid) {
+    if (this.form.valid && this.isFrmValid && this.faceBookUId=='') {
       let signupJsonData={
         "first_name": this.first_name.value.toString(),
         "last_name": this.last_name.value.toString(),
@@ -162,22 +190,12 @@ export class SignupPage {
 
           //this.navCtrl.setRoot('LPage');
         }else{
-          // let alert = this.alertCtrl.create({
-          //   title: 'Error!',
-          //   subTitle: 'Something wrong.Please try again.' ,
-          //   buttons: ['Ok']
-          // });
-          // alert.present();
+          
           loading.dismiss();  
         }
       }, (err) => {
         loading.dismiss();
-        // let alert = this.alertCtrl.create({
-        //   title: 'Error!',
-        //   subTitle: this.jsonErrMsg.messageData(err),
-        //   buttons: ['Ok']
-        // });
-        // alert.present();
+        
       });
     }
   }
@@ -202,5 +220,64 @@ export class SignupPage {
 
   public forgotPassword(){
     this.navCtrl.setRoot('ForgotPasswordPage');
+  }
+
+  facebookSignIn(){
+    this.fb.login(['public_profile', 'email']).then(res => {
+        if(res.status === "connected") {
+          console.log(res.authResponse);
+          //this.isLoggedIn = true;
+          this.getFacebookUserDetail(res.authResponse.userID);
+        } else {
+          //this.isLoggedIn = false;
+        }
+    }).catch(e => 
+      console.log('Error logging into Facebook', e)
+    );
+  }
+
+
+  getFacebookUserDetail(userid) {
+    this.loadingCustomModal('open');
+    this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"]).then(res => {
+      let usersFData = res;
+      this.serviceApi.postData({"app_id":userid,"login_type":"fb"},'users/facebook_logincheck').then((result:any) => { 
+       
+         if(result.Ack == 1){ 
+          localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          //console.log("USERRR",localStorage.getItem('userPrfDet'));
+          localStorage.setItem('isUserLogedin', '1');
+          this.loadingCustomModal('close');
+          this.tost_message('You have successfully login.');   
+          this.navCtrl.setRoot('HomePage');
+         }else{
+            this.loadingCustomModal('close');
+            this.faceBookUId = userid;
+            this.form.get('first_name').setValue(usersFData.name);
+            this.form.get('last_name').setValue(usersFData.name);
+            this.form.get('email').setValue(usersFData.email); 
+            this.form.get('password').setValue(userid); 
+            this.form.get('cpassword').setValue(userid);
+            this.tost_message(result.msg)
+         }
+       }, (err) => {
+          this.loadingCustomModal('close');
+       });
+       
+      }).catch(e => {
+        this.loadingCustomModal('close');
+        this.tost_message('No Profile Found')
+      });
+  }
+
+  loadingCustomModal(type:any){
+    if(type == 'open'){
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
+    }
   }
 }

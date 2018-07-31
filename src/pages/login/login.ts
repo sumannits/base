@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController, AlertController,NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, AlertController,NavParams,LoadingController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Device } from '@ionic-native/device';
@@ -9,6 +9,7 @@ import { HomePage } from '../home/home';
 import { ProductlistPage } from '../productlist/productlist';
 import {DetailsPage} from '../details/details';
 import * as firebase from 'firebase';
+import { Facebook } from '@ionic-native/facebook';
 
 @IonicPage()
 @Component({
@@ -25,9 +26,11 @@ export class LoginPage {
   private form: FormGroup;
   public email: AbstractControl;
   public password: AbstractControl;
-public catId:any;
-public prdId:any;
-public loguserDet:any;
+  public catId:any;
+  public prdId:any;
+  public loguserDet:any;
+  public loadingConst:any; 
+
   constructor(
     public navCtrl: NavController,
     //private device: Device,
@@ -36,6 +39,8 @@ public loguserDet:any;
     public alertCtrl: AlertController,
     public userService: Api,
     private fbuilder: FormBuilder,
+    private fb:Facebook,
+    public loadingCtrl:LoadingController,
     public translateService: TranslateService,
     private broadCastre:Broadcaster
   ) {
@@ -166,5 +171,65 @@ public loguserDet:any;
   
   public forgotPassword(){
     this.navCtrl.setRoot('ForgotPasswordPage');
+  }
+
+  facebookSignIn(){
+    this.fb.login(['public_profile', 'email']).then(res => {
+        if(res.status === "connected") {
+          console.log(res.authResponse);
+          //this.isLoggedIn = true;
+          this.getFacebookUserDetail(res.authResponse.userID);
+        } else {
+          //this.isLoggedIn = false;
+        }
+    }).catch(e => 
+      console.log('Error logging into Facebook', e)
+    );
+  }
+
+
+  getFacebookUserDetail(userid) {
+    this.loadingCustomModal('open');
+    this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"]).then(res => {
+      let usersFData = res;
+      this.userService.postData({"app_id":userid,"login_type":"fb"},'users/facebook_logincheck').then((result:any) => { 
+         if(result.Ack == 1){ 
+          localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          //console.log("USERRR",localStorage.getItem('userPrfDet'));
+          localStorage.setItem('isUserLogedin', '1');
+          this.loadingCustomModal('close');
+          this.tost_message('You have successfully login.');   
+          this.navCtrl.setRoot('HomePage');
+         }else{
+            this.loadingCustomModal('close');
+            this.tost_message(result.msg)
+         }
+       }, (err) => {
+          this.loadingCustomModal('close');
+       });
+       
+      }).catch(e => {
+        this.loadingCustomModal('close');
+        this.tost_message('No Profile Found')
+      });
+  }
+
+  loadingCustomModal(type:any){
+    if(type == 'open'){
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
+    }
+  }
+
+  tost_message(msg){
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present(); 
   }
 }

@@ -9,7 +9,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
-//import { AboutPage } from '../pages/about/about';
+import { Facebook } from '@ionic-native/facebook';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
 //import { HomePage } from '../pages/home/home';
@@ -99,6 +99,7 @@ const configFirebase = {
     DatePicker,
     AndroidPermissions,
     Camera,
+    Facebook,
     FileTransfer,
     FilePath,
     File,
