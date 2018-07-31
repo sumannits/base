@@ -74,15 +74,18 @@ export class OrderDetailPage {
         this.getresult = result;
         this.status=this.getresult.order_details[0].order_status;
         this.deliverydate=this.getresult.order_sub_details[0].delivery_date;
+
+        this.getresult.order_details[0].total_amount=parseFloat(this.getresult.order_details[0].total_amount)+parseFloat(this.getresult.order_details[0].due_amt);
         //console.log("this.deliverydate", this.deliverydate);
         this.ordershow = this.getresult.order_details;
+
         this.sevtax=this.getresult.order_details[0].service_charge;
-        this.productquantity= this.getresult.order_details[0].quantity;
-        this.productprice=this.getresult.order_details[0].price;
-        this.productshippingcost=this.getresult.order_details[0].shipping_cost;
-        this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
-        this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
-        this.paymenttype=this.getresult.order_details[0].payment_status;
+        // this.productquantity= this.getresult.order_details[0].quantity;
+        // this.productprice=this.getresult.order_details[0].price;
+        // this.productshippingcost=this.getresult.order_details[0].shipping_cost;
+        // this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
+        // this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
+        //this.paymenttype=this.getresult.order_details[0].payment_status;
         this.mobno=this.getresult.shipping_details[0].phone;
         this.destination=this.getresult.shipping_details[0].save_as;
         this.shipmentdetails=this.getresult.shipping_details[0].address;

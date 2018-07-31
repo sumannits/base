@@ -6,17 +6,17 @@
 -->
 <ion-header>
   <ion-toolbar>
-    <ion-buttons start menuToggle>
+    <!--<ion-buttons start menuToggle>
       <button ion-button icon-only color="royal">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons>-->
     <ion-title>Card Payment</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="royal">
+      <button ion-button icon-only color="royal" (click)="goToSearch()">
         <ion-icon name="search"></ion-icon>
       </button>
-      <button ion-button icon-only color="royal">
+      <button ion-button icon-only color="royal" (click)="goToCart()">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
       <div class="cart-item" *ngIf="myCartCnt > 0">{{myCartCnt}}</div>

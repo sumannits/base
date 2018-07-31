@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController,ModalController,AlertController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,ModalController,AlertController,LoadingController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 /**
@@ -46,22 +46,32 @@ export class MyOrderDetailPage {
     responseData : any;
     public isjobdone:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController, public modalCtrl: ModalController,public alertCtrl:AlertController) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public serviceApi: Api,
+    public toastCtrl:ToastController, 
+    public modalCtrl: ModalController,
+    public alertCtrl:AlertController,
+    public loadingCtrl: LoadingController
+  ) {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad MyOrderDetailPage');
     this.order=this.navParams.get('order_id');
-    //console.log('ionViewDidLoad OrderDetailPage',this.order);
+    this.getOrderDetdata();
+  }
+
+  getOrderDetdata(){
     let paramval={
       "order_id": this.order
      };
     this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => {
-      console.log(result);
-      this.getresult = result;
+        this.getresult = result;
     //console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
+        this.getresult.order_details[0].total_amount = (parseFloat(this.getresult.order_details[0].total_amount) + parseFloat(this.getresult.order_details[0].due_amt));
         this.status=this.getresult.order_details[0].order_status;
         this.restaurantLatitude = parseFloat(this.getresult.order_details[0].lati);
          this.restaurantLongitude = parseFloat(this.getresult.order_details[0].logni);
@@ -74,8 +84,7 @@ export class MyOrderDetailPage {
       this.ordershow = this.getresult.order_details;
     
        
-     }
-      else{
+     }else{
         this.tost_message('No Detail Found')
        }
       
@@ -83,6 +92,7 @@ export class MyOrderDetailPage {
       // Error log
     });
   }
+
   gotoChatDet(ordId){
     this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId});
   }
@@ -96,7 +106,8 @@ export class MyOrderDetailPage {
     this.navCtrl.push('RiderMapPage',{'order_id':id,'Latitude':this.restaurantLatitude,'Lognitude':this.restaurantLongitude});
   }
   startjourney(){
-      let alert = this.alertCtrl.create({
+    this.loadingCustomModal('open');
+    let alert = this.alertCtrl.create({
         title: 'Alert!',
         subTitle: 'Are You Want to Sure?' ,
         buttons: [
@@ -104,7 +115,7 @@ export class MyOrderDetailPage {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
-              
+              this.loadingCustomModal('close');
             }
           },
           {
@@ -117,27 +128,25 @@ export class MyOrderDetailPage {
              };
             this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
               this.getresult = result;
-             if(this.getresult.Ack == 1)
-              {
-                this.buttonchange=1;
-             //this.navCtrl.push('MyOrderDetailPage');
-             }
-              else{
-                this.tost_message('No Detail Found')
-               }
-              
+              if(this.getresult.Ack == 1){
+                this.ordershow[0].order_status = 'P';
+                this.tost_message('You have successfully start your journey');
+              }else{
+                this.tost_message('No Detail Found');
+              }
+              this.loadingCustomModal('close');
             }, (err) => {
-             
+              this.loadingCustomModal('close');
             });
             }
           }
         ]
       });
       alert.present();
- 
   }
 
   endjourney(){
+    this.loadingCustomModal('open');
     let alert = this.alertCtrl.create({
       title: 'Alert!',
       subTitle: 'Are You Want to Sure?' ,
@@ -146,7 +155,7 @@ export class MyOrderDetailPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            this.loadingCustomModal('close');
           }
         },
         {
@@ -159,30 +168,25 @@ export class MyOrderDetailPage {
            };
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
-           if(this.getresult.Ack == 1)
-            {
-              this.buttonchange=0;
-           //this.navCtrl.push('MyOrderDetailPage');
-           }
-            else{
-              this.tost_message('No Detail Found')
-             }
-            
+            if(this.getresult.Ack == 1){
+              this.ordershow[0].order_status = 'D';
+              this.tost_message('You have successfully delivered this item')
+            } else{
+              this.tost_message('No Detail Found');
+            }
+            this.loadingCustomModal('close');
           }, (err) => {
-            // Error log
+            this.loadingCustomModal('close');
           });
           }
         }
       ]
     });
     alert.present();
-
-
   }
 
 
   openModal(ordDet:any) {
-
     let modal = this.modalCtrl.create("ModalTrackPage",{'orderDetails':ordDet});
     modal.present();
   }
@@ -192,15 +196,62 @@ export class MyOrderDetailPage {
     modal.present();
   }
 
-  
+  isBroughtPrd(data:any, key){
+    //console.log(data);
+    let alert = this.alertCtrl.create({
+      title: 'Alert!',
+      subTitle: 'Are you sure Bought this Item?' ,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+          }
+        },
+        {
+          text: 'Ok',
+          role: 'Ok',
+          handler: () => {
+              let paramval={
+                "id": data.id,
+                "is_brought":1
+              };
+              this.serviceApi.postData(paramval,'users/isbrought_update').then((result:any) => { 
+                if(result.Ack == 1){
+                  this.ordershow[0].product_list[key].is_brought = 1;
+                  this.tost_message('Status has been updated.')
+                }else{
+                    this.tost_message('No Detail Found');
+                }
+              }, (err) => {
+              });
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 
   tost_message(msg){
     let toast = this.toastCtrl.create({
-     message: msg,
-     duration: 3000
-   });
-   toast.present(); 
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present(); 
+  }
+
+  loadingCustomModal(type:any){
+    let loading = this.loadingCtrl.create({
+      //spinner: 'hide',
+      //content: '<div class="custom-spinner-container"><svg viewBox="0 0 64 64" style="transform: rotate(150deg); animation-delay: -83.3333ms; animation-duration: 1000ms;"><line transform="translate(32,32)" y1="17" y2="29"></line></svg><p>Please Wait...</p></div>',
+      content: 'Please Wait...'
+    });
+    if(type == 'open'){
+      loading.present();
+    }else{
+      loading.dismiss();
     }
-
-
+  }
 }

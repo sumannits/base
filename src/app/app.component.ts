@@ -74,7 +74,7 @@ export class MyApp {
     { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
     { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', index: 2, icon: 'settings' },
     { title: 'Order List', name: 'OrderListPage', component: 'OrderListPage', index: 3, icon: 'reorder' },
-    { title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
+    //{ title: 'Notification', name: 'Notification', component: 'NotificationPage', index: 4, icon: 'notifications' },    
     { title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
     { title: 'Mobile Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
     { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
@@ -84,10 +84,11 @@ export class MyApp {
 
   withLoginPagestype: PageInterface[] = [
     { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
-    { title: 'MyOrderPage', name: 'MyOrderPage', component: 'MyOrderPage', index: 8, icon: 'reorder' },
+    { title: 'My Assign Order', name: 'My Assign Order', component: 'MyOrderPage', index: 2, icon: 'reorder' },
+    { title: 'My Progress Order', name: 'My Progress Order', component: 'RiderPackedorderPage', index: 3, icon: 'reorder' },
+    { title: 'My Complete Order', name: 'My Complete Order', component: 'RiderComorderPage', index: 4, icon: 'reorder' },
     { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
     { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
-
   ];
 
   // pages: PageInterface[] = [

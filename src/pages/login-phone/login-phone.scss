@@ -38,14 +38,12 @@ page-login-phone {
 :-moz-placeholder { /* Firefox 18- */
   color: #212121 !important; font-family: 'Open Sans', sans-serif; font-weight: 600;
 }
-
-
 ion-card-content.card-content{padding:20px}
 ion-card-content.card-content p{margin-bottom:10px}
 .item{background: none !important; border: 1px solid #d2d2d2; border-radius: 20px; margin-bottom: 5px; }
 .list > .item-block:first-child {border-top: 1px solid #e2e2e2 !important; margin-bottom:10px}
 .list > .item-block:last-child {border: 0 !important;}
-
+.error-message{ color: rgb(180, 43, 66); padding-left: 16px;}
 .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner {border-bottom: 0; box-shadow: none; }
 .item.item-input.item-input-has-focus .item-inner, .item.item-input.input-has-focus .item-inner{ border-bottom: 0; box-shadow: none; }
 .item.item-input{font-size: 1.4rem;}
