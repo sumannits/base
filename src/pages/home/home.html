@@ -60,7 +60,7 @@
 
 
 <ion-content>
-  <div class="order-now">Just Order Now </div>
+  <div class="order-now" (click)="addCustomOrder()">Add Custom Order </div>
   <ion-list>
     <ion-item class="cashback-area">
       <h1 text-center>$100 Cashback</h1>
@@ -135,7 +135,7 @@
             <div class="cart-item" *ngIf="subcatData.my_cart_qty > 0">{{subcatData.my_cart_qty}}</div>
           <img src="{{subcatData.image_url}}" alt="" (click)="goToPrdDetails(subcatData.id)" >
           <h2>{{subcatData.name}}</h2>
-          <p text-center>${{subcatData.min_price}}/{{subcatData.unit_type}}</p>
+          <p text-center>${{subcatData.min_price}}/{{subcatData.prd_unit}} {{subcatData.unit_type}}</p>
           <!-- <div class="cart-item" (click)="getMyProductCount(subcatData.id)">{{myProductCnt}}</div> -->
           <ion-row>
             <ion-col class="pr-0">

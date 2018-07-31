@@ -25,6 +25,7 @@ export class ModalOtpPage {
   public otp:any;
   public getFrmPageName:any;
   public phoneLoginUserId:any;
+  public loadingConst:any;
 
   constructor(
     public navCtrl: NavController,
@@ -65,7 +66,7 @@ ionViewWillEnter(){
 
 ReadSMS(){
   if (this.platform.is('cordova')) {
-    //this.loadingCustomModal('open');
+    this.loadingCustomModal('open');
     this.platform.ready().then((readySource) => {
 
     if(SMS) SMS.startWatch(()=>{
@@ -85,7 +86,7 @@ ReadSMS(){
               getOtp.forEach(element => {
                 if(element!='' && parseInt(element)){
                   this.form.controls['otp'].setValue(element);
-                  //this.loadingCustomModal('close');  
+                  this.loadingCustomModal('close');  
                 }
               });
             }
@@ -143,13 +144,13 @@ verify(data){
   }
 
   loadingCustomModal(type:any){
-    let loading = this.loadingCtrl.create({
-      content: 'Please Wait...'
-    });
     if(type == 'open'){
-      loading.present();
-    }else{
-      loading.dismiss();
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
     }
   }
 }
