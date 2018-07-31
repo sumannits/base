@@ -5,7 +5,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content>
+    <ion-content class="left-menu">
         <ion-list *ngIf="isloggedin === false">
             <button menuClose ion-item *ngFor="let p of withoutLoginPages" (click)="openPage(p)">
                 <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
