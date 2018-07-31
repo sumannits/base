@@ -11,7 +11,7 @@ import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
-
+import { Facebook } from '@ionic-native/facebook';
 
 export interface PageInterface {
   title: string;
@@ -106,6 +106,7 @@ export class MyApp {
   // ]
 
   constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,public db: AngularFirestore,public serviceApi: Api,
+  private fb: Facebook,
   private broadCaster:Broadcaster) {
      let isUserLogedin = localStorage.getItem('isUserLogedin');
     if (isUserLogedin == '1') {
@@ -224,7 +225,7 @@ export class MyApp {
     if (page.name == 'LogoutPage') {
       localStorage.clear();
       this.isloggedin = false;
-      // this.nav.setRoot('LoginPage');
+      this.fb.logout();
       localStorage.removeItem("isUserLogedin");
       localStorage.removeItem("userPrfDet");
       this.nav.setRoot(page.component);
