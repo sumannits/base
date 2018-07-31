@@ -21,6 +21,8 @@ export class LoginPhonePage {
   public phone: AbstractControl;
   public isd:AbstractControl;
   public isFrmValid:boolean = true;
+  public loadingConst:any;
+  
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
@@ -63,12 +65,14 @@ export class LoginPhonePage {
             let getUserId = userDet.id;
             localStorage.setItem('phoneLoginUserId', getUserId);
             this.serviceApi.postData({"user_id":getUserId, "phone_no":newConcat},'users/phone_sentotp').then((result:any) => { 
+              this.loadingCustomModal('close');
                 if(result.Ack == 1){ 
                   this.loadingCustomModal('close');  
                   this.tost_message('You will receive a message from our system shortly.');     
                   let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                   modal.present();
                   modal.onDidDismiss(data => {
+                    this.loadingCustomModal('close');
                     this.navCtrl.setRoot('HomePage');
                   });
             
@@ -104,13 +108,13 @@ export class LoginPhonePage {
   }
 
   loadingCustomModal(type:any){
-    let loading = this.loadingCtrl.create({
-      content: 'Please Wait...'
-    });
     if(type == 'open'){
-      loading.present();
-    }else{
-      loading.dismiss();
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else if(type == 'close'){
+      this.loadingConst.dismiss();
     }
   }
 }

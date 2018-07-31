@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import {MyApp} from '../../app/app.component';
 /**
@@ -28,6 +28,7 @@ export class HomePage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public serviceApi: Api,
+    public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public myApp:MyApp
@@ -169,6 +170,24 @@ export class HomePage {
 
   goToPrdDetails(prdId){
     this.navCtrl.push('DetailsPage',{'prd_id':prdId})
+  }
+
+  addCustomOrder(){
+    if(this.loginUserId > 0){
+      let modal = this.modalCtrl.create("CustomOrderPage");
+      modal.present();
+      modal.onDidDismiss(data => {
+        this.navCtrl.setRoot('HomePage');
+      });
+    }else{
+      let toast = this.toastCtrl.create({
+        message: 'Please login first.',
+        duration: 4000,
+        position: 'bottom'
+      });
+      toast.present();
+      this.navCtrl.setRoot('LoginPage');
+    }
   }
 
 }

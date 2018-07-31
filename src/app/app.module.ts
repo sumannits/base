@@ -9,11 +9,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
-import { Stripe } from '@ionic-native/stripe';
 //import { AboutPage } from '../pages/about/about';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
-//import { PopoverPage } from '../pages/about-popover/about-popover';
+//import { HomePage } from '../pages/home/home';
 //import { AccountPage } from '../pages/account/account';
 import { UserData } from '../providers/user-data';
 import { Broadcaster } from '../providers/eventEmitter';
@@ -51,6 +50,7 @@ const configFirebase = {
 @NgModule({
   declarations: [
     MyApp,
+    //HomePage
     // PopoverPage,
     // AccountPage,
     // SpeakerListPage,
@@ -78,6 +78,7 @@ const configFirebase = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    //HomePage
     // AboutPage,
     // PopoverPage,
     // AccountPage,
@@ -95,7 +96,6 @@ const configFirebase = {
     GoogleMaps,
     Geolocation,
     ConferenceData,
-    Stripe,
     DatePicker,
     AndroidPermissions,
     Camera,
