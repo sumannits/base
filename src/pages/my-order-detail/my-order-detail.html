@@ -182,7 +182,10 @@
           <span class="total-price" > Total Price </span>
           <span class="total-price">${{order.total_amount}}</span>
         </div>
-        
+        <div class="price-area" *ngIf="order.due_amt > 0" style="border-top: 1px dashed #f0f0f0;" >
+          <span class="total-price" > Due Amount </span>
+          <span class="total-price">${{order.due_amt}}</span>
+        </div>
       </ion-item>
     </ion-card-content>
   </ion-card>
