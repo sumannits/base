@@ -24,7 +24,7 @@ export class OrderListPage {
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     // this.usertype=loguser.utype
      this.serviceApi.postData({"user_id": loguser.id},'users/orderlist').then((result) => { 
-       console.log(result);
+       //console.log(result);
        this.getresult = result;
        if(this.getresult.Ack == 1)
        {

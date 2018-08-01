@@ -89,8 +89,10 @@ export class CheckoutPage {
     if(this.loginUserId > 0){
       this.getMyCartCount();
       this.form.get('name').setValue(this.loginUserDet.first_name +' '+this.loginUserDet.last_name);
+      this.form.get('phone').setValue(this.loginUserDet.phone);
+      this.form.get('zip').setValue(this.loginUserDet.position);
     }
-  
+    
   }
 
   getShippingAddList(){

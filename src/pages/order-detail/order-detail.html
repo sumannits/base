@@ -80,16 +80,16 @@
         </ion-col>
         <ion-col col-6>
           <p class="p-text align-right-p" *ngIf="order.order_status == 'U'">
-            Ordered & Approved  
+            BOUGHT  
           </p>
           <!--<p class="p-text align-right-p" *ngIf="order.order_status == 'P'">
             Processing 
           </p>-->
           <p class="p-text align-right-p" *ngIf="order.order_status == 'P'">
-            Out for Delivery 
+            PACKED
           </p>
           <p class="p-text align-right-p" *ngIf="order.order_status == 'C'">
-            Delivered
+            DELIVERED
           </p>
         </ion-col>
       </ion-row>
@@ -237,6 +237,10 @@
       <div class="sub-total">
         <span class="sub-total-text">Grand Total</span>
         <span class="price">${{order.total_amount}}</span>
+      </div>
+      <div class="sub-total" *ngIf="order.due_amt > 0">
+        <span class="sub-total-text">Due Amount</span>
+        <span class="price">${{order.due_amt}}</span>
       </div>
     </ion-item>
     
