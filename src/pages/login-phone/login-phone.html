@@ -29,6 +29,12 @@
       <p>We will send an SMS with a confirmation code to this number</p>
       <form [formGroup]="form" #loginForm="ngForm">
       <ion-list>
+        <ion-item>         
+          <ion-select [(ngModel)]="gaming">
+            <ion-option value="nes"> <img src="assets/img/ind-flag.png" alt=""> +91 India</ion-option>
+            <ion-option value="n64"> <img src="assets/img/usa-flag.png" alt=""> +1 USA</ion-option>           
+          </ion-select>
+        </ion-item>
         <ion-item>
           <ion-input type="number" placeholder="Country Region Code"  [formControl]="isd" required></ion-input>
         </ion-item>

@@ -1,7 +1,7 @@
 page-login-phone {
 
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
-    .toolbar-title{font-family: 'Open Sans', sans-serif; font-weight: 400;}
+    // @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+    .toolbar-title{ font-weight: 400;}
     ion-icon{ color: #ffffff !important;  }
     .header .toolbar{ font-size: 1.6rem; font-weight: 400;}
 
@@ -17,7 +17,7 @@ page-login-phone {
     .list > .item.btn-lt{ padding-left: 0;}
     .list > .item.btn-lt .item-inner{ padding-right: 0;}
     .list > .item.btn-lt .item-inner .input-wrapper .label{ margin-right: 0; }
-    .btn-lt .btn-area{ background-color: #0032a0 !important; height: 44px !important; font-family: 'Open Sans', sans-serif; font-weight: 600 !important; font-size: 1.6rem;}
+    .btn-lt .btn-area{ background-color: #0032a0 !important; height: 44px !important;  font-weight: 600 !important; font-size: 1.6rem;}
 
     .pl-0{ padding-left: 0;}
     .pr-0{ padding-right: 0;}
@@ -27,16 +27,16 @@ page-login-phone {
 
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #212121 !important; font-family: 'Open Sans', sans-serif; font-weight: 600;
+  color: #212121 !important; font-weight: 600;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: #212121 !important; font-family: 'Open Sans', sans-serif; font-weight: 500;
+  color: #212121 !important; font-weight: 500;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: #212121 !important; font-family: 'Open Sans', sans-serif; font-weight: 600;
+  color: #212121 !important; font-weight: 600;
 }
 :-moz-placeholder { /* Firefox 18- */
-  color: #212121 !important; font-family: 'Open Sans', sans-serif; font-weight: 600;
+  color: #212121 !important; font-weight: 600;
 }
 ion-card-content.card-content{padding:20px}
 ion-card-content.card-content p{margin-bottom:10px}
@@ -48,5 +48,9 @@ ion-card-content.card-content p{margin-bottom:10px}
 .item.item-input.item-input-has-focus .item-inner, .item.item-input.input-has-focus .item-inner{ border-bottom: 0; box-shadow: none; }
 .item.item-input{font-size: 1.4rem;}
 
+.item .item-inner .input-wrapper .label{ min-height: auto;}
+ion-select{ width: 100%; max-width: 100%;}
+.select{padding-left: 0;}
+.select-text .country-code{ padding-right: 10px !important; }
 
 }
