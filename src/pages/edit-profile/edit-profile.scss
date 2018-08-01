@@ -8,7 +8,7 @@ page-edit-profile {
 
     .content{ background: #f7f7f7;}
 
-    .item {padding: 0 16px; margin-bottom: 5px;}
+    .item {padding: 0 16px; margin-bottom: 10px;}
     .item:first-child{border-bottom: 1px solid #dedede; background: #ededed;}
     .item-inner{ padding-right: 0 !important;}
     ion-avatar[item-start]{ position: relative;}
@@ -17,13 +17,15 @@ page-edit-profile {
     .item .icon-map{ color: #404040 !important; font-size: 17px;}
     .item p{ font-size: 1.3rem; }
     .label[stacked]{font-size:1.5rem; color: #1c1c1c;}
-    .input{ border: 1px solid #dfdfdf; border-radius: 3px; padding: 0 16px; font-size: 1.4rem; font-weight: 400; color: #000000;}
+    .input{ border: 1px solid #d2d2d2; min-height: 4.4rem; display: flex; align-items: center; border-radius: 20px; padding: 0 16px; font-size: 1.5rem; font-weight: 400; color: #3b3b3b;}
     .item-label-stacked .text-input{ margin-top: 5px; margin-bottom: 5px;}
 
     .checkbox .checkbox-checked{ border-color: #0032a0; background-color: #0032a0;}
     .item .item-button{ padding: 2.2rem 0; height: 3rem !important; font-size: 1.6rem; width: 100%; background: #0032a0; font-family: 'American Typewriter'; font-weight: 400 !important; text-transform: uppercase;}
     .label{ margin-right: 0;}
-
+    .item .item-inner .input-wrapper .label{ min-height: 2rem; padding-left: 8px; font-weight: 500; color: #000000;}
+    .person-area{ width: auto;}
+    .person-area .item-inner .input-wrapper .label{ padding-left: 0 !important; }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #a5a5a5 !important;  font-weight: 300;

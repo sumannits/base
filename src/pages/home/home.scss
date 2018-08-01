@@ -65,7 +65,7 @@ ion-card-content ion-item p{text-overflow: normal; white-space: normal; word-wra
 .top-cate-area .label { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; overflow-x: scroll;  padding-bottom:0; margin-bottom: 10px; margin-right: 0; margin-top: 5px;}
 .top-cate-area .top-cate{ width: 150px;  border: 1px solid #dbdbdb; margin-right: 8px; position: relative;}
 .top-cate-area .top-cate img{ width: auto; height: 90px;}
-.top-cate-area .top-cate h2{text-align: center; white-space: normal; color: #1e1e1e; font-weight: bold; font-family: 'American Typewriter';  padding: 5px; font-size: 1.2rem;}
+.top-cate-area .top-cate h2{text-align: center; color: #1e1e1e; font-weight: bold; font-family: 'American Typewriter';  padding: 5px; font-size: 1.2rem; overflow: hidden; text-overflow: ellipsis;}
 .top-cate-area .top-cate p{ text-align: center; color: #1e1e1e; font-weight: 500;}
 
 
