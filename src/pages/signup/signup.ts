@@ -46,13 +46,13 @@ export class SignupPage {
   ) {
 
     this.form = fbuilder.group({
-      'first_name': ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]*')])],
-      'last_name': ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]*')])],
+      'first_name': ['', Validators.compose([Validators.required, Validators.pattern('([a-zA-Z])+([a-zA-Z\- ])+')])],
+      'last_name': ['', Validators.compose([Validators.required, Validators.pattern('([a-zA-Z])+([a-zA-Z\- ])+')])],
       'email': ['', Validators.compose([Validators.required,Validators.email])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10}')])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
       'cpassword': ['', Validators.compose([Validators.required])],
-      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern('^[0-9+]*$'),Validators.required])]
+      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(3),Validators.pattern('^[0-9]*'),Validators.required])]
     });
     this.first_name = this.form.controls['first_name'];
     this.last_name = this.form.controls['last_name'];
@@ -154,7 +154,7 @@ export class SignupPage {
       this.userService.postData(signupJsonData,'users/appsignup').then((result:any) => {
         if(result.Ack ==1){
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
-          this.concat=this.isd.value.toString()+this.phone.value.toString();
+          this.concat='+'+this.isd.value.toString()+this.phone.value.toString();
           const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
           this.userid=loguser.id;
           let fromPage='SignupPage';
@@ -253,8 +253,10 @@ export class SignupPage {
          }else{
             this.loadingCustomModal('close');
             this.faceBookUId = userid;
-            this.form.get('first_name').setValue(usersFData.name);
-            this.form.get('last_name').setValue(usersFData.name);
+            let nameSplt = usersFData.name;
+            var splNameStr = nameSplt.split(' ');
+            this.form.get('first_name').setValue(splNameStr[0]);
+            this.form.get('last_name').setValue(splNameStr[1]);
             this.form.get('email').setValue(usersFData.email); 
             this.form.get('password').setValue(userid); 
             this.form.get('cpassword').setValue(userid);
