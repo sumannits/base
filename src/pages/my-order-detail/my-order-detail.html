@@ -172,14 +172,18 @@
           <span>$155</span>
         </div>-->
         <div class="price-area">
-          <span>Shipping Cost</span>
+          <span>Shipping Charge</span>
           <span>MXN{{order.service_charge}}</span>
         </div>
         <div class="price-area" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Total Price </span>
           <span class="total-price">MXN{{order.total_amount}}</span>
         </div>
-        <div class="price-area" *ngIf="order.due_amt > 0" style="border-top: 1px dashed #f0f0f0;" >
+        <div class="price-area" *ngIf="order.payment_status==2" style="border-top: 1px dashed #f0f0f0;" >
+          <span class="total-price" > Due Amount </span>
+          <span class="total-price">MXN{{order.total_amount}}</span>
+        </div>
+        <div class="price-area" *ngIf="order.due_amt > 0 && order.payment_status!=2" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Due Amount </span>
           <span class="total-price">MXN{{order.due_amt}}</span>
         </div>
