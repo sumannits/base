@@ -30,7 +30,7 @@ ion-icon{ color: #ffffff !important;  }
 .rt-pic{ width: 64px;}
 .item ion-thumbnail img{ width: 82px; height: auto; height: 70px;}
 .item [item-start]{  margin-left: 16px; margin-top: 0; margin-bottom: 0; }
-.item [item-end]{ margin-left: 0; color: #000000; font-size: 1.3rem !important; font-weight: 500; }
+.item [item-end]{ margin-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; color: #000000; font-size: 1.3rem !important; font-weight: 500; }
 .item { border-bottom: 1px solid #f0f0f0; padding-left: 0; }
 .item:last-child{border-bottom: 0;}
 .need-help{ color: #000000;font-weight: 600; padding-top: 12px; }
@@ -57,11 +57,12 @@ ion-icon{ color: #ffffff !important;  }
 .status-icon{ color: #20242d !important; font-size: 2.2rem !important; margin-bottom: 1rem; margin-right: 1rem;}
 
 .pl-0{padding-left: 0;}
-.button-md{
+.button{
     height: 2.6rem;
-    font-size: 0.4rem;
+    font-size: 1.5rem;
 }
-.button-md.right-btn{   
+.button ion-icon{ margin-right: 0.5rem;}
+.button.right-btn{   
     font-size: 13px;  
 }
 p.align-right-p{
