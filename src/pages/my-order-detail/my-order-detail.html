@@ -135,8 +135,64 @@
             <ion-icon name="chatbubbles" class="chat-icon" (click)="gotoChatDet(orderlist.id)"></ion-icon>
           </span>
         </div>
-        
         <ion-row class="top-brdr">
+            <ion-col class="p-b">
+                <h4 class="font-13">Quantity :
+                    <span text-center>{{orderlist.quantity}}</span>
+                </h4>
+                
+              </ion-col>
+        </ion-row>
+        <ion-row class="top-brdr">
+            <ion-col class="p-b">
+                <h4 class="font-13">Price:
+                    <span>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</span>
+                </h4>
+                
+              </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6 *ngIf="order.order_status == 'U'">
+              <button block ion-button (click)="openModal(orderlist)"> <ion-icon name="create"></ion-icon> Edit</button>
+          </ion-col>
+          <ion-col col-6 *ngIf="order.order_status == 'U' && orderlist.is_brought == 0">
+              <button (click)="isBroughtPrd(orderlist, key)" block color="dark" ion-button> <ion-icon name="cart"></ion-icon> Cart</button>
+          </ion-col>
+        </ion-row>
+        
+
+        
+        
+        <!-- <ion-item class="top-brdr">
+            <h4 class="font-13">Quantity : <span>{{orderlist.quantity}}</span> </h4>   
+            <p item-end text-center>
+                <ion-icon *ngIf="order.order_status == 'U'" class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
+            </p>        
+        </ion-item> -->
+
+        <!-- <ion-item class="top-brdr">
+            <h4 class="font-13">Price: 
+              <span>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</span> </h4>
+              <p item-end text-center>
+                  
+                  <ion-icon class="creat-icon" *ngIf="order.order_status == 'U' && orderlist.is_brought == 0" ios="ios-cart-outline" name="cart" (click)="isBroughtPrd(orderlist, key)"></ion-icon>
+              </p>
+        </ion-item> -->
+        <!-- <ion-row class="top-brdr">
+          <ion-col col-5 text-center class="p-b">
+            <h4 class="font-13">Quantity</h4>
+            <p text-center>{{orderlist.quantity}}</p>
+          </ion-col>
+
+          <ion-col col-3 text-center class="p-b">
+              
+                <ion-icon *ngIf="order.order_status == 'U'" class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
+                <ion-icon class="creat-icon" *ngIf="order.order_status == 'U' && orderlist.is_brought == 0" ios="ios-cart-outline" name="cart" (click)="isBroughtPrd(orderlist, key)"></ion-icon>
+            </ion-col>
+         
+        </ion-row> -->
+
+        <!-- <ion-row class="top-brdr">
           <ion-col col-5 text-center class="p-b">
             <h4 class="font-13">Quantity</h4>
             <p text-center>{{orderlist.quantity}}</p>
@@ -146,14 +202,12 @@
             <p text-center>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</p>
           </ion-col>
           <ion-col col-3 text-center class="p-b">
-              <!-- <button class="close-btn" ion-button>
-                  <ion-icon name="create" (click)="openModal(orderlist)"></ion-icon>
-                </button> -->
+              
                 <ion-icon *ngIf="order.order_status == 'U'" class="creat-icon" name="create" (click)="openModal(orderlist)"></ion-icon>
                 <ion-icon class="creat-icon" *ngIf="order.order_status == 'U' && orderlist.is_brought == 0" ios="ios-cart-outline" name="cart" (click)="isBroughtPrd(orderlist, key)"></ion-icon>
             </ion-col>
          
-        </ion-row>
+        </ion-row> -->
         
       </ion-item>
     </ion-card>

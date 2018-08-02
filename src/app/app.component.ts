@@ -78,7 +78,7 @@ export class MyApp {
     //{ title: 'Share', name: 'Share', component: SpeakerListPage, index: 5, icon: 'share-alt' },
     { title: 'Mobile Verification', name: 'MobileVerificationPage', component: 'MobileVerificationPage', index: 8, icon: 'checkmark-circle' },
     { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
-    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
+    { title: 'Logout', name: 'LogoutPage', component: 'HomePage', index: 6, icon: 'log-out' }
 
   ];
 
@@ -88,7 +88,7 @@ export class MyApp {
     { title: 'My Progress Order', name: 'My Progress Order', component: 'RiderPackedorderPage', index: 3, icon: 'reorder' },
     { title: 'My Complete Order', name: 'My Complete Order', component: 'RiderComorderPage', index: 4, icon: 'reorder' },
     { title: 'Chat', name: 'ChatlistPage', component: 'ChatlistPage', index: 9, icon: 'chatbubbles' },
-    { title: 'Logout', name: 'LogoutPage', component: 'LoginPage', index: 6, icon: 'log-out' }
+    { title: 'Logout', name: 'LogoutPage', component: 'HomePage', index: 6, icon: 'log-out' }
   ];
 
   // pages: PageInterface[] = [
