@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, Keyboard } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, Keyboard,ModalController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 @IonicPage()
@@ -19,6 +19,7 @@ export class SearchPage {
     public serviceApi: Api,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
+    public modalCtrl: ModalController,
     public navParams: NavParams,
     public keyboard: Keyboard
   ) { 
@@ -140,4 +141,21 @@ export class SearchPage {
     this.navCtrl.push('CartPage');
   }
 
+  addCustomOrder(){
+    if(this.loginUserId > 0){
+      let modal = this.modalCtrl.create("CustomOrderPage");
+      modal.present();
+      modal.onDidDismiss(data => {
+        this.navCtrl.setRoot('HomePage');
+      });
+    }else{
+      let toast = this.toastCtrl.create({
+        message: 'Please login first.',
+        duration: 4000,
+        position: 'bottom'
+      });
+      toast.present();
+      this.navCtrl.setRoot('LoginPage');
+    }
+  }
 }

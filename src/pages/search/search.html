@@ -70,6 +70,7 @@
   <ion-card *ngIf="allPrdList?.length == 0 && searchItem !=''">
       <ion-item>
         <h2>No product found for "{{searchItem}}" keyword.</h2>
+        <button ion-button (click)="addCustomOrder()"> Add Custom Order </button>
       </ion-item>
   </ion-card>
 
