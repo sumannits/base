@@ -74,7 +74,8 @@ export class SignupPage {
     let CheckvalidEmail = this.email.value.toString();
     CheckvalidEmail.trim();
     let isValidEmail = this.validateEmail(CheckvalidEmail);
-    if(this.faceBookUId!=''){
+    //console.log(this.faceBookUId);
+    if(this.faceBookUId!=undefined){
       let signupJsonData={
         "first_name": this.first_name.value.toString(),
         "last_name": this.last_name.value.toString(),
@@ -137,7 +138,7 @@ export class SignupPage {
       alert.present();
     }
 
-    if (this.form.valid && this.isFrmValid && this.faceBookUId=='') {
+    if (this.form.valid && this.isFrmValid && this.faceBookUId==undefined) {
       let signupJsonData={
         "first_name": this.first_name.value.toString(),
         "last_name": this.last_name.value.toString(),
@@ -175,29 +176,22 @@ export class SignupPage {
                       //console.log(data);
                       this.navCtrl.setRoot('HomePage');
                     });
-             
-                  }
-                  else{
+                  }else{
+                    loading.dismiss();
                     this.tost_message('No Detail Found')
                   }
-                  
                 }, (err) => {
                   //console.log(err);
-                
+                  loading.dismiss();
                 });
-            
-       
-
-          //this.navCtrl.setRoot('LPage');
         }else{
-          
           loading.dismiss();  
         }
       }, (err) => {
         loading.dismiss();
         
       });
-    }
+    }  
   }
 
   tost_message(msg){

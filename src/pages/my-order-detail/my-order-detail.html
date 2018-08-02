@@ -31,6 +31,7 @@
       <ion-row>
         <ion-col col-9 class="row-lt">
           <h3>Order ID: #{{order.order_id}}</h3>
+          <h3>Payment Mode: {{(order.payment_status!=2)?'CARD':'CASH'}}</h3>
           <!--<h2> {{order.product_name}} </h2>
           <p> Black </p>-->
           <!-- <button class="close-btn" ion-button (click)="openModal()">
@@ -82,13 +83,9 @@
             <ion-icon name="navigate" class="chat-icon item-end" *ngIf="order.order_status == 'P'" (click)="goloc(order.id)"></ion-icon></p>
           <p>Order Date: <span class="gray-text">{{order.order_date | date:'dd MMM, yyyy'}}</span></p>
 
-         Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | date:'dd MMM, yyyy h:mm a'}}</span>
+         Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | date:'dd MMM, yyyy'}} {{((order.product_list[0].delivery_date | date:'H')==15?'2pm to 5pm':'11am to 2pm')}}</span>
         </ion-col>
-      </ion-row>
-  
-        
-        
-      
+      </ion-row>     
     </ion-card-content>
   </ion-card>
 
@@ -146,7 +143,7 @@
           </ion-col>
           <ion-col col-4 text-center class="p-b">
             <h4 class="font-13">Price</h4>
-            <p text-center>${{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</p>
+            <p text-center>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</p>
           </ion-col>
           <ion-col col-3 text-center class="p-b">
               <!-- <button class="close-btn" ion-button>
@@ -176,15 +173,15 @@
         </div>-->
         <div class="price-area">
           <span>Shipping Cost</span>
-          <span>${{order.service_charge}}</span>
+          <span>MXN{{order.service_charge}}</span>
         </div>
         <div class="price-area" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Total Price </span>
-          <span class="total-price">${{order.total_amount}}</span>
+          <span class="total-price">MXN{{order.total_amount}}</span>
         </div>
         <div class="price-area" *ngIf="order.due_amt > 0" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Due Amount </span>
-          <span class="total-price">${{order.due_amt}}</span>
+          <span class="total-price">MXN{{order.due_amt}}</span>
         </div>
       </ion-item>
     </ion-card-content>
