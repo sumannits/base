@@ -238,7 +238,11 @@
         <span class="sub-total-text">Grand Total</span>
         <span class="price">MXN {{order.total_amount}}</span>
       </div>
-      <div class="sub-total" *ngIf="order.due_amt > 0">
+      <div class="sub-total" *ngIf="order.payment_status==2">
+        <span class="sub-total-text">Due Amount</span>
+        <span class="price">MXN {{order.total_amount}}</span>
+      </div>
+      <div class="sub-total" *ngIf="order.due_amt > 0 && order.payment_status!=2">
         <span class="sub-total-text">Due Amount</span>
         <span class="price">MXN {{order.due_amt}}</span>
       </div>
