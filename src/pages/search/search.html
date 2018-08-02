@@ -46,7 +46,7 @@
         <p>{{prddata.description | limitTo:20}}</p>
         <!--<p>200 gm + 200 gm +200gm</p>-->
         <!-- <span *ngIf="prddata.max_price > 0">${{prddata.max_price}}</span> -->
-        <h4>${{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}  </h4>
+        <h4>MXN {{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}  </h4>
         <div item-end>
           <div class="qty">
             <span class="qty-span" (click)="decreseQtyCart(prddata,key)">

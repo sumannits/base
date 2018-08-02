@@ -63,8 +63,9 @@
   <div class="order-now" (click)="addCustomOrder()">Add Custom Order </div>
   <ion-list>
     <ion-item class="cashback-area">
-      <h1 text-center>$100 Cashback</h1>
-      <p>On your first order</p>
+      <!-- <h1 text-center>$100 Cashback</h1> -->
+      <h1  text-center>Your Groceries Delivered.</h1>
+      <p>Los Cabos Mx premium stores at your doorstep.</p>
     </ion-item>
 
 
@@ -74,12 +75,12 @@
       <ion-slide>
         <img src="assets/img/home-bnr.png" alt="">
         <div class="slide-text">
-          <h2 class="mb-0">FREE
+          <h2 text-uppercase class="mb-0">Your
             <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
-          <h2 class="mt-0">DELIVERY!</h2>  
+          <h2 text-uppercase class="mt-0">Groceries Delivered.</h2>  
         </div>
-        <p>On orders above $200</p>
-
+        <!-- <p>On orders above $200</p> -->
+        <p>Los Cabos Mx premium stores at your doorstep.</p>
       </ion-slide>
 
       <ion-slide>
@@ -135,7 +136,7 @@
             <div class="cart-item" *ngIf="subcatData.my_cart_qty > 0">{{subcatData.my_cart_qty}}</div>
           <img src="{{subcatData.image_url}}" alt="" (click)="goToPrdDetails(subcatData.id)" >
           <h2>{{subcatData.name}}</h2>
-          <p text-center>${{subcatData.min_price}}/{{subcatData.prd_unit}} {{subcatData.unit_type}}</p>
+          <p text-center>MXN {{subcatData.min_price}}/{{subcatData.prd_unit}} {{subcatData.unit_type}}</p>
           <!-- <div class="cart-item" (click)="getMyProductCount(subcatData.id)">{{myProductCnt}}</div> -->
           <ion-row>
             <ion-col class="pr-0">
