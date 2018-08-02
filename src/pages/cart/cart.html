@@ -53,7 +53,7 @@
             </button>
           </ion-col>
         </ion-row>
-        <h4 class="d-flex">${{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}
+        <h4 class="d-flex">MXN {{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}
           <!-- <span>${{prddata.max_price}}</span> -->
   
           <!-- <ion-row class="rt-btn-area">
@@ -88,12 +88,12 @@
         <ion-item class="price-part">
           <p>Sub Total</p>
           <!-- <h3 item-end> $11.98</h3> -->
-          <h3 item-end> ${{subTot}}</h3>
+          <h3 item-end> MXN {{subTot}}</h3>
         </ion-item>
         <ion-item class="price-part">
           <p>Delivery Charges</p>
-          <h3 class="red-text" item-end *ngIf="subTot >= freeShippingCostAmt"> $0.00</h3>
-          <h3 class="red-text" item-end *ngIf="subTot < freeShippingCostAmt"> ${{adminpercentage}}</h3>
+          <h3 class="red-text" item-end *ngIf="subTot >= freeShippingCostAmt"> MXN 0.00</h3>
+          <h3 class="red-text" item-end *ngIf="subTot < freeShippingCostAmt"> MXN {{adminpercentage}}</h3>
         </ion-item>
         <!-- <ion-item class="price-part">
           <p>Your Total Savings</p>
@@ -113,7 +113,7 @@
       <!--<ion-item (click)="goToCheckout()">-->
       <ion-item (click)="goToCheckout(subTot,DeliveryCharge)"> 
         <p>Checkout
-          <span>${{subTot + DeliveryCharge}}
+          <span>MXN {{subTot + DeliveryCharge}}
             <button ion-button icon-only color="royal">
               <ion-icon name="arrow-forward"></ion-icon>
             </button>

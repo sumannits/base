@@ -185,7 +185,7 @@
             </ion-col>
             <ion-col col-6  class="p-b">
               <h4 class="font-13" text-center>Price</h4>
-              <p text-center>${{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</p>
+              <p text-center>MXN {{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</p>
             </ion-col>
             
            
@@ -227,20 +227,20 @@
        -->
       <div class="sub-total">
         <span class="sub-total-text">Sub Total</span>
-        <span class="price">${{(order.total_amount)-(sevtax)}}</span>
+        <span class="price">MXN {{(order.total_amount)-(sevtax)}}</span>
       </div>
       <div class="sub-total">
           <span class="sub-total-text">Shipping Charge</span>
-          <span class="price">${{sevtax}}</span>
+          <span class="price">MXN {{sevtax}}</span>
         </div>
       
       <div class="sub-total">
         <span class="sub-total-text">Grand Total</span>
-        <span class="price">${{order.total_amount}}</span>
+        <span class="price">MXN {{order.total_amount}}</span>
       </div>
       <div class="sub-total" *ngIf="order.due_amt > 0">
         <span class="sub-total-text">Due Amount</span>
-        <span class="price">${{order.due_amt}}</span>
+        <span class="price">MXN {{order.due_amt}}</span>
       </div>
     </ion-item>
     
