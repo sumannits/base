@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController,AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,AlertController,LoadingController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { Ionic2RatingModule } from 'ionic2-rating';
 /**
@@ -44,15 +44,20 @@ export class OrderDetailPage {
   public sevtax:any;
   public deliverydate:any;
   public status:any;
-   public buttonchange:number = 0;
-   public button:any;
+  public buttonchange:number = 0;
+  public button:any;
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
-    responseData : any;
-    public isjobdone:any;
+  responseData : any;
+  public isjobdone:any;
+  public loadingConst:any;
+  public myAddressLat:any;
+  public myAddressLong:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController,public serviceApi: Api,public toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController,public serviceApi: Api,
+    public loadingCtrl: LoadingController,
+    public toastCtrl:ToastController) {
   
   this.DeliveryCharge=25.00
   }
@@ -80,17 +85,13 @@ export class OrderDetailPage {
         this.ordershow = this.getresult.order_details;
 
         this.sevtax=this.getresult.order_details[0].service_charge;
-        // this.productquantity= this.getresult.order_details[0].quantity;
-        // this.productprice=this.getresult.order_details[0].price;
-        // this.productshippingcost=this.getresult.order_details[0].shipping_cost;
-        // this.subtotal=parseInt(this.productquantity)*parseInt(this.productprice);
-        // this.grandtotal=parseInt(this.subtotal)+parseInt(this.productshippingcost);
-        //this.paymenttype=this.getresult.order_details[0].payment_status;
         this.mobno=this.getresult.shipping_details[0].phone;
         this.destination=this.getresult.shipping_details[0].save_as;
         this.shipmentdetails=this.getresult.shipping_details[0].address;
         this.shipmentzip=this.getresult.shipping_details[0].zip;
         this.landmark=this.getresult.shipping_details[0].landmark;
+        this.myAddressLat = this.getresult.shipping_details[0].lati;
+        this.myAddressLong = this.getresult.shipping_details[0].logni;
         if(this.paymenttype==3){
           this.type=0;
         }else{
@@ -134,10 +135,11 @@ export class OrderDetailPage {
   }
 
   track(){
-    this.navCtrl.push('UserMapPage',{'order_id': this.order});
+    this.navCtrl.push('UserMapPage',{'order_id': this.order,'Latitude':this.myAddressLat,'Lognitude':this.myAddressLong});
   }
 
   endtrack(){
+    this.loadingCustomModal('open');
     let alert = this.alertCtrl.create({
       title: 'Alert!',
       subTitle: 'Are You Want to Sure?' ,
@@ -146,7 +148,7 @@ export class OrderDetailPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            //console.log('Cancel clicked');
+            this.loadingCustomModal('close');
           }
         },
         {
@@ -160,17 +162,15 @@ export class OrderDetailPage {
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
           //console.log("resulttt",this.getresult);
-           if(this.getresult.Ack == 1)
-            {
+           if(this.getresult.Ack == 1){
+              this.loadingCustomModal('close');
               this.getOrderDet();
-           }
-            else{
+           }else{
+            this.loadingCustomModal('close');
               this.tost_message('No Detail Found')
-             }
-            
+            }
           }, (err) => {
-            //console.log(err);
-            // Error log
+            this.loadingCustomModal('close');
           });
           }
         }
@@ -187,8 +187,19 @@ export class OrderDetailPage {
     toast.present(); 
   }
 
-    gotoChatDet(ordId){
-      this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
+  gotoChatDet(ordId){
+    this.navCtrl.push('ChatdetailsPage',{'ordDet_id':ordId})
+  }
+
+  loadingCustomModal(type:any){
+    if(type == 'open'){
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
     }
+  }  
 
 }

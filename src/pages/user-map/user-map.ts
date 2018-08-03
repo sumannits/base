@@ -38,22 +38,27 @@ export class UserMapPage {
  markers = [];
  public getFbPId:any;
  public locations = [];
+ public userLat:number;
+ public userLong:number;
+
  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, public db: AngularFirestore) {
   this.order=this.navParams.get('order_id');
+  this.userLat=parseFloat(this.navParams.get('Latitude'));
+  this.userLong=parseFloat(this.navParams.get('Lognitude'));
   //this.getgeolocationchanges();
 }
 
   ionViewDidLoad() {
     this.order=this.navParams.get('order_id');
     this.updateTrackData(this.order);
-    console.log('ionViewDidLoad UserMapPage');
+    //console.log('ionViewDidLoad UserMapPage');
     this.initMap();
   }
 
   private updateTrackData(orderId) {
     let onlineUsersRef = firebase.database().ref('geolocations/'+ orderId);
     onlineUsersRef.on('value', (snapshot)=> {
-      console.log(snapshot.val());
+      //console.log(snapshot.val());
     //  if (snapshot.val()){
       this.lat=snapshot.val().latitude;
       this.lng=snapshot.val().longitude;
@@ -73,7 +78,7 @@ export class UserMapPage {
     this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
       let mylocation = new google.maps.LatLng(resp.coords.latitude,resp.coords.longitude);
       this.maprider = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
+        zoom: 20,
         center: mylocation,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
@@ -145,7 +150,7 @@ export class UserMapPage {
         this.locations.push(getData);
         
       }
-      console.log("LATTTTTTTTT",this.locations);
+      //console.log("LATTTTTTTTT",this.locations);
     });
     let image = 'assets/img/blue-dot.png';
  //   let updatelocation = new google.maps.LatLng(this.locations[0].latitude,this.locations[0].latitude);
@@ -161,8 +166,8 @@ export class UserMapPage {
     let directionsDisplay = new google.maps.DirectionsRenderer();
   
     directionsDisplay.setMap(this.maprider);
-        console.log("CURRENTPOS",latt);
-        console.log("CURRENTPOS",longg);
+        //console.log("CURRENTPOS",latt);
+        //console.log("CURRENTPOS",longg);
        
         var pos = {
           lat:latt,
@@ -173,15 +178,15 @@ export class UserMapPage {
         that.MyLocation = new google.maps.LatLng(pos);
      
         var posstore={
-          lat: 22.5726,
-          lng:88.3639
+          lat: this.userLat,
+          lng:this.userLong
         };
         that.Destination=new google.maps.LatLng(posstore);
        
         directionsService.route({ origin: this.MyLocation,
          destination: this.Destination,
          travelMode: google.maps.TravelMode.DRIVING}, function(response, status) {
-          console.log("DIRECTIONN",response);
+          //console.log("DIRECTIONN",response);
           if (status === 'OK') {
             directionsDisplay.setDirections(response);
           //  var leg = response.routes[ 0 ].legs[ 0 ];
@@ -191,9 +196,5 @@ export class UserMapPage {
             window.alert('Directions request failed due to ' + status);
           }
         });
-
   }
-
-
-
 }

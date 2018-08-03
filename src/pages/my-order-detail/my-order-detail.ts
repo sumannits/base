@@ -43,8 +43,9 @@ export class MyOrderDetailPage {
 //  private range:Array<number> = [1,2,3,4,5];
   public rate:any;
   public review:any;
-    responseData : any;
-    public isjobdone:any;
+  responseData : any;
+  public isjobdone:any;
+  public loadingConst:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -129,12 +130,14 @@ export class MyOrderDetailPage {
             this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
               this.getresult = result;
               if(this.getresult.Ack == 1){
+                this.loadingCustomModal('close');
                 this.ordershow[0].order_status = 'P';
                 this.tost_message('You have successfully start your journey');
               }else{
+                this.loadingCustomModal('close');
                 this.tost_message('No Detail Found');
               }
-              this.loadingCustomModal('close');
+              
             }, (err) => {
               this.loadingCustomModal('close');
             });
@@ -169,12 +172,14 @@ export class MyOrderDetailPage {
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
             if(this.getresult.Ack == 1){
+              this.loadingCustomModal('close');
               this.ordershow[0].order_status = 'D';
               this.tost_message('You have successfully delivered this item')
             } else{
+              this.loadingCustomModal('close');
               this.tost_message('No Detail Found');
             }
-            this.loadingCustomModal('close');
+            
           }, (err) => {
             this.loadingCustomModal('close');
           });
@@ -243,15 +248,13 @@ export class MyOrderDetailPage {
   }
 
   loadingCustomModal(type:any){
-    let loading = this.loadingCtrl.create({
-      //spinner: 'hide',
-      //content: '<div class="custom-spinner-container"><svg viewBox="0 0 64 64" style="transform: rotate(150deg); animation-delay: -83.3333ms; animation-duration: 1000ms;"><line transform="translate(32,32)" y1="17" y2="29"></line></svg><p>Please Wait...</p></div>',
-      content: 'Please Wait...'
-    });
     if(type == 'open'){
-      loading.present();
-    }else{
-      loading.dismiss();
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
     }
   }
 }
