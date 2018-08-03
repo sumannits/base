@@ -12,8 +12,7 @@ import { DatePicker } from '@ionic-native/date-picker';
 import { Facebook } from '@ionic-native/facebook';
 import { Api, ResponseMessage } from '../providers';
 import { MyApp } from './app.component';
-//import { HomePage } from '../pages/home/home';
-//import { AccountPage } from '../pages/account/account';
+import { Device } from '@ionic-native/device';
 import { UserData } from '../providers/user-data';
 import { Broadcaster } from '../providers/eventEmitter';
 //import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
@@ -102,6 +101,7 @@ const configFirebase = {
     Facebook,
     FileTransfer,
     FilePath,
+    Device,
     File,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },

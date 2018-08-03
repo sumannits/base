@@ -33,7 +33,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    //private device: Device,
+    private device: Device,
     public toastCtrl: ToastController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
@@ -68,8 +68,8 @@ export class LoginPage {
       let signinJsonData={
         "email": this.email.value.toString(),
         "password": this.password.value.toString(),
-        //"deviceToken": this.device.uuid,
-        //"deviceType": this.device.platform
+        "device_token_id": this.device.uuid,
+        "device_type": this.device.platform
       };
       this.userService.postData(signinJsonData,'users/appsignin').then((result:any) => {
         //console.log(result);
@@ -192,7 +192,7 @@ export class LoginPage {
     this.loadingCustomModal('open');
     this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"]).then(res => {
       let usersFData = res;
-      this.userService.postData({"app_id":userid,"login_type":"fb"},'users/facebook_logincheck').then((result:any) => { 
+      this.userService.postData({"app_id":userid,"login_type":"fb","device_token_id": this.device.uuid,"device_type": this.device.platform},'users/facebook_logincheck').then((result:any) => { 
          if(result.Ack == 1){ 
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
           //console.log("USERRR",localStorage.getItem('userPrfDet'));

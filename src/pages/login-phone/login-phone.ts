@@ -25,6 +25,7 @@ export class LoginPhonePage {
   
   constructor(
       public navCtrl: NavController,
+      private device: Device,
       public navParams: NavParams,
       private fbuilder: FormBuilder,
       public alertCtrl: AlertController,
@@ -71,10 +72,10 @@ export class LoginPhonePage {
                   this.tost_message('You will receive a message from our system shortly.');     
                   let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                   modal.present();
-                  modal.onDidDismiss(data => {
-                    this.loadingCustomModal('close');
-                    this.navCtrl.setRoot('HomePage');
-                  });
+                  // modal.onDidDismiss(data => {
+                  //   this.loadingCustomModal('close');
+                  //   this.navCtrl.setRoot('HomePage');
+                  // });
             
                 }else{
                   this.loadingCustomModal('close');

@@ -35,6 +35,7 @@ export class SignupPage {
   constructor(
     public navCtrl: NavController,
     public userService: Api,
+    private device: Device,
     private fbuilder: FormBuilder,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -172,10 +173,10 @@ export class SignupPage {
                     loading.dismiss();    
                     this.tost_message('You will receive a message from our system shortly.');   let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                     modal.present();
-                    modal.onDidDismiss(data => {
-                      //console.log(data);
-                      this.navCtrl.setRoot('HomePage');
-                    });
+                    // modal.onDidDismiss(data => {
+                    //   //console.log(data);
+                    //   this.navCtrl.setRoot('HomePage');
+                    // });
                   }else{
                     loading.dismiss();
                     this.tost_message('No Detail Found')
@@ -219,7 +220,7 @@ export class SignupPage {
   facebookSignIn(){
     this.fb.login(['public_profile', 'email']).then(res => {
         if(res.status === "connected") {
-          console.log(res.authResponse);
+          //console.log(res.authResponse);
           //this.isLoggedIn = true;
           this.getFacebookUserDetail(res.authResponse.userID);
         } else {
@@ -235,7 +236,7 @@ export class SignupPage {
     this.loadingCustomModal('open');
     this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"]).then(res => {
       let usersFData = res;
-      this.serviceApi.postData({"app_id":userid,"login_type":"fb"},'users/facebook_logincheck').then((result:any) => { 
+      this.serviceApi.postData({"app_id":userid,"login_type":"fb","device_token_id": this.device.uuid,"device_type": this.device.platform},'users/facebook_logincheck').then((result:any) => { 
        
          if(result.Ack == 1){ 
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
