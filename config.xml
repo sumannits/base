@@ -96,13 +96,10 @@
         <variable name="APP_NAME" value="Base Social Login" />
         <variable name="ANDROID_SDK_VERSION" value="4.+" />
     </plugin>
-    <plugin name="cordova-plugin-googlemaps" spec="^2.3.8">
+     <plugin name="cordova-plugin-googlemaps" spec="^2.3.8">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAS0yhJ09aHZAd9X7TBy4i6_0duz1itPcc" />
         <variable name="PLAY_SERVICES_VERSION" value="15.0.1" />
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="26.1.0" />
-    </plugin>
-    <plugin name="phonegap-plugin-push" spec="^2.2.3">
-        <variable name="SENDER_ID" value="350229533440" />
     </plugin>
     <engine name="android" spec="7.0.0" />
 </widget>

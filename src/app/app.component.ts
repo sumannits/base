@@ -7,12 +7,11 @@ import { Ionic2RatingModule } from 'ionic2-rating';
 import { AppRate } from '@ionic-native/app-rate';
 import { FirstRunPage } from '../pages';
 import { Broadcaster } from '../providers/eventEmitter';
-import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
 import { Facebook } from '@ionic-native/facebook';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 export interface PageInterface {
   title: string;
@@ -114,7 +113,7 @@ export class MyApp {
     private splashScreen: SplashScreen,
     public db: AngularFirestore,
     public serviceApi: Api,
-    public push: Push,
+    //public push: Push,
     private fb: Facebook,
     private broadCaster:Broadcaster
   ) {
@@ -185,62 +184,62 @@ export class MyApp {
   }
 
   initPushNotification() {
-    if (!this.platform.is('cordova')) {
-      console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
-      return;
-    }
-    const options: PushOptions = {
-      android: {
-        senderID: '350229533440',
-        "icon": "drawable-ldpi-icon",
-        iconColor: "#00465a"
+    // if (!this.platform.is('cordova')) {
+    //   console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
+    //   return;
+    // }
+    // const options: PushOptions = {
+    //   android: {
+    //     senderID: '350229533440',
+    //     "icon": "drawable-ldpi-icon",
+    //     iconColor: "#00465a"
           
-      },
-      ios: {
-        alert: 'true',
-        badge: false,
-        sound: 'true'
-      },
-      windows: {}
-    };
-    const pushObject: PushObject = this.push.init(options);
+    //   },
+    //   ios: {
+    //     alert: 'true',
+    //     badge: false,
+    //     sound: 'true'
+    //   },
+    //   windows: {}
+    // };
+    // const pushObject: PushObject = this.push.init(options);
     
-    pushObject.on('registration').subscribe((registration: any) => {
-      //console.log('Device registered', registration);
-      //localStorage.setItem('DEVICETOKEN', JSON.stringify(registration.registrationId));
-      localStorage.setItem('DEVICETOKEN', registration.registrationId);
-    });
+    // pushObject.on('registration').subscribe((registration: any) => {
+    //   //console.log('Device registered', registration);
+    //   //localStorage.setItem('DEVICETOKEN', JSON.stringify(registration.registrationId));
+    //   localStorage.setItem('DEVICETOKEN', registration.registrationId);
+    // });
 
-    pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
-      console.log('message -> ' + data);
-      //if user using app and push notification comes
-      // if (data.additionalData.foreground) {
-      //   // if application open, show popup
-      //   let confirmAlert = this.alertCtrl.create({
-      //     title: 'New Notification',
-      //     message: data.message,
-      //     buttons: [{
-      //       text: 'Ignore',
-      //       role: 'cancel'
-      //     }, {
-      //       text: 'View',
-      //       handler: () => {
-      //         //TODO: Your logic here
-      //         this.nav.setRoot('NotificationSettingsPage', { message: data.message });
-      //       }
-      //     }]
-      //   });
-      //   confirmAlert.present();
-      // } else {
-      //   //if user NOT using app and push notification comes
-      //   //TODO: Your logic on click of push notification directly
-      //   this.nav.setRoot('NotificationSettingsPage', {message: data.message });
-      //   //console.log('Push notification clicked');
-      // }
-    });
+    // pushObject.on('notification').subscribe((data: any) => {
+    //   console.log('message -> ' + data.message);
+    //   console.log('message -> ' + data);
+    //   //if user using app and push notification comes
+    //   // if (data.additionalData.foreground) {
+    //   //   // if application open, show popup
+    //   //   let confirmAlert = this.alertCtrl.create({
+    //   //     title: 'New Notification',
+    //   //     message: data.message,
+    //   //     buttons: [{
+    //   //       text: 'Ignore',
+    //   //       role: 'cancel'
+    //   //     }, {
+    //   //       text: 'View',
+    //   //       handler: () => {
+    //   //         //TODO: Your logic here
+    //   //         this.nav.setRoot('NotificationSettingsPage', { message: data.message });
+    //   //       }
+    //   //     }]
+    //   //   });
+    //   //   confirmAlert.present();
+    //   // } else {
+    //   //   //if user NOT using app and push notification comes
+    //   //   //TODO: Your logic on click of push notification directly
+    //   //   this.nav.setRoot('NotificationSettingsPage', {message: data.message });
+    //   //   //console.log('Push notification clicked');
+    //   // }
+    // });
 
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));  
+    // pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));  
   }
 
   menuOpened() {
