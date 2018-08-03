@@ -72,13 +72,13 @@ export class RiderMapPage {
     this.order=this.navParams.get('order_id');
     this.deliverylat=this.navParams.get('Latitude');
     this.deliverylong=this.navParams.get('Lognitude');
-    console.log('DELIVERYLATTTTTTT',  this.deliverylat);
+    //console.log('DELIVERYLATTTTTTT',  this.deliverylat);
     this.geolocation.getCurrentPosition().then((resp) => {
       this.lat = resp.coords.latitude;
       this.lng = resp.coords.longitude;
       this.initMap();
     }).catch((error) => {
-      console.log('Error getting location', error);
+      //console.log('Error getting location', error);
     });
     this.watch = this.geolocation.watchPosition();
       this.watch.subscribe((data) => {
@@ -222,8 +222,6 @@ export class RiderMapPage {
       }
     });
    
-   
-
 }
 
 makeMarker(position,icon) {

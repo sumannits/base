@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,LoadingController } from 'ionic-angular';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Api, ResponseMessage } from '../../providers';
 
@@ -24,9 +24,11 @@ export class ModalTrackPage {
   public price:any;
   public ordershow:any;
   public order:any;
-  
+  public loadingConst:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private builder:FormBuilder,public serviceApi: Api,public toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private builder:FormBuilder,public serviceApi: Api,
+    public loadingCtrl: LoadingController,
+    public toastCtrl:ToastController) {
 
     this.form = builder.group({  
       'description': ['', Validators.required],
@@ -52,6 +54,7 @@ export class ModalTrackPage {
 
    
   save(data){
+    this.loadingCustomModal('open');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.id=this.order.id;
     this.serviceApi.postData(data,'users/change_rider_price').then((result) => { 
@@ -59,16 +62,17 @@ export class ModalTrackPage {
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
-     
-       this.tost_message('Saved Successfully')
-       this.navCtrl.setRoot("MyOrderDetailPage",{'order_id':this.order.order_id});
+        this.loadingCustomModal('close');
+        this.tost_message('Saved Successfully')
+        this.navCtrl.setRoot("MyOrderDetailPage",{'order_id':this.order.order_id});
        //this.dismiss();
       }
       else{
+        this.loadingCustomModal('close');
         this.tost_message('Not Found')
       }
     }, (err) => {
-      //console.log(err);
+      this.loadingCustomModal('close');
       this.tost_message('Not Found')
     });
   }
@@ -81,4 +85,14 @@ export class ModalTrackPage {
     toast.present(); 
   }
 
+  loadingCustomModal(type:any){
+    if(type == 'open'){
+      this.loadingConst = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      this.loadingConst.present();
+    }else {
+      this.loadingConst.dismiss();
+    }
+  }
 }

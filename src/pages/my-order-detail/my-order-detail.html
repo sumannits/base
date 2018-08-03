@@ -67,7 +67,7 @@
             Ordered & Approved  
             <button ion-button class="right-btn" *ngIf="order.order_status == 'U'" (click)="startjourney()">Start Journey</button>
                                 
-            <button ion-button class="right-btn"  *ngIf="order.order_status == 'P'" (click)="endjourney()">Delivery Complete</button>
+            <button ion-button class="right-btn"  *ngIf="order.order_status == 'P'" (click)="endjourney()">Complete Delivery</button>
               <button ion-button class="right-btn" *ngIf="order.order_status == 'C'" (click)="getMyRatting(order.id)">View Ratting</button>                  
           </p>
           <div item-end> 

@@ -28,8 +28,8 @@
     <ion-item style="padding-top:16px;">
       <ion-row>
         <ion-col col-4>
-           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="order.order_status == 'P'">Track</button>
-          <button ion-button class="right-btn"   *ngIf="order.order_status == 'D'" (click)="endtrack()">Complete</button>
+           <h3> Order Id :</h3> <button ion-button class="right-btn"   *ngIf="order.order_status == 'P'" (click)="track()">Track</button>
+          <button ion-button class="right-btn" *ngIf="order.order_status == 'D'" (click)="endtrack()">Complete</button>
         </ion-col>
         <ion-col col-8>
           <p>#{{order.order_id}}</p>          
