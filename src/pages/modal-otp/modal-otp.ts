@@ -27,6 +27,7 @@ export class ModalOtpPage {
   public getFrmPageName:any;
   public phoneLoginUserId:any;
   public loadingConst:any;
+  public uuid:any;
 
   constructor(
     public navCtrl: NavController,
@@ -39,7 +40,7 @@ export class ModalOtpPage {
     public androidPermissions: AndroidPermissions,
     public platform:Platform
   ) {
-  
+    this.uuid = localStorage.getItem('DEVICETOKEN');
     this.form = builder.group({  
       'otp': ['', Validators.compose([Validators.required])]
     });
@@ -113,7 +114,7 @@ verify(data){
       data.user_id=loguser.id;
     }
     data.otp=data.otp.trim();
-    data.device_token_id=this.device.uuid;
+    data.device_token_id=this.uuid;
     data.device_type=this.device.platform;
     this.serviceApi.postData(data,'users/phone_checkotp').then((result:any) => { 
       //console.log(result);

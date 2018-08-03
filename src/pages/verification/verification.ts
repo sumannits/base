@@ -27,11 +27,12 @@ export class VerificationPage {
   public form:FormGroup;
   public otp:any;
   public mobileno:any;
+  public uuid:any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder,
     private device: Device,
     public androidPermissions: AndroidPermissions,public platform:Platform) {
-  
+      this.uuid = localStorage.getItem('DEVICETOKEN');
     this.form = builder.group({  
       'otp': ['', Validators.compose([Validators.required])]
     });
@@ -101,7 +102,7 @@ if(SMS) SMS.startWatch(()=>{
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.user_id=loguser.id;
     data.otp=data.otp.trim();
-    data.device_token_id=this.device.uuid;
+    data.device_token_id=this.uuid;
     data.device_type=this.device.platform;
     this.serviceApi.postData(data,'users/phone_checkotp').then((result) => { 
       //console.log(result);

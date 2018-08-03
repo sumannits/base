@@ -103,4 +103,7 @@
         <variable name="APP_NAME" value="Base Social Login" />
         <variable name="ANDROID_SDK_VERSION" value="4.+" />
     </plugin>
+    <plugin name="phonegap-plugin-push" spec="^1.10.6">
+        <variable name="SENDER_ID" value="85075801930" />
+    </plugin>
 </widget>

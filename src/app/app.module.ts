@@ -29,6 +29,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 export function createTranslateLoader(http: HttpClient) {
@@ -102,6 +103,7 @@ const configFirebase = {
     FileTransfer,
     FilePath,
     Device,
+    Push,
     File,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
