@@ -3,6 +3,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { IonicPage, NavController, NavParams,ToastController,Platform } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
+import { Device } from '@ionic-native/device';
 declare var SMS:any;
 //import { SMS } from '@ionic-native/sms';
 /**
@@ -27,7 +28,9 @@ export class VerificationPage {
   public otp:any;
   public mobileno:any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder,public androidPermissions: AndroidPermissions,public platform:Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public serviceApi: Api,public toastCtrl:ToastController,private builder:FormBuilder,
+    private device: Device,
+    public androidPermissions: AndroidPermissions,public platform:Platform) {
   
     this.form = builder.group({  
       'otp': ['', Validators.compose([Validators.required])]
@@ -39,7 +42,7 @@ export class VerificationPage {
   }
   ionViewDidLoad() {
     this.mobileno=this.navParams.get('phoneno');
-    console.log('ionViewDidLoad VerificationPage');
+    //console.log('ionViewDidLoad VerificationPage');
     this.ReadSMS();
     //let text = 'Hey! This is your otp : 1258 no for Base mobile verification';
     
@@ -98,8 +101,10 @@ if(SMS) SMS.startWatch(()=>{
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.user_id=loguser.id;
     data.otp=data.otp.trim();
+    data.device_token_id=this.device.uuid;
+    data.device_type=this.device.platform;
     this.serviceApi.postData(data,'users/phone_checkotp').then((result) => { 
-      console.log(result);
+      //console.log(result);
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {

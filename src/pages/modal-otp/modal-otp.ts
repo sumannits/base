@@ -3,6 +3,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { IonicPage, NavController, NavParams,ToastController,Platform, LoadingController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
+import { Device } from '@ionic-native/device';
 declare var SMS:any;
 
 /**
@@ -30,6 +31,7 @@ export class ModalOtpPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private device: Device,
     public serviceApi: Api,
     public toastCtrl:ToastController,
     private builder:FormBuilder,
@@ -103,6 +105,7 @@ dismiss() {
 }
 
 verify(data){
+  this.loadingCustomModal('open');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     if(this.getFrmPageName == 'LoginPhonePage'){
       data.user_id=this.phoneLoginUserId;
@@ -110,6 +113,8 @@ verify(data){
       data.user_id=loguser.id;
     }
     data.otp=data.otp.trim();
+    data.device_token_id=this.device.uuid;
+    data.device_type=this.device.platform;
     this.serviceApi.postData(data,'users/phone_checkotp').then((result:any) => { 
       //console.log(result);
       if(result.Ack == 1){
@@ -119,18 +124,20 @@ verify(data){
           localStorage.setItem('userPrfDet', JSON.stringify(result.user_details));
           //console.log(result.user_details);
           localStorage.setItem('isUserLogedin', '1');
+          this.loadingCustomModal('close'); 
           this.tost_message('You have successful login with your phone no.');
           this.navCtrl.setRoot('HomePage');
         }else{
+          this.loadingCustomModal('close'); 
           this.tost_message('Signup Successful');
           this.navCtrl.setRoot('LoginPage');
-          //this.dismiss();
         }
       }else{
+        this.loadingCustomModal('close'); 
         this.tost_message('Not Found');
       }
     }, (err) => {
-      
+      this.loadingCustomModal('close'); 
     });
 }
 
