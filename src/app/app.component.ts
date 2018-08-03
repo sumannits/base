@@ -191,7 +191,7 @@ export class MyApp {
     }
     const options: PushOptions = {
       android: {
-        senderID: '1026514243156',
+        senderID: '350229533440',
         "icon": "drawable-ldpi-icon",
         iconColor: "#00465a"
           
