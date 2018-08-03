@@ -31,6 +31,7 @@ export class SignupPage {
   public isFrmValid:boolean = true;
   public loadingConst:any; 
   public faceBookUId:any; 
+  public uuid:any;
 
   constructor(
     public navCtrl: NavController,
@@ -45,7 +46,7 @@ export class SignupPage {
     private fb:Facebook,
     public serviceApi: Api
   ) {
-
+    this.uuid = localStorage.getItem('DEVICETOKEN');
     this.form = fbuilder.group({
       'first_name': ['', Validators.compose([Validators.required, Validators.pattern('([a-zA-Z])+([a-zA-Z\- ])+')])],
       'last_name': ['', Validators.compose([Validators.required, Validators.pattern('([a-zA-Z])+([a-zA-Z\- ])+')])],
@@ -236,7 +237,7 @@ export class SignupPage {
     this.loadingCustomModal('open');
     this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"]).then(res => {
       let usersFData = res;
-      this.serviceApi.postData({"app_id":userid,"login_type":"fb","device_token_id": this.device.uuid,"device_type": this.device.platform},'users/facebook_logincheck').then((result:any) => { 
+      this.serviceApi.postData({"app_id":userid,"login_type":"fb","device_token_id": this.uuid,"device_type": this.device.platform},'users/facebook_logincheck').then((result:any) => { 
        
          if(result.Ack == 1){ 
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));

@@ -12,6 +12,7 @@ import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
 import { Facebook } from '@ionic-native/facebook';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 export interface PageInterface {
   title: string;
@@ -105,9 +106,18 @@ export class MyApp {
   //   { title: 'Search', component: 'SearchPage' }
   // ]
 
-  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,public db: AngularFirestore,public serviceApi: Api,
-  private fb: Facebook,
-  private broadCaster:Broadcaster) {
+  constructor(
+    private translate: TranslateService, 
+    public platform: Platform, 
+    private config: Config, 
+    private statusBar: StatusBar, 
+    private splashScreen: SplashScreen,
+    public db: AngularFirestore,
+    public serviceApi: Api,
+    public push: Push,
+    private fb: Facebook,
+    private broadCaster:Broadcaster
+  ) {
      let isUserLogedin = localStorage.getItem('isUserLogedin');
     if (isUserLogedin == '1') {
       this.isloggedin = true;
@@ -129,9 +139,7 @@ export class MyApp {
       this.isloggedin = false;
     }
     platform.ready().then(() => {
-    // console.log = function(){};
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+      this.initPushNotification();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       if(localStorage.getItem('userPrfDet')){
@@ -174,6 +182,65 @@ export class MyApp {
     this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
+  }
+
+  initPushNotification() {
+    if (!this.platform.is('cordova')) {
+      console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
+      return;
+    }
+    const options: PushOptions = {
+      android: {
+        senderID: '1026514243156',
+        "icon": "drawable-ldpi-icon",
+        iconColor: "#00465a"
+          
+      },
+      ios: {
+        alert: 'true',
+        badge: false,
+        sound: 'true'
+      },
+      windows: {}
+    };
+    const pushObject: PushObject = this.push.init(options);
+    
+    pushObject.on('registration').subscribe((registration: any) => {
+      //console.log('Device registered', registration);
+      //localStorage.setItem('DEVICETOKEN', JSON.stringify(registration.registrationId));
+      localStorage.setItem('DEVICETOKEN', registration.registrationId);
+    });
+
+    pushObject.on('notification').subscribe((data: any) => {
+      console.log('message -> ' + data.message);
+      console.log('message -> ' + data);
+      //if user using app and push notification comes
+      // if (data.additionalData.foreground) {
+      //   // if application open, show popup
+      //   let confirmAlert = this.alertCtrl.create({
+      //     title: 'New Notification',
+      //     message: data.message,
+      //     buttons: [{
+      //       text: 'Ignore',
+      //       role: 'cancel'
+      //     }, {
+      //       text: 'View',
+      //       handler: () => {
+      //         //TODO: Your logic here
+      //         this.nav.setRoot('NotificationSettingsPage', { message: data.message });
+      //       }
+      //     }]
+      //   });
+      //   confirmAlert.present();
+      // } else {
+      //   //if user NOT using app and push notification comes
+      //   //TODO: Your logic on click of push notification directly
+      //   this.nav.setRoot('NotificationSettingsPage', {message: data.message });
+      //   //console.log('Push notification clicked');
+      // }
+    });
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));  
   }
 
   menuOpened() {
