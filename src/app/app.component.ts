@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
 import { Facebook } from '@ionic-native/facebook';
+import { OneSignal } from '@ionic-native/onesignal';
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 export interface PageInterface {
@@ -60,12 +61,12 @@ export class MyApp {
 
   withoutLoginPages: PageInterface[] = [
     { title: 'Home', name: 'HomePage', component: 'HomePage', index: 0, icon: 'home' },
-    { title: 'Tutorial', name: 'TutorialPage', component: 'TutorialPage', index: 1, icon: 'hammer' },
-    { title: 'Welcome', name: 'WelcomePage', component: 'WelcomePage', index: 2, icon: 'information-circle' },
+    /*{ title: 'Tutorial', name: 'TutorialPage', component: 'TutorialPage', index: 1, icon: 'hammer' },
+    { title: 'Welcome', name: 'WelcomePage', component: 'WelcomePage', index: 2, icon: 'information-circle' },*/
     { title: 'Login', name: 'LoginPage', component: 'LoginPage', index: 3, icon: 'log-in' },
     { title: 'Login With Phone', name: 'LoginPhonePage', component: 'LoginPhonePage', index: 4, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: 'SignupPage', index: 5, icon: 'person-add' },
-    { title: 'Support', name: 'TutorialPage', component: 'TutorialPage', index: 6, icon: 'help' }
+    //{ title: 'Support', name: 'TutorialPage', component: 'TutorialPage', index: 6, icon: 'help' }
    
   ];
 
@@ -115,6 +116,7 @@ export class MyApp {
     public serviceApi: Api,
     //public push: Push,
     private fb: Facebook,
+    private oneSignal: OneSignal,
     private broadCaster:Broadcaster
   ) {
      let isUserLogedin = localStorage.getItem('isUserLogedin');
@@ -154,7 +156,22 @@ export class MyApp {
     
     });
     this.initTranslate(); 
-    //firebase.initializeApp(configFirebase);
+    this.oneSignal.startInit('dcc4dc95-65b8-4b43-b31e-934a3dd741f9', '350229533440');
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+    this.oneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+    });
+    this.oneSignal.handleNotificationOpened().subscribe(() => {
+      // do something when a notification is opened
+    });
+    this.oneSignal.endInit();
+    this.oneSignal.getIds().then((id) => {
+      //console.log(id);
+      if(id.pushToken != ''){
+        localStorage.setItem('DEVICETOKEN', id.pushToken);
+      }
+      
+    });
   }
 
   initTranslate() {
