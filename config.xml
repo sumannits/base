@@ -104,5 +104,4 @@
         <variable name="APP_ID" value="210753212919059" />
         <variable name="APP_NAME" value="Base Social Login" />
     </plugin>
-    <plugin name="onesignal-cordova-plugin" spec="^2.4.2" />
 </widget>
