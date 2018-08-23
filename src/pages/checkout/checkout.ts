@@ -64,12 +64,8 @@ export class CheckoutPage {
         zip: new FormControl('', Validators.compose([
           Validators.required
         ])),
-        address: new FormControl('', Validators.compose([
-          Validators.required
-        ])),
-        landmark: new FormControl('', Validators.compose([
-          Validators.required
-        ])),
+        address: new FormControl(''),
+        landmark: new FormControl(''),
         save_as: new FormControl('', Validators.compose([
           Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
           Validators.required,

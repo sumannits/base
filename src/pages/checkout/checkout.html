@@ -36,7 +36,7 @@
         </button>
       </h2>
       <h5>{{addData.name}}</h5>
-      <p>{{addData.address}}, {{addData.zip}},</p>
+      <p>{{(addData.address!='')?addData.address+' ,':''}} {{addData.zip}},</p>
       <p>{{addData.phone}}</p>
       <p>{{addData.landmark}}</p>
     </ion-item>

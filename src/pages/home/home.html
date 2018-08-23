@@ -79,7 +79,7 @@
             <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
           <h2 text-uppercase class="mt-0">DELIVERY!</h2>  
         </div>
-        <p>On orders above $200</p>
+        <p>On orders above $200 mxn</p>
         <!--<p>Los Cabos Mx premium stores at your doorstep.</p>-->
       </ion-slide>
 
@@ -90,11 +90,11 @@
             <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
           <h2 class="mt-0">DELIVERY!</h2>
         </div>
-        <p>On orders above $200</p>
+        <p>On orders above $3000 mxn</p>
 
       </ion-slide>
 
-      <ion-slide>
+      <!--<ion-slide>
         <img src="assets/img/home-bnr.png" alt="">
         <div class="slide-text">
           <h2 class="mb-0">FREE
@@ -103,7 +103,7 @@
         </div>
         <p>On orders above $200</p>
 
-      </ion-slide>
+      </ion-slide>-->
 
     </ion-slides>
     <!--<div style="width:auto; margin:10px 16px 0;">
@@ -129,7 +129,7 @@
       </ion-card-content>
     </ion-card>-->
     <div  *ngFor="let catData of allCatList; let key = index"  >
-        <ion-item *ngIf="catData.product_list.length>0"><h4  class="baby-txt">{{catData.name}} </h4> 
+        <ion-item *ngIf="catData.product_list.length>0" (click)="goToCatWisePrd(catData.id)"><h4  class="baby-txt">{{catData.name}} </h4> 
         <img *ngIf="catData.product_list.length>0" item-end src="{{catData.image_url}}" alt=""> </ion-item>
       <ion-item scrollx="true" class="top-cate-area" *ngIf="catData.product_list.length>0" >
         <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list; let pkey = index">

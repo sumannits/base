@@ -143,18 +143,8 @@
                   <ion-option value="snes">SNES</ion-option>
                 </ion-select> -->
                 <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Year" [formControl]="exp_year">
-                  <ion-option value="2018">2018</ion-option>
-                  <ion-option value="2019">2019</ion-option>
-                  <ion-option value="2020">2020</ion-option>
-                  <ion-option value="2021">2021</ion-option>
-                  <ion-option value="2022">2022</ion-option>
-                  <ion-option value="2023">2023</ion-option>
-                  <ion-option value="2024">2024</ion-option>
-                  <ion-option value="2025">2025</ion-option>
-                  <ion-option value="2026">2026</ion-option>
-                  <ion-option value="2027">2027</ion-option>
-                  <ion-option value="2028">2028</ion-option>
-                  <ion-option value="2029">2029</ion-option>
+                  
+                  <ion-option *ngFor="let yearNo of yearArr" [value]="yearNo">{{yearNo}}</ion-option>
                 </ion-select>
               </ion-item>
             </ion-col>
