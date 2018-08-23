@@ -41,9 +41,9 @@ export class CustomOrderPage {
       name: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      cat_id: new FormControl('', Validators.compose([
+      /*cat_id: new FormControl('', Validators.compose([
         Validators.required
-      ])),
+      ])),*/
       quantity: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -95,6 +95,7 @@ export class CustomOrderPage {
   addUserCustomPrd(data:any){
     this.loadingCustomModal('open');
       data.user_id=this.userId;
+      data.cat_id = 0;
       this.serviceApi.postData(data,'users/add_usercustomprd').then((result:any) => { 
         //console.log(result);
         if(result.Ack == 1){

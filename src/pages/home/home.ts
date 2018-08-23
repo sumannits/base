@@ -150,6 +150,9 @@ export class HomePage {
   openCategories() {
     this.navCtrl.push('CateSearchPage');
   }
+  goToCatWisePrd(catId){
+    this.navCtrl.push('ProductlistPage',{'catid':catId})
+  }
   goToSearch()
   {
     this.navCtrl.push('SearchPage');

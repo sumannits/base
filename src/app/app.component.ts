@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform } from 'ionic-angular';
+import { Config, Nav, Platform, AlertController } from 'ionic-angular';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { AppRate } from '@ionic-native/app-rate';
 import { FirstRunPage } from '../pages';
@@ -112,6 +112,7 @@ export class MyApp {
     private statusBar: StatusBar, 
     private splashScreen: SplashScreen,
     public db: AngularFirestore,
+    public alertCtrl: AlertController,
     public serviceApi: Api,
     public push: Push,
     private fb: Facebook,
@@ -191,6 +192,7 @@ export class MyApp {
     const options: PushOptions = {
       android: {
         senderID: '350229533440',
+        //icon: "assets/img/appicon.png",
         "icon": "drawable-ldpi-icon",
         iconColor: "#00465a"
           
@@ -211,10 +213,56 @@ export class MyApp {
     });
 
     pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
-      console.log('message -> ' + data);
+      //console.log('message -> ' + data.message);
+      //console.log('message -> ' + data);notification
       //if user using app and push notification comes
+      let pushJsonObj = JSON.stringify(data);
+
+      
+
+      if (data.additionalData.foreground) {
+
+        // if application open, show popup
+        let confirmAlert = this.alertCtrl.create({
+          title: data.title,
+          message: data.body,
+          buttons: [{
+            text: 'Ignore',
+            role: 'cancel'
+          }, {
+            text: 'View',
+            handler: () => {
+              //TODO: Your logic here
+              if(data.type == 'complete_delivery'){
+                this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
+              }else if(data.type == 'start_journey'){
+                this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
+              }else if(data.type == 'assign_order'){
+                this.nav.setRoot("MyOrderPage");
+              }else{
+
+              }
+            }
+          }]
+        });
+        confirmAlert.present();
+      } else {
+        //if user NOT using app and push notification comes
+        //TODO: Your logic on click of push notification directly
+        if(data.type == 'complete_delivery'){
+          this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
+        }else if(data.type == 'start_journey'){
+          this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
+        }else if(data.type == 'assign_order'){
+          this.nav.setRoot("MyOrderPage");
+        }else{
+          
+        }
+        //this.nav.setRoot('NotificationSettingsPage', {message: data.message });
+        //console.log('Push notification clicked');
+      }
       // if (data.additionalData.foreground) {
+
       //   // if application open, show popup
       //   let confirmAlert = this.alertCtrl.create({
       //     title: 'New Notification',

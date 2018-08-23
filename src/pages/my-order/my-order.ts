@@ -57,8 +57,7 @@ export class MyOrderPage {
    toast.present(); 
     }
 
-    goToDetails(id)
-    {
+    goToDetails(id){
       this.navCtrl.push("MyOrderDetailPage",{'order_id':id});
     }
 

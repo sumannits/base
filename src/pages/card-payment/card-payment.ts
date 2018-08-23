@@ -43,6 +43,7 @@ export class CardPaymentPage {
   public concat:any;
   public loadingConst:any;
   public isCustomPrd:number =0;
+  public yearArr = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController, public loadingCtrl: LoadingController,public alertCtrl: AlertController,public serviceApi: Api,private builder:FormBuilder,
     //public Conekta:conekta
@@ -63,7 +64,13 @@ export class CardPaymentPage {
     this.exp_year = this.form.controls['exp_year'];
     this.cvv = this.form.controls['cvv'];
     Conekta.setPublicKey("key_Kyr3yqbbdxXSo6yYPGEu8pQ");
-    //console.log(this.Conekta);
+    let todayDate = new Date();
+    let currentYear = todayDate.getFullYear();
+    let nextYear = currentYear + 20;
+    for(let y = currentYear; y<nextYear; y++){
+      this.yearArr.push(y);
+    }
+    //console.log(this.yearArr);
   }
 
   ionViewDidLoad() {
