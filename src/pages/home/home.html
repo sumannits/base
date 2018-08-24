@@ -79,18 +79,18 @@
             <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
           <h2 text-uppercase class="mt-0">DELIVERY!</h2>  
         </div>
-        <p>On orders above $200 mxn</p>
+        <p>{{appHomeDesc}}</p>
         <!--<p>Los Cabos Mx premium stores at your doorstep.</p>-->
       </ion-slide>
 
       <ion-slide>
         <img src="assets/img/home-bnr.png" alt="">
         <div class="slide-text">
-          <h2 class="mb-0">FREE
+          <h2 class="mb-0">{{appHomeText}}
             <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
-          <h2 class="mt-0">DELIVERY!</h2>
+          <h2 class="mt-0">{{appHomeText1}}</h2>
         </div>
-        <p>On orders above $3000 mxn</p>
+        <p>{{appHomeDesc}}</p>
 
       </ion-slide>
 
@@ -135,8 +135,8 @@
         <div class="top-cate" text-center *ngFor="let subcatData of catData.product_list; let pkey = index">
             <div class="cart-item" *ngIf="subcatData.my_cart_qty > 0">{{subcatData.my_cart_qty}}</div>
           <img src="{{subcatData.image_url}}" alt="" (click)="goToPrdDetails(subcatData.id)" >
-          <h2>{{subcatData.name}}</h2>
-          <p text-center>MXN {{subcatData.min_price}}/{{subcatData.prd_unit}} {{subcatData.unit_type}}</p>
+          <h2 (click)="goToPrdDetails(subcatData.id)">{{subcatData.name}}</h2>
+          <p (click)="goToPrdDetails(subcatData.id)" text-center>MXN {{subcatData.min_price}}/{{subcatData.prd_unit}} {{subcatData.unit_type}}</p>
           <!-- <div class="cart-item" (click)="getMyProductCount(subcatData.id)">{{myProductCnt}}</div> -->
           <ion-row>
             <ion-col class="pr-0">

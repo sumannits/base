@@ -25,8 +25,8 @@
             <img class="img-pic" [src]="prddata.image_url" alt="" (click)="goToPrdDetails(prddata.id)">
             <div class="cart-item"  *ngIf="prddata.my_cart_qty > 0">{{prddata.my_cart_qty}}</div>
           <!-- <img src="assets/img/all-fruit.png" alt=""> -->
-          <h2>{{prddata.name | limitTo:30}}</h2>
-          <p text-center>MXN {{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}</p>
+          <h2 (click)="goToPrdDetails(prddata.id)">{{prddata.name | limitTo:30}}</h2>
+          <p (click)="goToPrdDetails(prddata.id)" text-center>MXN {{prddata.min_price}}/{{prddata.prd_unit}} {{prddata.unit_type}}</p>
           <!-- <button ion-button (click)="addToCart(prddata.id)">Add<ion-icon name="add"></ion-icon></button> -->
           <ion-row>
             <ion-col col-6 class="pr-0">

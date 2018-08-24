@@ -88,7 +88,6 @@ export class CartPage {
 
   
   openModal(id) {
-
     let modal = this.modalCtrl.create("ModalcontentPage",{'cartid':id});
     modal.present();
   }
