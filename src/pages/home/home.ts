@@ -22,6 +22,9 @@ export class HomePage {
   public subcatlist:any;
   public catId:any;
   public prdId:any;
+  public appHomeText:any;
+  public appHomeText1:any;
+  public appHomeDesc:any;
   public prdCartQty:number = 1;
 
   constructor(
@@ -168,8 +171,19 @@ export class HomePage {
     }, (err) => {
      
     });
-  }
 
+    this.serviceApi.getData('category/site_settings').then((result:any) => {
+      let deliveyStr = result.site_settings[0].app_text;
+      let splitDelStr = deliveyStr.split(' ');
+      //console.log(splitDelStr);
+      this.appHomeText = splitDelStr[0];
+      this.appHomeText1 = splitDelStr[1];
+      this.appHomeDesc = result.site_settings[0].app_desc;
+    }, (err) => {
+      
+    });
+
+  }
 
   goToPrdDetails(prdId){
     this.navCtrl.push('DetailsPage',{'prd_id':prdId})

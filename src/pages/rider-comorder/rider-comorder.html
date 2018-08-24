@@ -28,8 +28,8 @@
 
 <ion-content>
   <ion-card *ngFor="let order of orderdetail">
-    <ion-item>
-      <ion-thumbnail item-start (click)="goToDetails(order.id)">
+    <ion-item (click)="goToDetails(order.id)">
+      <ion-thumbnail item-start>
           <img src="{{order.image_url}}"  alt=""/>
         <!-- <img src="assets/img/home-pic-a.png" alt=""> -->
       </ion-thumbnail>
