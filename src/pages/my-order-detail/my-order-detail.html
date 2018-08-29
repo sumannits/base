@@ -151,6 +151,14 @@
                 
               </ion-col>
         </ion-row>
+        <ion-row class="top-brdr">
+            <ion-col class="p-b">
+                <h4 class="font-13">Description :
+                    <span text-center>{{orderlist.description}}</span>
+                </h4>
+                
+              </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col col-6 *ngIf="order.order_status == 'U'">
               <button block ion-button (click)="openModal(orderlist)"> <ion-icon name="create"></ion-icon> Edit</button>

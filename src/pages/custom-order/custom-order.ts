@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController,ModalController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Api, ResponseMessage } from '../../providers';
 
@@ -26,6 +26,7 @@ export class CustomOrderPage {
     public navCtrl: NavController, 
     public fbuilder: FormBuilder,
     public serviceApi: Api,
+    public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public loadingCtrl:LoadingController,
     public navParams: NavParams
@@ -89,10 +90,12 @@ export class CustomOrderPage {
   }
    
   dismissModal() {
-    this.navCtrl.setRoot('HomePage');
+    this.navCtrl.pop();
+    //this.navCtrl.setRoot('HomePage');
   }
 
   addUserCustomPrd(data:any){
+    console.log(data);
     this.loadingCustomModal('open');
       data.user_id=this.userId;
       data.cat_id = 0;
@@ -101,7 +104,7 @@ export class CustomOrderPage {
         if(result.Ack == 1){
           this.loadingCustomModal('close');
           this.tost_message('You have successful add your custom product.');
-          this.navCtrl.setRoot('HomePage');
+          this.navCtrl.pop();
         }else{
           this.loadingCustomModal('close');
           this.tost_message(result.msg);

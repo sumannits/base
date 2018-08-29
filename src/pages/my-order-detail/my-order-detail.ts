@@ -69,7 +69,7 @@ export class MyOrderDetailPage {
      };
     this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => {
         this.getresult = result;
-    //console.log("resulttt",this.getresult);
+    console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
         this.getresult.order_details[0].total_amount = (parseFloat(this.getresult.order_details[0].total_amount) + parseFloat(this.getresult.order_details[0].due_amt));

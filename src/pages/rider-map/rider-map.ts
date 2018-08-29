@@ -85,7 +85,7 @@ export class RiderMapPage {
         this.lat = data.coords.latitude; this.lng = data.coords.longitude;
        // this.gotodropoff();
        this.updateTrackData(this.order, data.coords.latitude,data.coords.longitude);
-        this.calculateAndDisplayRoute();
+       this.calculateAndDisplayRoute();
     });
 
   }
@@ -196,6 +196,7 @@ export class RiderMapPage {
       lat: this.lat,
       lng: this.lng
     };
+    //console.log("&&YGHDYDSGYSFGS^F^SWF",pos);
     const MyLocation = new google.maps.LatLng(pos);
     let posstore = {
       lat: this.deliverylat,
