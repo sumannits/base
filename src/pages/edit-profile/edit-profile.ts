@@ -20,8 +20,10 @@ import { File } from '@ionic-native/file';
   templateUrl: 'edit-profile.html',
 })
 export class EditProfilePage {
-
+  public myAddressList = [];
+  public pet:any;
   private form: FormGroup;
+  private shipform:FormGroup;
   public userDetails:any;
   public userId:number = 0;
   lastImage: string = null;
@@ -40,6 +42,8 @@ export class EditProfilePage {
     private filePath: FilePath,
     private actionSheetCtrl: ActionSheetController
   ) {
+
+    this.pet ='puppies';
     let userDetailsJson:any = localStorage.getItem('userPrfDet');
     userDetailsJson = JSON.parse(userDetailsJson);
     this.userId = userDetailsJson.id;
@@ -72,11 +76,89 @@ export class EditProfilePage {
       address: new FormControl(''),
       about: new FormControl(''),
       //terms: new FormControl(true, Validators.pattern('true'))
+    }),
+    this.shipform = this.fbuilder.group({
+      id: new FormControl(''),
+      name: new FormControl('', Validators.compose([
+        Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
+        Validators.required
+      ])),
+      // email: new FormControl('', Validators.compose([
+      //   Validators.required,
+      //   Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      // ])),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]{10}')
+      ])),
+      zip: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      address: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      landmark: new FormControl(''),
+      save_as: new FormControl('', Validators.compose([
+        Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
+        Validators.required,
+      ]))
+    
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditProfilePage');
+    this.getShippingAddList();
+  }
+
+  getShippingAddList(){
+    this.userService.postData({"user_id":this.userId},'users/get_shipping_addresses').then((result:any) => {
+      if(result.Ack == 1){
+        //this.myAddressList = result.shipping_list;
+        if(result.shipping_list.length >0){
+          this.myAddressList[0]=result.shipping_list[0];
+          this.shipform.get('id').setValue(this.myAddressList[0].id);
+         this.shipform.get('save_as').setValue(this.myAddressList[0].save_as);
+         this.shipform.get('name').setValue(this.myAddressList[0].name);
+        //this.form.get('email').setValue(fdata.email);
+            this.shipform.get('phone').setValue(this.myAddressList[0].phone);
+             this.shipform.get('zip').setValue(this.myAddressList[0].zip);
+              this.shipform.get('address').setValue(this.myAddressList[0].address);
+                 this.shipform.get('landmark').setValue(this.myAddressList[0].landmark);
+          console.log("RRRRTYTYYH",this.myAddressList[0]);
+        }
+      }
+    }, (err) => {
+    
+    }); 
+  }
+
+  
+  updateShippingData(frmdata:any){
+    console.log(frmdata);
+    frmdata.user_id = this.userId;
+    this.userService.postData(frmdata,'users/shipping_address').then((result:any) => {
+      if(result.Ack ==1){
+        let toast = this.toastCtrl.create({
+          message: result.msg,
+          duration: 4000,
+          position: 'top'
+        });
+        toast.present();
+       // this.isEditFrm = false;
+       this.navCtrl.push('HomePage');
+        //this.getShippingAddList();
+      }else{
+        let alert = this.alertCtrl.create({
+          title: 'Error!',
+          subTitle: 'Something wrong.Please try again.' ,
+          buttons: ['Ok']
+        });
+        alert.present();
+      }
+    }, (err) => {
+      
+    });
   }
 
   getUserDetails(){
