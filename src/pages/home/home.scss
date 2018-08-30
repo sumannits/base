@@ -43,10 +43,10 @@ ion-content{position: relative;}
 
 ion-slides{ position: relative;}
 ion-slides .slide-text{ position: absolute; z-index: 100; top: 0; left: 0; right: 0; width: 74%; margin: 0 auto; text-align: center; }
-ion-slides .slide-text h2:first-child{ padding-top: 2.1rem; font-size: 2.4rem;}
+ion-slides .slide-text h2:first-child{ padding-top: 1.1rem; font-size: 2.4rem;}
 ion-slides .slide-text h2{font-weight: 600; margin-bottom: 0; font-size: 2rem; color: #1e1e1e; font-family: 'American Typewriter';}
 .bnr-car{width: 42px; height: auto;}
-ion-slides p{position: absolute; z-index: 100; bottom: 31px; left: 0; right: 0; color: #1e1e1e; width: 50%; margin: 0 auto;  font-size: 1.5rem; font-weight: 400;}
+ion-slides p{position: absolute; z-index: 100; bottom: 22px;line-height:1.1; left: 0; right: 0; color: #1e1e1e; width: 50%; margin: 0 auto;  font-size: 1.5rem; font-weight: 400;}
 .swiper-pagination-bullet-active{ background: #0032a0;}
 
 ion-card-content ion-item h3{ text-overflow: normal; white-space: normal; word-wrap: break-all; font-family: 'American Typewriter'; font-weight: 600 !important; color: #1e1e1e !important;}
