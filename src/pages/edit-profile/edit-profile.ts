@@ -126,6 +126,7 @@ export class EditProfilePage {
               this.shipform.get('address').setValue(this.myAddressList[0].address);
                  this.shipform.get('landmark').setValue(this.myAddressList[0].landmark);
           console.log("RRRRTYTYYH",this.myAddressList[0]);
+         // this.goloc(this.myAddressList[0].id);
         }
       }
     }, (err) => {
@@ -146,7 +147,7 @@ export class EditProfilePage {
         });
         toast.present();
        // this.isEditFrm = false;
-       this.navCtrl.push('HomePage');
+       this.navCtrl.setRoot('HomePage');
         //this.getShippingAddList();
       }else{
         let alert = this.alertCtrl.create({
@@ -187,6 +188,10 @@ export class EditProfilePage {
     this.navCtrl.push('EditAddressPage');
   }
 
+  goloc(){
+    this.navCtrl.push('LocationmapPage');
+  }
+
   updateProfileData(frmdata:any){
     //console.log(frmdata);
     frmdata.id = this.userId;
@@ -213,6 +218,10 @@ export class EditProfilePage {
     }, (err) => {
       
     });
+  }
+
+  ionViewWillEnter(){
+    this.getShippingAddList();
   }
 
 }

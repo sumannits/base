@@ -127,11 +127,13 @@ verify(data){
           localStorage.setItem('isUserLogedin', '1');
           this.loadingCustomModal('close'); 
           this.tost_message('You have successful login with your phone no.');
-          this.navCtrl.setRoot('HomePage');
+          this.dismiss();
+          //this.navCtrl.setRoot('HomePage');
         }else{
           this.loadingCustomModal('close'); 
           this.tost_message('Signup Successful');
-          this.navCtrl.setRoot('LoginPage');
+          this.dismiss();
+         // this.navCtrl.push('LoginPage');
         }
       }else{
         this.loadingCustomModal('close'); 

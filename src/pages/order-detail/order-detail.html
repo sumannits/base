@@ -118,6 +118,19 @@
           </ion-col>
       </ion-row>
     </ion-item>
+    <ion-item>
+      <ion-row>
+        <ion-col col-4>
+          <h3> Payment Status:</h3>
+        </ion-col>
+        <ion-col col-8 *ngIf="order.payment_status!=2">
+          <p>PAID</p>
+        </ion-col>
+        <ion-col col-8 *ngIf="order.payment_status==2">
+            <p>UNPAID</p>
+          </ion-col>
+      </ion-row>
+    </ion-item>
     <ion-item class="order-det">
       <ion-row>
         <ion-col col-4>

@@ -74,7 +74,7 @@ export class OrderDetailPage {
       "details_id": this.order
      };
     this.serviceApi.postData(paramval,'users/orderdetails').then((result:any) => { 
-      //console.log(result);
+      console.log("rsultttttttttttt",result);
      if(result.Ack == 1){
         this.getresult = result;
         this.status=this.getresult.order_details[0].order_status;
