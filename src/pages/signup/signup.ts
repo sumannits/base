@@ -172,12 +172,13 @@ export class SignupPage {
                   if(this.getresult.Ack == 1)
                   { 
                     loading.dismiss();    
-                    this.tost_message('You will receive a message from our system shortly.');   let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
+                    this.tost_message('You will receive a message from our system shortly.');  
+                     let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                     modal.present();
-                    // modal.onDidDismiss(data => {
-                    //   //console.log(data);
-                    //   this.navCtrl.setRoot('HomePage');
-                    // });
+                    modal.onDidDismiss(data => {
+                      //console.log(data);
+                      this.navCtrl.push('LoginPage');
+                    });
                   }else{
                     loading.dismiss();
                     this.tost_message('No Detail Found')
@@ -211,7 +212,7 @@ export class SignupPage {
   }
 
   public onLogin() {
-    this.navCtrl.setRoot('LoginPage');
+    this.navCtrl.push('LoginPage');
   }
 
   public forgotPassword(){

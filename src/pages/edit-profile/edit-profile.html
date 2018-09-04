@@ -139,6 +139,7 @@
         </ion-avatar>
         <h2>{{userDetails?.first_name}} {{userDetails?.last_name}}</h2>
         <p> <ion-icon name="map" class="icon-map"></ion-icon> {{userDetails?.city}}</p>
+        <p><ion-icon name="locate" class="chat-icon item-end" (click)="goloc()"></ion-icon></p>
       </ion-item>
             <ion-item>
                 <ion-label stacked>Type</ion-label>
