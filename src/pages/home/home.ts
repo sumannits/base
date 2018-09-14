@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform, AlertController, ToastController, ModalController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import {MyApp} from '../../app/app.component';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 /**
  * Generated class for the HomePage page.
  *
@@ -34,6 +35,8 @@ export class HomePage {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
+    public androidPermissions: AndroidPermissions,
+    public platform:Platform,
     public myApp:MyApp
   ) {
       let isUserLogedin = localStorage.getItem('isUserLogedin');
@@ -53,6 +56,17 @@ export class HomePage {
     }
     //console.log(this.getMyProductCount(5));
   }
+
+  ionViewWillEnter(){
+    if (this.platform.is('cordova')) {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+        success => console.log('Permission granted'),
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+      );
+      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+    }
+  }
+  
 
   goToCart()
   {

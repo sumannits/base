@@ -37,13 +37,13 @@ export class LoginPhonePage {
   ) {
     this.form = fbuilder.group({
       'phone': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10}')])],
-      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(3),Validators.pattern('^[0-9]*'),Validators.required])]
+      'isd' : ['', Validators.compose([Validators.required])]
     });
     this.phone = this.form.controls['phone'];
     this.isd = this.form.controls['isd'];
 
   }
-
+  //'isd' : ['', Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(3),Validators.pattern('^[0-9]*'),Validators.required])]
   ionViewDidLoad() {
     //console.log('ionViewDidLoad LoginPhonePage');
   }

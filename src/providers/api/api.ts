@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { LoadingController } from 'ionic-angular';
 
 //let apiUrl = 'http://192.168.1.68/base/webservice/';
-//let apiUrl = 'http://111.93.169.90/team1/base/webservice/';
-let apiUrl = 'https://www.basemarket.mx/webservice/';
+let apiUrl = 'http://111.93.169.90/team1/base/webservice/';
+//let apiUrl = 'https://www.basemarket.mx/webservice/';
 /*
  Generated class for the AuthServiceProvider provider.
   See https://angular.io/guide/dependency-injection for more info on providers
@@ -30,7 +30,7 @@ export class Api {
       const headerDict = {
         'Content-Type': 'application/json',
       }
-      const requestOptions = {                                                                    headers: new Headers(headerDict), 
+      const requestOptions = {  headers: new Headers(headerDict), 
       };
 
       this.http.post(apiUrl + type, JSON.stringify(credentials),requestOptions).subscribe(res => {
@@ -56,7 +56,7 @@ export class Api {
       const headerDict = {
         'Content-Type': 'application/json',
       }
-      const requestOptions = {                                                                    headers: new Headers(headerDict), 
+      const requestOptions = {   headers: new Headers(headerDict), 
       };
 
       this.http.get(apiUrl + type,requestOptions).subscribe(res => {

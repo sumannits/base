@@ -34,7 +34,7 @@ export class MobileVerificationPage {
       // 'mobileno': ['', Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(13),Validators.pattern('^[0-9]*$'),Validators.required])],
       // 'isd' : ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern('^[0-9+]*$'),Validators.required])]
       'mobileno': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10}')])],
-      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern('^[0-9]*'),Validators.required])]
+      'isd' : ['', Validators.compose([Validators.required])]
     });
 
     this.mobileno = this.form.controls['mobileno'];
@@ -97,12 +97,12 @@ export class MobileVerificationPage {
         this.navCtrl.push('VerificationPage',{'phoneno':this.concat});
       }
       else{
-        this.tost_message('No Detail Found');
+        this.tost_message('Otp Sent Fail ! Please Try Again');
       }
       
     }, (err) => {
       //console.log(err);
-      this.tost_message('No Detail Found');
+      this.tost_message('Otp Sent Fail ! Please Try Again');
     });
 
 

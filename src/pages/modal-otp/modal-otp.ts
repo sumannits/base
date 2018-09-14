@@ -57,15 +57,15 @@ export class ModalOtpPage {
   }
 
 
-ionViewWillEnter(){
-  if (this.platform.is('cordova')) {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-      success => console.log('Permission granted'),
-    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-    );
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
-  }
-}
+// ionViewWillEnter(){
+//   if (this.platform.is('cordova')) {
+//     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+//       success => console.log('Permission granted'),
+//     err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+//     );
+//     this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+//   }
+// }
 
 ReadSMS(){
   if (this.platform.is('cordova')) {

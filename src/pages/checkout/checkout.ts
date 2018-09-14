@@ -25,6 +25,8 @@ export class CheckoutPage {
   public dateselect:any;
   public minDate:any;
   public time:any;
+  public selDate:any;
+  public todayDate:any;
  // public dateselect:any;
   public dateselectto:any;
   public isdateselect:any;
@@ -78,7 +80,7 @@ export class CheckoutPage {
 
       this.minDate = new Date().toISOString();
       this.time=(new Date().getHours())+4.00;
-      
+      console.log(this.time);
   }
 
   ionViewDidLoad() {
@@ -120,11 +122,11 @@ export class CheckoutPage {
 
    // this.form.get('date').setValue(this.dateselect);
     this.isdateselect=this.dateselect;
-    //console.log("DATEET",this.isdateselect);
+    console.log("DATEET",this.isdateselect);
   }
   dateselctto(data){
      this.isdateselectto=this.dateselectto;
-     //console.log("DATEET",this.isdateselectto);
+   //  console.log("DATEET",this.isdateselectto);
    }
   goToPayment(datefrom,dateto,shipping){
     if(!shipping){
@@ -184,16 +186,17 @@ export class CheckoutPage {
   }
 
   dateChanged(){
-    let selDate=this.dateselect;
-    let todayDate = new Date().toISOString();
-    todayDate = todayDate.substring(0, 10);
-    if(selDate == todayDate){
+    this.selDate=this.dateselect;
+    console.log(this.selDate);
+    this.todayDate = new Date().toISOString();
+    this.todayDate = this.todayDate.substring(0, 10);
+    if(this.selDate == this.todayDate){
       this.time=(new Date().getHours())+4.00;
       this.dateselectto='';
     }else{
       this.time = 0;
     }
-    //console.log(todayDate);
+    console.log(this.todayDate);
   }
 
   alertMsgFun(msg:any){

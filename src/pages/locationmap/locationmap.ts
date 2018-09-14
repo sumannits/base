@@ -52,6 +52,9 @@ export class LocationmapPage {
   public pos_code:any;
   public userId:any;
   public locationid:any;
+  public subloc:any;
+  public thoroughfare:any;
+  public administrativeArea:any;
   watch : any;
   directionsService = new google.maps.DirectionsService;
    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: false});
@@ -164,12 +167,25 @@ public address:any;
 
         this.nativeGeocoder.reverseGeocode(this.LastLat,this.LastLng)
         .then((result: NativeGeocoderReverseResult[]) => {console.log(result[0])
-          this.returnaddress=result[0].locality;
-          this.localitymine=result[0].subAdministrativeArea;
-          this.pos_code=result[0].postalCode;
+          this.returnaddress=result[0].locality ? result[0].locality : '';
+          this.localitymine=result[0].subAdministrativeArea ? result[0].subAdministrativeArea :'';
+          this.pos_code=result[0].postalCode ? result[0].postalCode :'';
+          this.administrativeArea=result[0].administrativeArea ? result[0].administrativeArea :'';
+          this.subloc=result[0].subLocality ? result[0].subLocality :'' ;
+          this.thoroughfare=result[0].thoroughfare ? result[0].thoroughfare  : '';
+          
+
 //console.log("GHYUUJUUU",this.returnaddress.toString()+this.localitymine.toString());     
          // console.log("ZIPCODEEEE",this.pos_code);
-         this.form.controls['address'].setValue(this.returnaddress+','+this.localitymine);
+         if(this.thoroughfare && this.localitymine){
+          this.form.controls['address'].setValue(this.thoroughfare+','+this.returnaddress+','+this.localitymine+','+this.administrativeArea);
+         }else if(this.subloc){
+          this.form.controls['address'].setValue(this.subloc+','+this.returnaddress+','+this.localitymine+','+this.administrativeArea);
+         }     
+         else{
+          this.form.controls['address'].setValue(this.returnaddress+','+this.administrativeArea);
+         }
+         
 
          let alert = this.alertCtrl.create({
           title: 'Change Address',
@@ -185,7 +201,7 @@ public address:any;
             {
               text: 'OK',
               handler: () => {
-                this.updateShippingData(this.returnaddress, this.localitymine,this.pos_code,this.LastLat,this.LastLng)
+                this.updateShippingData(this.returnaddress,this.thoroughfare,this.subloc,this.administrativeArea,this.localitymine,this.pos_code,this.LastLat,this.LastLng)
               }
             }
           ]
@@ -201,19 +217,20 @@ public address:any;
       
       
   
-  updateShippingData(returnaddress,localitymine,pos_code,lat,lng){
+  updateShippingData(returnaddress,thoroughfare,subloc,administrativeArea,localitymine,pos_code,lat,lng){
     let userDetailsJson:any = localStorage.getItem('userPrfDet');
     userDetailsJson = JSON.parse(userDetailsJson);
     this.userId = userDetailsJson.id;
-  
+  if(thoroughfare && localitymine){
     let param={
       "id":this.locationid,
       "user_id":this.userId,
-      "address":returnaddress+','+localitymine,
+      "address":thoroughfare+','+localitymine+','+returnaddress+','+administrativeArea,
       "zip":pos_code,
       "lati":lat,
       "logni":lng
     }
+
     console.log("Shipping data",param);
     this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
       if(result.Ack ==1){
@@ -237,6 +254,77 @@ public address:any;
     }, (err) => {
       
     });
+  }else if(subloc){
+    let param={
+      "id":this.locationid,
+      "user_id":this.userId,
+      "address":subloc+','+localitymine+','+returnaddress+','+administrativeArea,
+      "zip":pos_code,
+      "lati":lat,
+      "logni":lng
+    }
+
+    console.log("Shipping data",param);
+    this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
+      if(result.Ack ==1){
+        let toast = this.toastCtrl.create({
+          message: result.msg,
+          duration: 4000,
+          position: 'top'
+        });
+        toast.present();
+       // this.isEditFrm = false;
+       this.navCtrl.pop();
+        //this.getShippingAddList();
+      }else{
+        let alert = this.alertCtrl.create({
+          title: 'Error!',
+          subTitle: 'Something wrong.Please try again.' ,
+          buttons: ['Ok']
+        });
+        alert.present();
+      }
+    }, (err) => {
+      
+    });
+
+  }else{
+
+    let param={
+      "id":this.locationid,
+      "user_id":this.userId,
+      "address":returnaddress+','+administrativeArea,
+      "zip":pos_code,
+      "lati":lat,
+      "logni":lng
+    }
+
+    console.log("Shipping data",param);
+    this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
+      if(result.Ack ==1){
+        let toast = this.toastCtrl.create({
+          message: result.msg,
+          duration: 4000,
+          position: 'top'
+        });
+        toast.present();
+       // this.isEditFrm = false;
+       this.navCtrl.pop();
+        //this.getShippingAddList();
+      }else{
+        let alert = this.alertCtrl.create({
+          title: 'Error!',
+          subTitle: 'Something wrong.Please try again.' ,
+          buttons: ['Ok']
+        });
+        alert.present();
+      }
+    }, (err) => {
+      
+    });
+  }
+   
+  
   }
 
 

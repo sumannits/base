@@ -99,8 +99,7 @@ export class EditProfilePage {
       ])),
       landmark: new FormControl(''),
       save_as: new FormControl('', Validators.compose([
-        Validators.pattern('([a-zA-Z])+([a-zA-Z ])+'),
-        Validators.required,
+        Validators.pattern('([a-zA-Z])+([a-zA-Z ])+')
       ]))
     
     });
@@ -108,7 +107,8 @@ export class EditProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditProfilePage');
-    this.getShippingAddList();
+   // this.getShippingAddList();
+    this.getUserDetails();
   }
 
   getShippingAddList(){
@@ -119,9 +119,9 @@ export class EditProfilePage {
           this.myAddressList[0]=result.shipping_list[0];
           this.shipform.get('id').setValue(this.myAddressList[0].id);
          this.shipform.get('save_as').setValue(this.myAddressList[0].save_as);
-         this.shipform.get('name').setValue(this.myAddressList[0].name);
+        // this.shipform.get('name').setValue(this.myAddressList[0].name);
         //this.form.get('email').setValue(fdata.email);
-            this.shipform.get('phone').setValue(this.myAddressList[0].phone);
+           // this.shipform.get('phone').setValue(this.myAddressList[0].phone);
              this.shipform.get('zip').setValue(this.myAddressList[0].zip);
               this.shipform.get('address').setValue(this.myAddressList[0].address);
                  this.shipform.get('landmark').setValue(this.myAddressList[0].landmark);
@@ -167,6 +167,7 @@ export class EditProfilePage {
       this.userService.postData({"id":this.userId},'users/appuserdetails').then((result:any) => {
         if(result.Ack == 1){
           this.userDetails = result.UserDetails[0];
+          console.log("USERRRR",this.userDetails);
           this.form.get('first_name').setValue(this.userDetails.first_name);
           this.form.get('last_name').setValue(this.userDetails.last_name);
           this.form.get('email').setValue(this.userDetails.email);
@@ -175,6 +176,8 @@ export class EditProfilePage {
           this.form.get('city').setValue(this.userDetails.city);
           this.form.get('address').setValue(this.userDetails.address);
           this.form.get('about').setValue(this.userDetails.about);
+          this.shipform.get('name').setValue(this.userDetails.first_name+''+this.userDetails.last_name);
+          this.shipform.get('phone').setValue(this.userDetails.phone);
         }
         //console.log(this.userDetails);
       }, (err) => {
@@ -222,6 +225,7 @@ export class EditProfilePage {
 
   ionViewWillEnter(){
     this.getShippingAddList();
+    this.getUserDetails();
   }
 
 }

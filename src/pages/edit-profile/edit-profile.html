@@ -98,10 +98,10 @@
           <ion-label stacked>City</ion-label>
           <ion-input type="text" formControlName="city" placeholder="City Name"></ion-input>
         </ion-item> -->
-        <ion-item>
+        <!-- <ion-item>
           <ion-label stacked>Address</ion-label>
           <ion-input type="text" formControlName="address" placeholder="Enter your address"></ion-input>
-        </ion-item>
+        </ion-item> -->
         <!--<ion-item>
           <ion-label stacked>Paypal Email</ion-label>
           <ion-input type="email" placeholder="Paypal Email" formControlName="paypal_email"></ion-input>
@@ -147,19 +147,19 @@
               </ion-item>
               <div class="validation-errors">
                 <ng-container >
-                  <div class="error-message" *ngIf="shipform.get('save_as').hasError('required')">
+                  <!-- <div class="error-message" *ngIf="shipform.get('save_as').hasError('required')">
                     Address Type required.
-                  </div>
+                  </div> -->
                   <div class="error-message" *ngIf="shipform.get('save_as').hasError('pattern')">
                       Address Type must be character only.
                   </div>
                 </ng-container>
               </div>
-         <ion-item>
+         <!-- <ion-item>
               <ion-label stacked>Name</ion-label>
               <ion-input type="text" formControlName="name" placeholder="Enter Your Name" ></ion-input>
-            </ion-item>
-            <div class="validation-errors">
+            </ion-item> -->
+            <!-- <div class="validation-errors">
               <ng-container >
                 <div class="error-message" *ngIf="shipform.get('name').hasError('required')">
                   Name required.
@@ -168,13 +168,13 @@
                     Name must be character only.
                 </div>
               </ng-container>
-            </div>
+            </div> -->
             
-            <ion-item>
+            <!-- <ion-item>
               <ion-label stacked>Mobile No</ion-label>
               <ion-input type="text" placeholder="Mobile No" formControlName="phone"></ion-input>
-            </ion-item>
-            <div class="validation-errors">
+            </ion-item> -->
+            <!-- <div class="validation-errors">
               <ng-container >
                 <div class="error-message" *ngIf="shipform.get('phone').hasError('required')">
                   Mobile No required.
@@ -183,7 +183,7 @@
                   Please enter a number like 12345678 and must be 10 digit.
                 </div>
               </ng-container>
-            </div>
+            </div> -->
             
             <ion-item>
               <ion-label stacked>Address</ion-label>
@@ -215,13 +215,13 @@
                 <ion-label stacked>Nearest Landmark</ion-label>
                 <ion-input type="text" formControlName="landmark" placeholder="Enter your Landmark"></ion-input>
             </ion-item>
-            <div class="validation-errors">
+            <!-- <div class="validation-errors">
                 <ng-container >
                   <div class="error-message" *ngIf="shipform.get('landmark').hasError('required')">
                       Landmark required.
                   </div>
                 </ng-container>
-            </div>
+            </div> -->
             <ion-item>
                 <button ion-button block [disabled]="!editShpForm.valid" (click)="updateShippingData(shipform.value)">Save Changes</button>
             </ion-item>

@@ -54,7 +54,7 @@ export class SignupPage {
       'phone': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10}')])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
       'cpassword': ['', Validators.compose([Validators.required])],
-      'isd' : ['', Validators.compose([Validators.required,Validators.minLength(1),Validators.maxLength(3),Validators.pattern('^[0-9]*'),Validators.required])]
+      'isd' : ['', Validators.compose([Validators.required])]
     });
     this.first_name = this.form.controls['first_name'];
     this.last_name = this.form.controls['last_name'];
