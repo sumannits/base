@@ -118,15 +118,13 @@ export class EditProfilePage {
         if(result.shipping_list.length >0){
           this.myAddressList[0]=result.shipping_list[0];
           this.shipform.get('id').setValue(this.myAddressList[0].id);
-         this.shipform.get('save_as').setValue(this.myAddressList[0].save_as);
+          this.shipform.get('save_as').setValue(this.myAddressList[0].save_as);
         // this.shipform.get('name').setValue(this.myAddressList[0].name);
         //this.form.get('email').setValue(fdata.email);
            // this.shipform.get('phone').setValue(this.myAddressList[0].phone);
-             this.shipform.get('zip').setValue(this.myAddressList[0].zip);
-              this.shipform.get('address').setValue(this.myAddressList[0].address);
-                 this.shipform.get('landmark').setValue(this.myAddressList[0].landmark);
-          console.log("RRRRTYTYYH",this.myAddressList[0]);
-         // this.goloc(this.myAddressList[0].id);
+          this.shipform.get('zip').setValue(this.myAddressList[0].zip);
+          this.shipform.get('address').setValue(this.myAddressList[0].address);
+          this.shipform.get('landmark').setValue(this.myAddressList[0].landmark);
         }
       }
     }, (err) => {
@@ -136,7 +134,6 @@ export class EditProfilePage {
 
   
   updateShippingData(frmdata:any){
-    console.log(frmdata);
     frmdata.user_id = this.userId;
     this.userService.postData(frmdata,'users/shipping_address').then((result:any) => {
       if(result.Ack ==1){

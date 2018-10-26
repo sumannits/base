@@ -117,8 +117,9 @@ export class SignupPage {
         }else{
           this.isFrmValid=true;
         }
+        loading.dismiss();
       }, (err) => {
-        
+        loading.dismiss();
       });
 
       //
@@ -130,6 +131,7 @@ export class SignupPage {
         buttons: ['Ok']
       });
       alert.present();
+      loading.dismiss();
     }else if(password!=cpassword){
       this.isFrmValid=false;
       let alert = this.alertCtrl.create({
@@ -138,6 +140,7 @@ export class SignupPage {
         buttons: ['Ok']
       });
       alert.present();
+      loading.dismiss();
     }
 
     if (this.form.valid && this.isFrmValid && this.faceBookUId==undefined) {

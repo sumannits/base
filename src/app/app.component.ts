@@ -84,6 +84,7 @@ export class MyApp {
 
   withLoginPagestype: PageInterface[] = [
     { title: 'Edit Profile', name: 'Edit Profile', component: 'EditProfilePage', index: 1, icon: 'person' },
+    { title: 'Master List', name: 'Master List', component: 'MasterlistPage', index: 10, icon: 'reorder' },
     { title: 'My Assign Order', name: 'My Assign Order', component: 'MyOrderPage', index: 2, icon: 'reorder' },
     { title: 'My Progress Order', name: 'My Progress Order', component: 'RiderPackedorderPage', index: 3, icon: 'reorder' },
     { title: 'My Complete Order', name: 'My Complete Order', component: 'RiderComorderPage', index: 4, icon: 'reorder' },

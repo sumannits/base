@@ -54,22 +54,22 @@
         </ng-container>
       </div>
       <ion-row>
-        <ion-col col-5>
+        <ion-col col-6>
           <ion-item>    
               <ion-label>
                   <ion-icon name="call"></ion-icon>
                 </ion-label>          
                 <!-- <ion-input type="number" placeholder="Code"  [formControl]="isd" required></ion-input> -->
                     <ion-select style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;"  placeholder="Country Region Code" [formControl]="isd">
-                        <ion-option value="+521">(+521) Mex</ion-option>
-                        <ion-option value="001">(001) Usa</ion-option>
-                        <ion-option value="+91">(+91) Ind</ion-option>
+                        <ion-option value="521">(+521) Mex</ion-option>
+                        <ion-option value="001">(+001) Usa</ion-option>
+                        <!--<ion-option value="+91">(+91) Ind</ion-option>-->
                       </ion-select>
                   <!-- <ion-input type="number" placeholder="Country Region Code"  [formControl]="isd" required></ion-input> -->
                
           </ion-item>
         </ion-col>
-        <ion-col col-7>
+        <ion-col col-6>
             <ion-item>
                 <ion-label> </ion-label>
                 <ion-input type="number" placeholder="Phone No" [formControl]="phone" autocapitalize="off"></ion-input>

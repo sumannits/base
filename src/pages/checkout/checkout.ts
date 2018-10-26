@@ -89,6 +89,7 @@ export class CheckoutPage {
     if(this.loginUserId > 0){
       this.getMyCartCount();
       this.form.get('name').setValue(this.loginUserDet.first_name +' '+this.loginUserDet.last_name);
+      this.form.get('address').setValue(this.loginUserDet.address);
       this.form.get('phone').setValue(this.loginUserDet.phone);
       this.form.get('zip').setValue(this.loginUserDet.position);
     }
@@ -187,7 +188,6 @@ export class CheckoutPage {
 
   dateChanged(){
     this.selDate=this.dateselect;
-    console.log(this.selDate);
     this.todayDate = new Date().toISOString();
     this.todayDate = this.todayDate.substring(0, 10);
     if(this.selDate == this.todayDate){
@@ -196,7 +196,7 @@ export class CheckoutPage {
     }else{
       this.time = 0;
     }
-    console.log(this.todayDate);
+    
   }
 
   alertMsgFun(msg:any){

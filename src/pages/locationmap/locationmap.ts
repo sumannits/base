@@ -115,9 +115,6 @@ public address:any;
         if(result.shipping_list.length >0){
           this.myAddressList[0]=result.shipping_list[0];
           this.locationid=this.myAddressList[0].id;
-     
-          console.log("RRRRTYTYYH",this.myAddressList[0]);
-       
         }
       }
     }, (err) => {
@@ -231,7 +228,6 @@ public address:any;
       "logni":lng
     }
 
-    console.log("Shipping data",param);
     this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
       if(result.Ack ==1){
         let toast = this.toastCtrl.create({
@@ -264,7 +260,6 @@ public address:any;
       "logni":lng
     }
 
-    console.log("Shipping data",param);
     this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
       if(result.Ack ==1){
         let toast = this.toastCtrl.create({
@@ -299,7 +294,6 @@ public address:any;
       "logni":lng
     }
 
-    console.log("Shipping data",param);
     this.userService.postData(param,'users/shipping_address_edit').then((result:any) => {
       if(result.Ack ==1){
         let toast = this.toastCtrl.create({
@@ -324,13 +318,10 @@ public address:any;
     });
   }
    
-  
   }
 
-
-      
       getaddress(value){
-console.log(value);
+
       }
 
     
