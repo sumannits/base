@@ -36,7 +36,7 @@
       <div class="top-area">
        
           <h3 class="d-flex">#{{order.order_id}}</h3>
-          <p>{{order.order_date| date:'dd-MM-yyyy'}}
+          <p>{{order.order_date | amLocal | amDateFormat: 'D MMM, YYYY'}}
             <span *ngIf="order.order_status == 'U'" class="status"> Processing </span>
             <span *ngIf="order.order_status == 'P'" class="status"> Out for Delivery </span>
             <span *ngIf="order.order_status == 'D'" class="status"> Delivered </span>

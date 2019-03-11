@@ -21,6 +21,7 @@ export class OrderListPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','OrderListPage');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     // this.usertype=loguser.utype
      this.serviceApi.postData({"user_id": loguser.id},'users/orderlist').then((result) => { 
@@ -34,6 +35,7 @@ export class OrderListPage {
        }
        else{
          this.tost_message('No Detail Found')
+         this.orderdetail='';
        }
        
      }, (err) => {

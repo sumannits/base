@@ -35,6 +35,7 @@ export class ForgotPasswordPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ForgotPasswordPage');
     //console.log('ionViewDidLoad ForgotPasswordPage');
   }
 

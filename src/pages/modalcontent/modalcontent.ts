@@ -37,6 +37,7 @@ export class ModalcontentPage {
    }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ModalcontentPage');
     this.cartId = this.navParams.get('cartid');
     console.log('ionViewDidLoad ModalcontentPage');
     this.getnote();

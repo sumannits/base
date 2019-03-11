@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController,ModalController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
+import { concat } from 'rxjs/observable/concat';
 
 /**
  * Generated class for the CartPage page.
@@ -23,8 +24,13 @@ export class CartPage {
   public alltotal:any;
   public response:any;
   public siteresults:any;
-  public adminpercentage:any;
+  public adminpercentage:number = 0;
+  public checkOutAmt:number = 0;
+  //subTot:number;
   public freeShippingCostAmt:number = 0;
+  //DeliveryCharge:number;
+  cartvar:any;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -42,6 +48,7 @@ export class CartPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','CartPage');
     this.getdata();
     if(this.loginUserId == 0){
       let toast = this.toastCtrl.create({
@@ -58,6 +65,7 @@ export class CartPage {
 
   goToCheckout(total,charge){
     this.alltotal=parseFloat(total)+parseFloat(charge);
+    //this.alltotal=parseFloat(total)+parseFloat('0.00');
     this.navCtrl.push('CheckoutPage',{'Total':this.alltotal});
   }
 
@@ -71,15 +79,24 @@ export class CartPage {
     this.serviceApi.postData({"user_id":this.loginUserId},'users/get_usercartlist').then((result:any) => {
       if(result.Ack == 1){
         this.userCartList = result.product_list;
-       // console.log("cartlisttttt",this.userCartList);
-        this.subTot = result.sub_tot;
+        // console.log('userCartList',this.userCartList)
+        if (this.userCartList.length>0)
+        {
+          this.cartvar=1;
+        }
+        else
+        {
+          this.cartvar=0;
+        }
+        this.subTot = parseFloat(result.sub_tot);
         this.prdActTot = result.act_price;
+
         if(this.subTot >= this.freeShippingCostAmt){
           this.DeliveryCharge = 0;
         }else{
-          this.DeliveryCharge = parseFloat(this.adminpercentage);
+          this.DeliveryCharge = this.adminpercentage;
         }
-        
+        this.checkOutAmt = parseFloat(Number(this.DeliveryCharge+this.subTot).toFixed(2));
       }
     }, (err) => {
     
@@ -161,12 +178,13 @@ export class CartPage {
   getdata(){
     this.serviceApi.getData('category/site_settings  ').then((result) => {
       this.response = result
-  //console.log("RESULTTTTTTTTTTTTTTTTTT",result);
+  // console.log("RESULTTTTTTTTTTTTTTTTTT",result);
       if(this.response.Ack == 1)
       {
         this.siteresults =  this.response.site_settings;
-        this.adminpercentage=this.siteresults[0].admin_percentage;
-        this.freeShippingCostAmt=this.siteresults[0].partner_percentage;
+        this.adminpercentage=parseFloat(this.siteresults[0].admin_percentage);
+        this.freeShippingCostAmt=parseFloat(this.siteresults[0].partner_percentage);
+        // console.log('freeShippingCostAmt',this.freeShippingCostAmt)
       }
       else
       {

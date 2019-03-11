@@ -11,8 +11,9 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>    
-      <ion-title style="padding: 0 10px 1px 8px;" >BASE <span class="time-slot">11am to 5pm</span>
-        <p class="sub-head-text text-center">Anything on the steps of your door</p>
+      <ion-title style="padding: 0 10px 1px 8px;" >BASE 
+        <!-- <span class="time-slot">11 to 5pm</span> -->
+        <p class="sub-head-text">Anything on the steps of your door</p>
       </ion-title>
       <!-- <ion-title>BASE <span class="time-slot">11am to 5pm</span>
         <p class="sub-head-text text-center">Anything on the steps of your door</p>
@@ -34,7 +35,7 @@
     </ion-item>-->
 
 
-    <ion-buttons end (click)="goToCart()">
+    <ion-buttons end (click)="goToCart()" class="btn-padd">
       <button ion-button icon-only  *ngIf="myCartCnt > 0">
         <ion-icon ios="ios-cart-outline" md="md-cart"></ion-icon>
       </button>
@@ -68,26 +69,26 @@
   <ion-list>
     <ion-item class="cashback-area">
       <!-- <h1 text-center>$100 Cashback</h1> -->
-      <h1  text-center>Your Groceries Delivered.</h1>
-      <p>Los Cabos Mx premium stores at your doorstep.</p>
+      <h1  text-center style="font-size: 16px;">{{firstText}}</h1>
+      <p>{{secondText}}</p>
     </ion-item>
 
 
 
     <ion-slides pager>
 
-      <ion-slide>
-        <img src="assets/img/home-bnr.png" alt="">
+      <ion-slide *ngFor="let images of banImg">
+        <img src="{{images.app_banner_image_url}}" alt="">
         <div class="slide-text">
-          <h2 text-uppercase class="mb-0">{{appHomeText}}
-            <img class="bnr-car" src="assets/img/bnr-car.png" alt=""> </h2>
-          <h2 text-uppercase class="mt-0">{{appHomeText1}}</h2>  
+        <h2 text-uppercase class="mb-0">{{appHomeText}}
+        <img class="bnr-car" src="{{bannerlogo}}" alt=""> </h2>
+        <h2 text-uppercase class="mt-0">{{appHomeText1}}</h2> 
         </div>
         <p>{{appHomeDesc}}</p>
         <!--<p>Los Cabos Mx premium stores at your doorstep.</p>-->
-      </ion-slide>
+        </ion-slide>
 
-      <ion-slide>
+      <!-- <ion-slide>
         <img src="assets/img/home-bnr.png" alt="">
         <div class="slide-text">
           <h2 class="mb-0">{{appHomeText}}
@@ -96,7 +97,7 @@
         </div>
         <p>{{appHomeDesc}}</p>
 
-      </ion-slide>
+      </ion-slide> -->
 
       <!--<ion-slide>
         <img src="assets/img/home-bnr.png" alt="">

@@ -19,6 +19,7 @@ export class EditAddressPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','EditAddressPage');
     console.log('ionViewDidLoad EditAddressPage');
   }
 

@@ -24,7 +24,7 @@
       </ion-avatar>
       <h2>{{chat.first_name}}  {{chat.last_name}}  </h2>
       <p>{{chat.message.text | limitTo:40}}</p>
-      <p class="date">{{chat.cdate| date:'dd MMM yyyy h:mm a'}}</p>
+      <p class="date">{{chat.cdate | amLocal | amDateFormat: 'D MMM, YYYY'}} {{((chat.cdate | amLocal | amDateFormat:'H') == '12')?'11am - 2pm':'2pm - 5pm'}}</p>
       <!-- <ion-note item-end="" class="note note-ios">
           <ion-icon item-start name="chatbubbles" (click)="gotoChatDet(chat.room_id)"></ion-icon>
         {{chat.cdate|  date:'dd MMM yyyy h:mm a'}} 

@@ -19,6 +19,7 @@ export class LocateMapPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','LocateMapPage');
     console.log('ionViewDidLoad LocateMapPage');
   }
 

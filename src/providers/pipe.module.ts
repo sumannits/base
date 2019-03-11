@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { TruncatePipe,SafePipe,SortPipe } from "./application.pipe";
+import { TruncatePipe,SafePipe,SortPipe, DateFormatPipe, DateTimeFormatPipe} from "./application.pipe";
 
 @NgModule({
   declarations: [
     TruncatePipe ,
     SafePipe,
+    DateFormatPipe,
+    DateTimeFormatPipe,
     SortPipe
   ],
   imports: [
@@ -14,6 +16,8 @@ import { TruncatePipe,SafePipe,SortPipe } from "./application.pipe";
   exports:[
     TruncatePipe ,
     SafePipe,
+    DateFormatPipe,
+    DateTimeFormatPipe,
     SortPipe,
     //ShareModule
   ]

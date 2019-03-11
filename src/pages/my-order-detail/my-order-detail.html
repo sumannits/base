@@ -79,10 +79,13 @@
             <span *ngIf="order.order_status == 'P'">Out for delivery</span>
             <span *ngIf="order.order_status == 'D'">Delivered</span>
             <span *ngIf="order.order_status == 'C'">Complete</span>
-            <ion-icon name="navigate" class="chat-icon item-end" *ngIf="order.order_status == 'P' && restaurantLatitude!='' && restaurantLongitude!=''" (click)="goloc(order.id)"></ion-icon></p>
-          <p>Order Date: <span class="gray-text">{{order.order_date | date:'dd MMM, yyyy'}}</span></p>
+            <ion-icon name="navigate" class="chat-icon item-end" *ngIf="order.order_status == 'P' && restaurantLatitude!='' && restaurantLongitude!=''" (click)="goloc(order.id)"></ion-icon>
+          </p>
+          <p>Order Date: <span class="gray-text">{{order.order_date | amLocal | amDateFormat: 'D MMM, YYYY'}}</span></p>
 
-         Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | date:'dd MMM, yyyy'}} {{((order.product_list[0].delivery_date | date:'H')==15?'2pm to 5pm':'11am to 2pm')}}</span>
+         <p> Delivery Date: <span class="gray-text">{{order.product_list[0].delivery_date | amLocal | amDateFormat: 'D MMM, YYYY'}} {{((order.product_list[0].delivery_date | amLocal | amDateFormat:'H')==15?'2pm to 5pm':'11am to 2pm')}}
+
+         </span></p>
         </ion-col>
       </ion-row>     
     </ion-card-content>
@@ -142,30 +145,7 @@
                 
               </ion-col>
         </ion-row>
-        <ion-row class="top-brdr">
-            <ion-col class="p-b">
-                <h4 class="font-13">Price:
-                    <span>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</span>
-                </h4>
-                
-              </ion-col>
-        </ion-row>
-        <ion-row class="top-brdr">
-            <ion-col class="p-b">
-                <h4 class="font-13">Description :
-                    <span text-center>{{orderlist.description}}</span>
-                </h4>
-                
-              </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-6 *ngIf="order.order_status == 'U'">
-              <button block ion-button (click)="openModal(orderlist)"> <ion-icon name="create"></ion-icon> Edit</button>
-          </ion-col>
-          <ion-col col-6 *ngIf="order.order_status == 'U' && orderlist.is_brought == 0">
-              <button (click)="isBroughtPrd(orderlist, key)" block color="dark" ion-button> <ion-icon name="cart"></ion-icon> Cart</button>
-          </ion-col>
-        </ion-row>
+        
         
 
         
@@ -217,6 +197,31 @@
         </ion-row> -->
         
       </ion-item>
+      <div class="desc">
+          <ion-row class="top-brdr">
+              <ion-col class="p-b">
+                  <h4 class="font-13">Price: <span>MXN{{orderlist.price}}/{{orderlist.prd_unit}} {{orderlist.unit_type}}</span> </h4>
+                  
+                  
+                </ion-col>
+          </ion-row>
+          <ion-row class="top-brdr">
+              <ion-col class="p-b">
+                  <h4 class="font-13">Description :</h4>
+                  <span text-center>{{orderlist.description}}</span>
+                  <!-- <h4>{{orderlist.price}}</h4> -->
+                  
+                </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6 *ngIf="order.order_status == 'U'">
+                <button block ion-button (click)="openModal(orderlist)"> <ion-icon name="create"></ion-icon> Edit</button>
+            </ion-col>
+            <ion-col col-6 *ngIf="order.order_status == 'U' && orderlist.is_brought == 0">
+                <button (click)="isBroughtPrd(orderlist, key)" block color="dark" ion-button> <ion-icon name="cart"></ion-icon> Cart</button>
+            </ion-col>
+          </ion-row>
+      </div>
     </ion-card>
  
 
@@ -234,19 +239,30 @@
         </div>-->
         <div class="price-area">
           <span>Shipping Charge</span>
-          <span>MXN{{order.service_charge}}</span>
+          <span>MXN{{order.service_charge | number:'1.2-2'}}</span>
         </div>
         <div class="price-area" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Total Price </span>
-          <span class="total-price">MXN{{order.total_amount}}</span>
+          <span class="total-price">MXN{{order.total_amount | number:'1.2-2'}}</span>
         </div>
         <div class="price-area" *ngIf="order.payment_status==2" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Due Amount </span>
-          <span class="total-price">MXN{{order.total_amount}}</span>
+          <span class="total-price">MXN{{order.total_amount | number:'1.2-2'}}</span>
         </div>
+
+        <div class="price-area" *ngIf="order.due_amt < 0  && order.payment_status!=2" style="border-top: 1px dashed #f0f0f0;" >
+          <span class="total-price" > Refund Amount </span>
+          <span class="total-price"> + MXN {{order.due_amt.substring(1) | number:'1.2-2'}}</span>
+        </div>
+
+        <div class="price-area" *ngIf="order.due_amt == 0  && order.payment_status!=2" style="border-top: 1px dashed #f0f0f0;" >
+          <span class="total-price" > Due Amount </span>
+          <span class="total-price"> MXN {{order.due_amt | number:'1.2-2'}}</span>
+        </div>
+
         <div class="price-area" *ngIf="order.due_amt > 0 && order.payment_status!=2" style="border-top: 1px dashed #f0f0f0;" >
           <span class="total-price" > Due Amount </span>
-          <span class="total-price">MXN{{order.due_amt}}</span>
+          <span class="total-price">MXN{{order.due_amt| number:'1.2-2'}}</span>
         </div>
       </ion-item>
     </ion-card-content>

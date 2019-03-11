@@ -81,15 +81,25 @@
             <ion-row>
                 <ion-col>
                   <ion-item class="brdr-btm" text-center >
-                    <p class="cash-amount"> MXN {{paycostamount}}</p>
+                    <p class="cash-amount"> MXN {{paycostamount | number:'1.2-2'}}</p>
                   </ion-item>
                 </ion-col>
               </ion-row>
+
               <ion-row>
+                <ion-col>
+                  <ion-item class="brdr-btm" text-center >
+                    <p class="cash-amount" > Wallet Balance: MXN {{wallet}}</p>
+                    <!-- <p class="cash-amount" Wallet Balance *ngIf="walletBalance!"> MXN {{walletBalance}}</p> -->
+                    <p class="cash-amount"  >Payable Amount: MXN {{payableAmt}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <!-- <ion-row>
                   <ion-col>
                       <p>Card charge at time of delivery cause due amount is aproximate</p>
                   </ion-col>
-              </ion-row>
+              </ion-row> -->
             <form  [formGroup]="form"  #payForm="ngForm">
           <ion-row>
             <ion-col>
@@ -174,6 +184,8 @@
         </ion-list>
 
         <ion-list *ngSwitchCase="'savecards'">
+           
+          <ion-card> <p class="cash-amount" > Wallet Balance: MXN {{wallet}}</p></ion-card>
           <ion-item *ngFor="let card of cardlist">
             <ion-avatar item-start>
               <img src="assets/img/save-card.png">

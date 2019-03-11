@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController,AlertController,LoadingController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { Ionic2RatingModule } from 'ionic2-rating';
+import { concat } from 'rxjs/observable/concat';
 /**
  * Generated class for the OrderDetailPage page.
  *
@@ -63,7 +64,7 @@ export class OrderDetailPage {
   }
 
   ionViewDidLoad() {
-    
+    localStorage.setItem('currentActivePage','OrderDetailPage');
     this.order=this.navParams.get('order_id');
     this.getOrderDet();
   }
@@ -73,6 +74,7 @@ export class OrderDetailPage {
     let paramval={
       "details_id": this.order
      };
+     console.log('para',paramval);
     this.serviceApi.postData(paramval,'users/orderdetails').then((result:any) => { 
       console.log("rsultttttttttttt",result);
      if(result.Ack == 1){

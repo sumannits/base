@@ -27,6 +27,10 @@ export class HomePage {
   public appHomeText1:any;
   public appHomeDesc:any;
   public prdCartQty:number = 1;
+  firstText:any;
+  secondText:any;
+  banImg:any;
+  bannerlogo:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -48,8 +52,10 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','HomePage');
    // this.catId = this.navParams.get('catid');
     this.myApp.menuOpened();
+    this.getBannerImages();
     this.getCatList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
@@ -58,6 +64,7 @@ export class HomePage {
   }
 
   ionViewWillEnter(){
+    
     if (this.platform.is('cordova')) {
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
         success => console.log('Permission granted'),
@@ -175,6 +182,19 @@ export class HomePage {
     this.navCtrl.push('SearchPage');
   }
 
+  getBannerImages()
+  {
+    this.serviceApi.getData('category/banner_images').then((result:any) => {
+      if(result.Ack == 1){
+        this.banImg = result.banner;
+        console.log("bannerimages",  result);
+      }
+      //console.log(this.userDetails);
+    }, (err) => {
+     
+    });
+  }
+
   getCatList(){
     this.serviceApi.getData('category/catwise_prd_list/'+this.loginUserId).then((result:any) => {
       if(result.Ack == 1){
@@ -187,9 +207,12 @@ export class HomePage {
     });
 
     this.serviceApi.getData('category/site_settings').then((result:any) => {
+      this.firstText=result.site_settings[0].app_header_first_text;
+      this.secondText=result.site_settings[0].app_header_2nd_text;
       let deliveyStr = result.site_settings[0].app_text;
       let splitDelStr = deliveyStr.split(' ');
-      //console.log(splitDelStr);
+      console.log('result',result);
+      this.bannerlogo=result.site_settings[0].app_banner_logo_imageurl
       this.appHomeText = splitDelStr[0];
       this.appHomeText1 = splitDelStr[1];
       this.appHomeDesc = result.site_settings[0].app_desc;

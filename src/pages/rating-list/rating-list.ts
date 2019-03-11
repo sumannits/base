@@ -24,6 +24,7 @@ export class RatingListPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','RatingListPage');
     //console.log('ionViewDidLoad RatingListPage');
     this.getMyRatList();
   }

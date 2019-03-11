@@ -41,6 +41,7 @@ export class ModalStatusPage {
    }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ModalStatusPage');
     console.log('ionViewDidLoad ModalStatusPage');
   }
 

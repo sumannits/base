@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController,ModalController,AlertController,LoadingController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
+import { concat } from 'rxjs/operator/concat';
 
 /**
  * Generated class for the MyOrderDetailPage page.
@@ -15,7 +16,7 @@ import { Api, ResponseMessage } from '../../providers';
   templateUrl: 'my-order-detail.html',
 })
 export class MyOrderDetailPage {
-  public order:number;
+  public order:any;
   public getresult:any;
   public ordershow:any;
   public orderid:any;
@@ -46,6 +47,8 @@ export class MyOrderDetailPage {
   responseData : any;
   public isjobdone:any;
   public loadingConst:any;
+  orderId:any;
+
 
   constructor(
     public navCtrl: NavController, 
@@ -56,25 +59,31 @@ export class MyOrderDetailPage {
     public alertCtrl:AlertController,
     public loadingCtrl: LoadingController
   ) {
+    this.orderId=this.navParams.get('order_id');
+    this.getOrderDetdata(this.orderId);
+    
   }
 
   ionViewDidLoad() {
-    this.order=this.navParams.get('order_id');
-    this.getOrderDetdata();
+    localStorage.setItem('currentActivePage','MyOrderDetailPage');
+    // this.getOrderDetdata(this.orderId);
   }
 
-  getOrderDetdata(){
+  getOrderDetdata(order){
     let paramval={
-      "order_id": this.order
+      "order_id": order
      };
     this.serviceApi.postData(paramval,'users/rider_assign_orderdetails').then((result) => {
         this.getresult = result;
-    //console.log("resulttt",this.getresult);
+    console.log("resulttt",this.getresult);
      if(this.getresult.Ack == 1)
       {
+        this.order=this.getresult.order_details[0]
         this.getresult.order_details[0].total_amount = (parseFloat(this.getresult.order_details[0].total_amount) + parseFloat(this.getresult.order_details[0].due_amt));
         this.status=this.getresult.order_details[0].order_status;
+
         this.restaurantLatitude = parseFloat(this.getresult.order_details[0].lati);
+        console.log('restaurantLatitude',this.restaurantLatitude)
          this.restaurantLongitude = parseFloat(this.getresult.order_details[0].logni);
        if(this.status=='P'){
          this.buttonchange=1;
@@ -124,7 +133,7 @@ export class MyOrderDetailPage {
             role: 'Ok',
           handler: () => {
             let paramval={
-              "id": this.order,
+              "id": this.order.id,
               "status":"P"
              };
             this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
@@ -166,9 +175,10 @@ export class MyOrderDetailPage {
           role: 'Ok',
         handler: () => {
           let paramval={
-            "id": this.order,
+            "id": this.order.id,
             "status":"D"
            };
+           console.log('paramval',paramval)
           this.serviceApi.postData(paramval,'users/change_rider_order_status').then((result) => { //console.log(result);
             this.getresult = result;
             if(this.getresult.Ack == 1){
@@ -192,7 +202,9 @@ export class MyOrderDetailPage {
 
 
   openModal(ordDet:any) {
-    let modal = this.modalCtrl.create("ModalTrackPage",{'orderDetails':ordDet});
+    this.order='';
+    console.log('ordDet',ordDet,'order',this.order)
+    let modal = this.modalCtrl.create("ModalTrackPage",{'orderDetails':JSON.stringify(ordDet)});
     modal.present();
   }
 

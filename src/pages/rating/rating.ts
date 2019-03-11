@@ -33,6 +33,7 @@ public message:AbstractControl;
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','RatingPage');
     this.order=this.navParams.get('order_id');
     console.log(this.order);
     console.log('ionViewDidLoad RatingPage');

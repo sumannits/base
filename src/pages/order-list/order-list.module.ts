@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { OrderListPage } from './order-list';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { OrderListPage } from './order-list';
   ],
   imports: [
     IonicPageModule.forChild(OrderListPage),
+    MomentModule
   ],
 })
 export class OrderListPageModule {}

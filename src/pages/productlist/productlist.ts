@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController,LoadingController} from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 
 /**
@@ -28,6 +28,7 @@ export class ProductlistPage {
     public navParams: NavParams,
     public serviceApi: Api,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public toastCtrl: ToastController
   ){
       let isUserLogedin = localStorage.getItem('isUserLogedin');
@@ -39,6 +40,7 @@ export class ProductlistPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ProductlistPage');
     this.catId = this.navParams.get('catid');
     this.getCatWisePrdList();
     if(this.loginUserId > 0){
@@ -60,14 +62,18 @@ export class ProductlistPage {
   getCatWisePrdList(){
     //console.log(this.catId);
     if(this.catId > 0){
+      let loading = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      loading.present();
       this.serviceApi.getData('category/catwise_prdlist/'+this.catId+"/"+this.loginUserId).then((result:any) => {
         if(result.Ack == 1){
           this.allPrdList = result.product_list;
           this.catDet=result.category_details[0];
-          //console.log("allPrdList",result);
+          loading.dismiss();
         }
       }, (err) => {
-      
+        loading.dismiss();
       });
     }
   }

@@ -32,6 +32,7 @@ export class SearchPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','SearchPage');
     if(this.loginUserId > 0){
       this.getMyCartCount();
     }

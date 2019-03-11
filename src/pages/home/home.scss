@@ -37,16 +37,17 @@ ion-header ion-navbar .item ion-label{ color: #ffffff !important; margin-top: 0;
 
 .order-now{ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); background: #ffffff; font-weight: 400; color: #0032a0; width: 40%; font-size: 1.3rem; font-weight: 500;  position: absolute; z-index: 100; bottom: 0; top:84px; border-radius: 3px; line-height: 2.5rem; margin: 0 auto; left: 0; right: 0; height: 24px; text-align: center;  }
 
-.sub-head-text{ color: #cbcbcb; font-weight: 300; font-size: 1.3rem; margin-bottom: 0; margin-top: 0; }
-
+.sub-head-text{ color: #cbcbcb; font-weight: 300; font-size: 1.3rem; margin-bottom: 0; margin-top: 0;}
+.baseclass
+{
+    text-align: center;
+}
 ion-content{position: relative;}
-
 ion-slides{ position: relative;}
-ion-slides .slide-text{ position: absolute; z-index: 100; top: 0; left: 0; right: 0; width: 74%; margin: 0 auto; text-align: center; }
-ion-slides .slide-text h2:first-child{ padding-top: 1.1rem; font-size: 2.4rem;}
+ion-slides .slide-text{ position: absolute; z-index: 100; top: 45%; left: 0; right: 0; width: 74%; margin: 0 auto; text-align: center; transform: translateY(-50%); }
+ion-slides .slide-text h2:first-child{  padding-top: 0; font-size: 2.4rem;    margin-top: 0;}
 ion-slides .slide-text h2{font-weight: 600; margin-bottom: 0; font-size: 2rem; color: #000000; font-family: 'American Typewriter';}
-.bnr-car{width: 42px; height: auto;}
-ion-slides p{position: absolute; z-index: 100; bottom: 22px;line-height:1.1; left: 0; right: 0; color: #000000; width: 50%; margin: 0 auto;  font-size: 1.5rem; font-weight: 400;}
+ion-slides p{position: absolute; z-index: 100; bottom: 30%;line-height:1.1; left: 0; right: 0; color: #000000; width: 50%; margin: 0 auto; font-size: 1.5rem; font-weight: 400;}
 .swiper-pagination-bullet-active{ background: #0032a0;}
 
 ion-card-content ion-item h3{ text-overflow: normal; white-space: normal; word-wrap: break-all; font-family: 'American Typewriter'; font-weight: 600 !important; color: #1e1e1e !important;}
@@ -55,13 +56,13 @@ ion-card-content ion-item p{text-overflow: normal; white-space: normal; word-wra
 .item [item-end] .button-inner .icon{  font-size: 2.6rem; }
 
 
-.shop-cate{ font-weight: 700; font-size: 1.6rem; color: #1e1e1e; text-align: center; font-family: 'American Typewriter'; }
+.shop-cate{ font-weight: 700; font-size: 17px; color: #1e1e1e; text-align: center; font-family: 'American Typewriter'; }
 .button-clear{ margin-bottom: 0; margin-top: 0; height: 7.5rem;}
 
 
 
 
-.baby-txt{ font-size: 1.6rem; color: #0032a0; margin-bottom: 0; margin-left: 10px; font-family: 'American Typewriter'; display: flex; align-items: center; }
+.baby-txt{ font-size: 16px;text-transform: capitalize; white-space: normal; color: #0032a0; margin-bottom: 0; margin-left: 10px; font-family: 'American Typewriter'; display: flex; align-items: center; }
 .top-cate-area{ padding-left: 5px;}
 .top-cate-area .item-inner{ padding-right: 5px;}
 .top-cate-area .label { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; overflow-x: scroll;  padding-bottom:0; margin-bottom: 10px; margin-right: 0; margin-top: 5px;}
@@ -78,7 +79,7 @@ ion-card-content ion-item p{text-overflow: normal; white-space: normal; word-wra
 .qty-span{ background-color: #e0e0e0; padding: 4px !important; }
 .qty-span ion-icon{ font-size: 1.8rem; color: #4e555c;}
 
-.time-slot{font-size: 1.4rem; font-weight: 400; float: right; color: #7398f7; padding-right: 20px;}
+.time-slot{font-size: 1.4rem; font-weight: 400; float: right; color: #7398f7; padding-right: 40px;}
 
 
 .pt-0{ padding-top: 0;}
@@ -87,4 +88,12 @@ ion-card-content ion-item p{text-overflow: normal; white-space: normal; word-wra
 .pr-0{padding-right: 0;}
 .mt-0{ margin-top: 0;}
 .mb-0{ margin-bottom: 0;}
+.bnr-car{width: 42px; height: auto;}
+.toolbar-title-ios
+{
+    padding-left: 50px;
+}
+.btn-padd{
+    padding-top: 10px;
+}
 }

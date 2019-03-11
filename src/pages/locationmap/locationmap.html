@@ -14,15 +14,15 @@
 
 <ion-content>
     <form  [formGroup]="form" (ngSubmit)="getaddress(form.value)" #verifyForm="ngForm">
-  <ion-col col-4>
-    <ion-item>
-        <ion-input type="text" placeholder="Address" [formControl]="address"></ion-input>
-    </ion-item>
-</ion-col>
-</form>
+      <ion-col col-4>
+        <ion-item>
+            <ion-input type="text" placeholder="Address" [formControl]="address"></ion-input>
+        </ion-item>
+      </ion-col>
+    </form>
     <!-- <div #map id="my-map" style="height:200px;"></div> -->
     <ion-item>
-    <div id="map1" style="height:450px;"></div>
-   
+        <!-- <div id="map1" style="height:450px;"></div> -->
+        <div id="map" style="height:400px"></div>
     </ion-item>
 </ion-content>

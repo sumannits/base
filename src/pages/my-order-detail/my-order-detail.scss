@@ -1,6 +1,9 @@
 page-my-order-detail {
 
 // @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'); 
+p,span,div,h4,h2,h1,h6,h3,h5{
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
 
 .toolbar-title{ font-weight: 400; font-size: 1.5rem;}
 ion-icon{ color: #ffffff !important;  }
@@ -11,7 +14,9 @@ ion-icon{ color: #ffffff !important;  }
 
 
 .content{background-color: #f7f7f7 !important;}
-
+.desc {
+    padding-left: 12px;
+}
 
 .label{ margin-bottom: 0;}
 .item-inner{ padding-right: 0 !important; }
@@ -50,9 +55,9 @@ ion-icon{ color: #ffffff !important;  }
 .text{color: #222222;}
 
 .price-area{ width: auto; display: flex; align-items: center; justify-content: space-between; margin: 1rem 0 0;  }
-.total-price { color: #000000; font-weight: 600; padding-top: 1rem; }
+.total-price { color: #000000; font-weight: 600; padding-top: 1rem;     font-size: 14px; }
 
-.chat-icon{ color: #0032a0 !important; font-size: 2rem; float:right;}
+.chat-icon{ color: #0032a0 !important; font-size: 2rem; float:right; padding: 5px;}
 .creat-icon{ color: #0032a0 !important; font-size: 2rem;}
 .status-icon{ color: #20242d !important; font-size: 2.2rem !important; margin-bottom: 1rem; margin-right: 1rem;}
 
@@ -79,4 +84,17 @@ justify-content: space-between;
 .card .item.item-block .item-inner{ align-items: flex-start;}
 .top-area{width: auto; display: flex; align-items: center; justify-content: space-between;  padding-left: 5px; padding-bottom: 5px;}
 .status{font-weight: normal; color: #04d30e; }
+// .font-13 span{
+//     overflow: hidden;
+//     white-space: nowrap;
+//     text-overflow: ellipsis;
+//     width: 90px;
+//     display: inline-block;
+//     position: relative;
+//     top: 5px;
+//     padding-right: 10px;
+// }
+.item.item-block{
+    padding-left: 8px;
+}
 }

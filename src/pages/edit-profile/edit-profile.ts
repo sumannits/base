@@ -6,6 +6,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
+import { concat } from 'rxjs/observable/concat';
 
 /**
  * Generated class for the EditProfilePage page.
@@ -27,6 +28,8 @@ export class EditProfilePage {
   public userDetails:any;
   public userId:number = 0;
   lastImage: string = null;
+  walletBalance:any;
+  wallet:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -106,6 +109,7 @@ export class EditProfilePage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','EditProfilePage');
     console.log('ionViewDidLoad EditProfilePage');
    // this.getShippingAddList();
     this.getUserDetails();
@@ -163,8 +167,23 @@ export class EditProfilePage {
     if(this.userId > 0){
       this.userService.postData({"id":this.userId},'users/appuserdetails').then((result:any) => {
         if(result.Ack == 1){
+
           this.userDetails = result.UserDetails[0];
+          
           console.log("USERRRR",this.userDetails);
+
+          this.walletBalance=this.userDetails.wallet_balance;
+          console.log('this.walletBalance', this.walletBalance)
+  
+          if (this.walletBalance>0)
+          {
+            this.wallet=this.walletBalance;         
+          }
+          else
+          {
+            this.wallet="0.00"; 
+            console.log('wallet',this.wallet)
+          }
           this.form.get('first_name').setValue(this.userDetails.first_name);
           this.form.get('last_name').setValue(this.userDetails.last_name);
           this.form.get('email').setValue(this.userDetails.email);
@@ -189,6 +208,7 @@ export class EditProfilePage {
   }
 
   goloc(){
+    console.log('go to LocationmapPage')
     this.navCtrl.push('LocationmapPage');
   }
 

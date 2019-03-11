@@ -39,6 +39,7 @@ export class DetailsPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','DetailsPage');
     this.prdId = this.navParams.get('prd_id');
     this.getPrdDetails();
     if(this.loginUserId > 0){

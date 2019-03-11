@@ -24,6 +24,7 @@
 
 
 <ion-content>
+  <div *ngIf="orderdetail!=''">
   <ion-card *ngFor="let order of orderdetail" (click)="goToDetails(order.id)">
     <ion-item>
       <ion-thumbnail item-start >
@@ -41,7 +42,7 @@
         </button> -->
       </h3>
 
-      <p>{{order.order_date|  date:'dd MMM, yyyy'}}</p>
+      <p>{{order.order_date | amLocal | amDateFormat: 'D MMM, YYYY'}}</p>
       <ion-row class="top-brdr">
         <!-- <ion-col col-4 class="p-b">
           <h4 class="font-13" text-center>Price</h4>
@@ -58,6 +59,10 @@
       </ion-row>
     </ion-item>
   </ion-card>
+</div>
+<ion-card>
+  <h4  *ngIf="orderdetail==''">No Result Found</h4>
+</ion-card>
 
   <!-- <ion-card (click)="goToDetails()">
     <ion-item>

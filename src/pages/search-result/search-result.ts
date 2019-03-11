@@ -19,6 +19,7 @@ export class SearchResultPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','SearchResultPage');
     console.log('ionViewDidLoad SearchResultPage');
   }
 

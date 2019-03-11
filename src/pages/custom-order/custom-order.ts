@@ -21,6 +21,7 @@ export class CustomOrderPage {
   public userId:number = 0;
   public catList = [];
   public loadingConst:any;
+  catarray:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,9 +43,9 @@ export class CustomOrderPage {
       name: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      /*cat_id: new FormControl('', Validators.compose([
+      cat_id: new FormControl('', Validators.compose([
         Validators.required
-      ])),*/
+      ])),
       quantity: new FormControl('', Validators.compose([
         Validators.required
       ])),
@@ -55,6 +56,7 @@ export class CustomOrderPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','CustomOrderPage');
     this.getCatList();
   }
 
@@ -62,7 +64,7 @@ export class CustomOrderPage {
     this.serviceApi.getData('category/list').then((result:any) => {
       //console.log(result);
       if(result.Ack == 1){
-        this.catList = result.cat_list;
+        this.catarray = result.cat_list;
       }
       
     }, (err) => {
@@ -98,7 +100,6 @@ export class CustomOrderPage {
     console.log(data);
     this.loadingCustomModal('open');
       data.user_id=this.userId;
-      data.cat_id = 0;
       this.serviceApi.postData(data,'users/add_usercustomprd').then((result:any) => { 
         //console.log(result);
         if(result.Ack == 1){

@@ -32,7 +32,7 @@
     
     
       <h2>{{ratVal.first_name}} {{ratVal.last_name}}</h2>
-      <p class="date" style="color: #aaaaaa; font-weight: 400; font-size: 1.3rem !important;">{{ratVal.date | date:'MMM dd yyyy'}}</p>
+      <p class="date" style="color: #aaaaaa; font-weight: 400; font-size: 1.3rem !important;">{{ratVal.date | amLocal | amDateFormat: 'D MMM, YYYY'}}</p>
       <p>{{ratVal.review}}</p>
     </ion-item>
     

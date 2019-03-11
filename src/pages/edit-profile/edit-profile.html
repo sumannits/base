@@ -43,6 +43,11 @@
         <p> <ion-icon name="map" class="icon-map"></ion-icon> {{userDetails?.city}}</p>
       </ion-item>
   
+      <ion-item>
+        <ion-label stacked>Wallet Balance</ion-label>
+         <ion-input type="text" readonly value="MXN {{wallet}}" ></ion-input>
+   
+      </ion-item>
         <ion-item>
           <ion-label stacked>First Name</ion-label>
           <ion-input type="text" formControlName="first_name" placeholder="First Name" ></ion-input>
@@ -118,7 +123,7 @@
         </div>-->
         <ion-item>
           <ion-label stacked>About yourself</ion-label>
-          <ion-textarea placeholder="About Yourself" formControlName="about" autocapitalize="off" ></ion-textarea>
+          <ion-textarea class="area-height" placeholder="About Yourself" formControlName="about" autocapitalize="off" ></ion-textarea>
         </ion-item>
         <!--<ion-item>
           <ion-label>Loyalty</ion-label>

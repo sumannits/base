@@ -29,8 +29,8 @@ import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 export function createTranslateLoader(http: HttpClient) {
@@ -38,6 +38,11 @@ export function createTranslateLoader(http: HttpClient) {
 }
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { AppRate } from '@ionic-native/app-rate';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Diagnostic } from '@ionic-native/diagnostic';
+//import { FCM } from '@ionic-native/fcm';
 
 const configFirebase = {
   apiKey: "AIzaSyDivtVgy4Gj_t7PymCTKR6bX7wSNyny6NM",
@@ -96,6 +101,7 @@ const configFirebase = {
     Broadcaster,
     GoogleMaps,
     Geolocation,
+    NativeGeocoder, 
     ConferenceData,
     DatePicker,
     AndroidPermissions,
@@ -105,8 +111,10 @@ const configFirebase = {
     FilePath,
     Device,
     Push,
-    NativeGeocoder,
     File,
+    LocationAccuracy,
+    Diagnostic,
+    //FCM,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserData,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { RiderPackedorderPage } from './rider-packedorder';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { RiderPackedorderPage } from './rider-packedorder';
   ],
   imports: [
     IonicPageModule.forChild(RiderPackedorderPage),
+    MomentModule
   ],
 })
 export class RiderPackedorderPageModule {}

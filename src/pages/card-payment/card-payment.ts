@@ -44,18 +44,29 @@ export class CardPaymentPage {
   public loadingConst:any;
   public isCustomPrd:number =0;
   public yearArr = [];
+  walletBalance:number = 0;
+  userDetails:any;
+  payableAmt:number = 0;
+  wallet:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController, public loadingCtrl: LoadingController,public alertCtrl: AlertController,public serviceApi: Api,private builder:FormBuilder,
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public toastCtrl:ToastController, 
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    public serviceApi: Api,
+    private builder:FormBuilder,
+    public userService: Api,
     //public Conekta:conekta
   ) {
     this.pet ='puppies';
     
     this.form = builder.group({
       'user_name': ['', Validators.compose([Validators.required])],
-      'card_no': ['', Validators.compose([Validators.required,Validators.minLength(16),Validators.maxLength(16),Validators.pattern('^[0-9]*$'),Validators.required])],  
+      'card_no': ['', Validators.compose([Validators.required,Validators.minLength(15),Validators.maxLength(15),Validators.pattern('^[0-9]*$'),Validators.required])],  
       'exp_month': ['', Validators.compose([Validators.required,Validators.minLength(2),Validators.maxLength(2),Validators.pattern('^[0-9]*$'),Validators.required])],
       'exp_year': ['', Validators.compose([Validators.required,Validators.minLength(4),Validators.maxLength(4),Validators.pattern('^[0-9]*$'),Validators.required])],  
-      'cvv': ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern('^[0-9]*$'),Validators.required])]
+      'cvv': ['', Validators.compose([Validators.required,Validators.minLength(4),Validators.maxLength(4),Validators.pattern('^[0-9]*$'),Validators.required])]
     });
 
     this.user_name = this.form.controls['user_name'];
@@ -63,7 +74,7 @@ export class CardPaymentPage {
     this.exp_month = this.form.controls['exp_month'];
     this.exp_year = this.form.controls['exp_year'];
     this.cvv = this.form.controls['cvv'];
-    Conekta.setPublicKey("key_Kyr3yqbbdxXSo6yYPGEu8pQ");
+    Conekta.setPublicKey("key_ZXDmTQsyGMbi3Y5WUiQUaCQ");
     let todayDate = new Date();
     let currentYear = todayDate.getFullYear();
     let nextYear = currentYear + 20;
@@ -74,6 +85,7 @@ export class CardPaymentPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','CardPaymentPage');
     this.orderdate=this.navParams.get('datefrom');
     this.ordateto=this.navParams.get('dateto');
     //console.log("CONCATTATATAT",this.ordateto);
@@ -86,6 +98,42 @@ export class CardPaymentPage {
     //console.log('ionViewDidLoad CardPaymentPage');
     this.getMyCartCount();
     this.savedcard();
+    this.userWallet();
+
+  
+  }
+
+
+  userWallet()
+  {
+    this.userService.postData({"id":this.id},'users/appuserdetails').then((result:any) => {
+      //console.log('userdetails',result)
+      if(result.Ack == 1){
+        this.userDetails=result.UserDetails;
+        this.walletBalance=parseFloat(this.userDetails[0].wallet_balance);
+        //console.log('this.walletBalance', this.walletBalance)
+
+        if (this.walletBalance>0)
+        {
+          this.wallet=this.walletBalance;
+          this.payableAmt=parseFloat(this.paycostamount)-this.walletBalance;
+          if(this.payableAmt<0){
+            this.payableAmt = 0;
+          }
+        }
+        else
+        {
+          this.wallet="0.00";
+          this.payableAmt=parseFloat(this.paycostamount);
+
+        }
+
+      }
+      this.payableAmt = parseFloat(Number(this.payableAmt).toFixed(2));
+      //console.log('payableAmt : ',this.payableAmt);
+    }, (err) => {
+     
+    });
   }
 
   onchange(card){
@@ -171,6 +219,7 @@ export class CardPaymentPage {
       this.serviceApi.postData(param,'users/card_checkout').then((result) => {
         this.chekoutresult = result;
         if(this.chekoutresult.Ack=1){
+          loading.dismiss();
           let toast = this.toastCtrl.create({
             message: 'Order has been successfully placed.',
             duration: 4000,
@@ -178,9 +227,23 @@ export class CardPaymentPage {
           });
           toast.present();
           this.navCtrl.setRoot('OrderListPage');
-          loading.dismiss();
+         
         }
-      });
+        else
+        {
+          loading.dismiss();
+
+        }
+      },(err) => {
+        loading.dismiss();
+        let toast = this.toastCtrl.create({
+          message: 'Something went wrong.',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        });     
+ 
   }
 
   getMyCartCount(){

@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 @Pipe({
   name: 'limitTo'
@@ -27,6 +28,25 @@ export class SafePipe implements PipeTransform {
   }
 }
 
+@Pipe({
+  name: 'dateFormat'
+})
+export class DateFormatPipe extends DatePipe implements PipeTransform {
+  transform(value: any, args?: any): any {
+    //return super.transform(value, `${environment.DATE_FMT}`);
+    return super.transform(value, args);
+  }
+}
+
+@Pipe({
+  name: 'dateTimeFormat'
+})
+export class DateTimeFormatPipe extends DatePipe implements PipeTransform {
+  transform(value: any, args?: any): any {
+    //return super.transform(value, `${environment.DATE_TIME_FMT}`);
+    return super.transform(value, args);
+  }
+}
 
 @Pipe({
   name: 'orderBy', 

@@ -26,6 +26,9 @@ page-edit-profile {
     .item .item-inner .input-wrapper .label{ min-height: 2rem; padding-left: 8px; font-weight: 500; color: #000000;}
     .person-area{ width: auto;}
     .person-area .item-inner .input-wrapper .label{ padding-left: 0 !important; }
+    .input-wrapper .area-height{
+      min-height: 60px;
+    }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #a5a5a5 !important;  font-weight: 300;
@@ -41,6 +44,8 @@ page-edit-profile {
 }
 
 .error-message{ color: rgb(180, 43, 66); padding-left: 16px;}
+
+
 
 
 }

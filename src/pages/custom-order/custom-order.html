@@ -23,6 +23,20 @@
 <ion-content>
   <ion-card>
     <form [formGroup]="form" #editPrfForm="ngForm">
+
+        <ion-item>
+            <ion-select formControlName="cat_id" style="max-width:100% !important; width:100% !important; padding-top:0; padding-bottom:0;" placeholder="Select Category" >
+            <ion-option *ngFor="let item of catarray" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+            <!-- <ion-input type="number" placeholder="Country Region Code" [formControl]="isd" required></ion-input> -->
+            </ion-item>
+            <div class="validation-errors">
+            <ng-container >
+            <div class="error-message" *ngIf="form.get('name').hasError('required')">
+            Category required.
+            </div>
+            </ng-container>
+            </div>
       <ion-item>
         <!--<ion-label stacked>Product Name</ion-label>-->
         <ion-input type="text" formControlName="name" placeholder="Product Name" ></ion-input>

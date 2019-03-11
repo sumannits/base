@@ -48,6 +48,7 @@ export class ModalOtpPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ModalOtpPage');
     this.getFrmPageName = this.navParams.get('fromPage');
     this.ReadSMS();
     //let text = 'Hey! This is your otp : 1258 no for Base mobile verification';
@@ -69,7 +70,7 @@ export class ModalOtpPage {
 
 ReadSMS(){
   if (this.platform.is('cordova')) {
-    this.loadingCustomModal('open');
+    // this.loadingCustomModal('open');
     this.platform.ready().then((readySource) => {
 
     if(SMS) SMS.startWatch(()=>{

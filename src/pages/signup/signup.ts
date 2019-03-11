@@ -78,6 +78,7 @@ export class SignupPage {
     let isValidEmail = this.validateEmail(CheckvalidEmail);
     //console.log(this.faceBookUId);
     if(this.faceBookUId!=undefined){
+      console.log('Debashree facebook is DEFINED')
       let signupJsonData={
         "first_name": this.first_name.value.toString(),
         "last_name": this.last_name.value.toString(),
@@ -88,11 +89,13 @@ export class SignupPage {
         "phone": this.phone.value.toString(),
         "is_email_verified": 1,
         "fb_user_id": this.faceBookUId,
-        //"deviceType": this.device.platform
+        "device_token_id": this.device.uuid,
+        "device_type": this.device.platform
       };
       
       this.userService.postData(signupJsonData,'users/facebook_signup').then((result:any) => {
         if(result.Ack == 1){
+          loading.dismiss();
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
           //console.log("USERRR",localStorage.getItem('userPrfDet'));
           localStorage.setItem('isUserLogedin', '1');
@@ -100,39 +103,47 @@ export class SignupPage {
           this.tost_message('You have successfully login.');   
           this.navCtrl.setRoot('HomePage');
         }
-        loading.dismiss();
-      }, (err) => {
-        loading.dismiss();
-      });
-    }else if(password==cpassword && isValidEmail){
-      this.userService.postData({"email":CheckvalidEmail},'users/appsearchbyemail').then((result:any) => {
-        if(result.Ack == 1){
-          this.isFrmValid=false;
-          let alert = this.alertCtrl.create({
-            title: 'Error!',
-            subTitle: 'Email Id Already Exist',
-            buttons: ['Ok']
-          });
-          alert.present();
-        }else{
-          this.isFrmValid=true;
+        else
+        {
+          loading.dismiss();
         }
-        loading.dismiss();
+        
       }, (err) => {
         loading.dismiss();
       });
-
-      //
-    }else if(!isValidEmail){
-      this.isFrmValid=false;
-      let alert = this.alertCtrl.create({
-        title: 'Error!',
-        subTitle: 'Please enter valid email',
-        buttons: ['Ok']
-      });
-      alert.present();
-      loading.dismiss();
-    }else if(password!=cpassword){
+    }
+    
+    // else if(password==cpassword && isValidEmail){
+    //   console.log('Debashree Email Id Already Exist')
+    //   this.userService.postData({"email":CheckvalidEmail},'users/appsearchbyemail').then((result:any) => {
+    //     if(result.Ack == 1){
+    //       this.isFrmValid=false;
+    //       let alert = this.alertCtrl.create({
+    //         title: 'Error!',
+    //         subTitle: 'Email Id Already Exist',
+    //         buttons: ['Ok']
+    //       });
+    //       alert.present();
+    //     }else{
+    //       this.isFrmValid=true;
+    //     }
+    //     loading.dismiss();
+    //   }, (err) => {
+    //     loading.dismiss();
+    //   });
+    // }
+    // else if(!isValidEmail){
+    //   console.log('Debashree INVALID Email')
+    //   this.isFrmValid=false;
+    //   let alert = this.alertCtrl.create({
+    //     title: 'Error!',
+    //     subTitle: 'Please enter valid email',
+    //     buttons: ['Ok']
+    //   });
+    //   alert.present();
+    //   loading.dismiss();
+    // }
+    else if(password!=cpassword){
       this.isFrmValid=false;
       let alert = this.alertCtrl.create({
         title: 'Error!',
@@ -144,6 +155,47 @@ export class SignupPage {
     }
 
     if (this.form.valid && this.isFrmValid && this.faceBookUId==undefined) {
+
+      console.log('Debashree facebook is undefined');
+
+      
+      if(isValidEmail){
+        console.log('Debashree VALID Email')
+        console.log('CheckvalidEmail1',CheckvalidEmail)
+        this.userService.postData({"email":CheckvalidEmail},'users/appsearchbyemail').then((result:any) => {
+          console.log('CheckvalidEmail2',CheckvalidEmail)
+          if(result.Ack == 1){
+            console.log('RESULT OF VALID EMAIL',result);
+            loading.dismiss();
+            this.isFrmValid=false;
+            let alert = this.alertCtrl.create({
+              title: 'Error!',
+              subTitle: 'Email Id Already Exist',
+              buttons: ['Ok']
+            });
+            alert.present();
+          }else{
+            loading.dismiss();
+            this.isFrmValid=true;
+          }
+          
+        }, (err) => {
+          loading.dismiss();
+        });
+      } 
+      else if(!isValidEmail){
+          console.log('Debashree INVALID Email')
+          this.isFrmValid=false;
+          let alert = this.alertCtrl.create({
+            title: 'Error!',
+            subTitle: 'Please enter valid email',
+            buttons: ['Ok']
+          });
+          alert.present();
+          loading.dismiss();
+        }
+
+
       let signupJsonData={
         "first_name": this.first_name.value.toString(),
         "last_name": this.last_name.value.toString(),
@@ -153,13 +205,18 @@ export class SignupPage {
         "is_active": 0,
         "phone": this.phone.value.toString(),
         "is_email_verified": 0,
-        //"deviceToken": this.device.uuid,
-        //"deviceType": this.device.platform
+        "device_token_id": this.device.uuid,
+        "device_type": this.device.platform
       };
-      //console.log(filterIntData);
+
+      // console.log('signupJsonData',signupJsonData)
+  
       this.userService.postData(signupJsonData,'users/appsignup').then((result:any) => {
+        console.log('appsignup response',result)
         if(result.Ack ==1){
+          // loading.dismiss();
           localStorage.setItem('userPrfDet', JSON.stringify(result.UserDetails));
+          localStorage.setItem('isUserLogedin', '1');
           this.concat='+'+this.isd.value.toString()+this.phone.value.toString();
           const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
           this.userid=loguser.id;
@@ -168,23 +225,29 @@ export class SignupPage {
             'user_id':this.userid,
             'phone_no':this.concat
               }
-              //console.log("PARRAMM",param);
+              console.log("PARRAMM",param);
                 this.serviceApi.postData(param,'users/phone_sentotp').then((result) => { 
-                 //console.log(result);
+                  console.log('phone_sentotp response',result)
+                 console.log(result);
                   this.getresult = result;
                   if(this.getresult.Ack == 1)
                   { 
-                    loading.dismiss();    
+                    loading.dismiss();   
                     this.tost_message('You will receive a message from our system shortly.');  
                      let modal = this.modalCtrl.create("ModalOtpPage", {fromPage: fromPage});
                     modal.present();
                     modal.onDidDismiss(data => {
+                      console.log('Debashree Modal Dismiss')
+                      
                       //console.log(data);
-                      this.navCtrl.push('LoginPage');
+                      //this.navCtrl.push('LoginPage');
+                      this.navCtrl.setRoot('HomePage');
                     });
-                  }else{
+                  }
+                  else{
                     loading.dismiss();
-                    this.tost_message('No Detail Found')
+                    this.tost_message('Message could not be sent.');
+                    this.navCtrl.setRoot('HomePage');
                   }
                 }, (err) => {
                   //console.log(err);

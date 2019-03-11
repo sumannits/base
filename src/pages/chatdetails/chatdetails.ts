@@ -51,7 +51,7 @@ export class ChatdetailsPage {
   }
 
   getOrdDet(){
-    this.serviceApi.postData({"details_id": this.room_id },'users/orderdetails').then((result:any) => { //console.log(result);
+    this.serviceApi.postData({"details_id": this.room_id },'users/chat_orderdetail').then((result:any) => { //console.log(result);
       if(result.Ack == 1) {
         if(this.loginUserId == result.order_details[0].user_id){
           this.toUserId = result.order_details[0].shop_id;
@@ -70,6 +70,7 @@ export class ChatdetailsPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','ChatdetailsPage');
     this.getOrdDet();
   }
 
@@ -118,36 +119,46 @@ export class ChatdetailsPage {
     this.scrollToBottom();
   }
 
-  sendMessage(data:string){
-    if(data.trim()==''){
-      let alert = this.alertCtrl.create({
-        title: 'Error!',
-        subTitle: 'Please type your message' ,
-        buttons: ['Ok']
-      });
-      alert.present();
-    }else{
-      const data = {
-        room_id: this.room_id,
-        from_is_read: true,
-        from_user_id: this.loginUserId,
-        to_is_read: false,
-        to_user_id: this.toUserId,
-        cdate: firebase.firestore.FieldValue.serverTimestamp(),
-        message: {
-          text: this.message
-        }
-      };
-      //console.log(data);
-      this.db.collection('livechat').add(data).then(res => {
-        this.message = '';
-        this.scrollToBottom();
-        //this.getMessages();
-      }).catch(err => {
-        //console.log('error with fb: ', err);
-      });
-    }   
-  }
+  sendMessage(data: string) {
+    if (data.trim() == '') {
+    let alert = this.alertCtrl.create({
+    title: 'Error!',
+    subTitle: 'Please type your message',
+    buttons: ['Ok']
+    });
+    alert.present();
+    } else {
+    const data = {
+    room_id: this.room_id,
+    from_is_read: true,
+    from_user_id: this.loginUserId,
+    to_is_read: false,
+    to_user_id: this.toUserId,
+    is_push_send: false,
+    cdate: firebase.firestore.FieldValue.serverTimestamp(),
+    message: {
+    text: this.message
+    }
+    };
+    console.log('data', data);
+    this.db.collection('livechat').add(data).then(res => {
+    
+    
+    //to get push
+    this.serviceApi.postData({ "to_user_id": this.toUserId, "from_user_id": this.loginUserId, "message": this.message }, 'users/chat_push_notification').then((result: any) => {
+    console.log('this.chatCntlis2');
+    }, (err) => {
+    
+    });
+    //to get push
+    
+    this.message = '';
+    
+    }).catch(err => {
+    });
+    this.scrollToBottom();
+    }
+    }
 
   scrollToBottom(){
     setTimeout(() => {

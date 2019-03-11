@@ -19,6 +19,7 @@ export class MasterlistPage {
   public orderAMData = [];
   public orderPMData = [];
   public orderTotData = [];
+  public dateselect:any;
 
   constructor(
     public navCtrl: NavController, 
@@ -31,6 +32,7 @@ export class MasterlistPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','MasterlistPage');
       this.getMasterdata();
   }
 
@@ -42,6 +44,7 @@ export class MasterlistPage {
 
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     let todayDate = new Date().toJSON().split('T')[0];
+    this.dateselect=todayDate;
     //let todayDate: String = new Date().toISOString();
     //console.log(todayDate);
     this.serviceApi.postData({"user_id": loguser.id,"delivery_date":todayDate},'users/rider_master_list').then((result:any) => {
@@ -53,11 +56,39 @@ export class MasterlistPage {
           this.orderTotData = result.order_total;
           loading.dismiss();
       }else{
+        this.masterCatData=[];
         loading.dismiss();
       }
       
     }, (err) => {
       loading.dismiss();
     });
+  }
+
+  dateChanged(){
+    const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+      let selDate=this.dateselect;
+      //console.log(selDate);
+      let loading = this.loadingCtrl.create({
+        content: 'Please Wait...'
+      });
+      loading.present();
+      this.serviceApi.postData({"user_id": loguser.id,"delivery_date":selDate},'users/rider_master_list').then((result:any) => {
+        //console.log(result);
+          if(result.Ack == 1){
+              this.masterCatData = result.cat_list;
+              this.orderAMData = result.order_am;
+              this.orderPMData = result.order_pm;
+              this.orderTotData = result.order_total;
+              //console.log(this.masterCatData);
+              loading.dismiss();
+          }else{
+            this.masterCatData=[];
+            loading.dismiss();
+          }
+          
+        }, (err) => {
+          loading.dismiss();
+      });
   }
 }

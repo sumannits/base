@@ -11,13 +11,14 @@ ion-icon{ color: #ffffff !important;  }
 
 .content{background: #f7f7f7;}
 
-.deliver{ font-size: 14px; margin: 0; padding: 16px; background: #e5e5e5; font-weight: 400;}
+.deliver{ font-size: 18px; margin: 0; padding: 16px; background: #e5e5e5; font-weight: 400;}
 .more-icon{ color: #0032a0 !important; font-size: 24px !important;}
 .heading-part{ width: auto; padding-bottom: 10px; border-bottom: 1px solid #d9d9d9;}
 .heading-part.item-block .item-inner{ border: 0;}
 .item .item-inner .input-wrapper h2{ font-size: 16px !important;  font-weight: 600 !important; display: flex; align-items: center; justify-content: space-between;}
 .item .item-inner .input-wrapper h5{  font-weight: 600 !important; color: #212121;}
 .item .item-inner .input-wrapper p{ color: #5f5f5f; font-weight: 400; }
+.input-wrapper{padding: 10px 0}
 .plus-icon{ color: #ff0000 !important; border: 1px solid #ff0000; border-radius: 50%; width: 28px; height: 28px;}
 .add-new{ color: #161616; font-weight: 400; }
 .add-new span{font-weight: 600; color: #161616; text-overflow: normal; white-space: normal; word-wrap: break-all;}
@@ -25,7 +26,7 @@ ion-icon{ color: #ffffff !important;  }
 .item [item-start]{ margin-right: 12px;}
 
 .ftr-part .toolbar-background{ background: #0032a0 !important;}
-.change-btn{ width: auto; border: 1px solid #0032a0; color: #0032a0; border-radius: 3px !important; text-transform: inherit !important;  font-weight: 600 !important; }
+.change-btn{ width: auto; border: 1px solid #0032a0; color: #0032a0; border-radius: 3px !important; text-transform: inherit !important;  font-weight: 600 !important; padding: 0; }
 .date-btn{ width: 100%;}
 .sel-tx{padding-left: 16px; margin-bottom: 0;}
 
@@ -42,7 +43,7 @@ ion-icon{ color: #ffffff !important;  }
 
 /********************Shipping Address****************************/
 
-.editFrm .item {padding: 0 16px; margin-bottom: 5px;}
+.editFrm .item {padding: 0 16px; }
 .item-inner{ padding-right: 0 !important;}
 ion-avatar[item-start]{ position: relative;}
 .creat-icon{ position: absolute; color: #ffffff; display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 100; right: -5px; bottom: -7px; width: 20px; height: 20px; background: #0032a0; font-size: 13px !important;}
@@ -50,7 +51,7 @@ ion-avatar[item-start]{ position: relative;}
 .item .icon-map{ color: #404040 !important; font-size: 17px;}
 .item p{ font-size: 1.3rem; }
 .label[stacked]{font-size:1.5rem; color: #1c1c1c;}
-.input{ border: 1px solid #dfdfdf; border-radius: 3px; padding: 0 16px; font-weight: 400; color: #000000;}
+.input{ border: 1px solid #dfdfdf; border-radius: 25px; padding: 0 16px; font-weight: 400; color: #000000;}
 .item-label-stacked .text-input{ margin-top: 5px; margin-bottom: 5px;}
 
 .checkbox .checkbox-checked{ border-color: #0032a0; background-color: #0032a0;}

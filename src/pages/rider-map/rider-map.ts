@@ -72,11 +72,11 @@ export class RiderMapPage {
     this.order=this.navParams.get('order_id');
     this.deliverylat=this.navParams.get('Latitude');
     this.deliverylong=this.navParams.get('Lognitude');
-    //console.log('DELIVERYLATTTTTTT',  this.deliverylat);
+    console.log('DELIVERYLATTTTTTT',  this.deliverylat);
     this.geolocation.getCurrentPosition().then((resp) => {
       this.lat = resp.coords.latitude;
       this.lng = resp.coords.longitude;
-      this.initMap();
+      this.initMap(this.lat,this.lng);
     }).catch((error) => {
       //console.log('Error getting location', error);
     });
@@ -128,7 +128,7 @@ export class RiderMapPage {
 
   }
 
-  initMap() {
+  initMap(lat,lng) {
     let loading = this.loadingCntrl.create({
       content: 'Fetching your location...'
     });

@@ -19,6 +19,9 @@ export class NotificationPage {
   }
 
   ionViewDidLoad() {
+    
+    localStorage.setItem('currentActivePage','NotificationPage');
+
     console.log('ionViewDidLoad NotificationPage');
   }
 

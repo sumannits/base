@@ -11,7 +11,13 @@ import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Api, ResponseMessage } from '../providers';
 import { Facebook } from '@ionic-native/facebook';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { loadavg } from 'os';
+import { concat } from 'rxjs/observable/concat';
+import * as _ from 'lodash';
+//import { FCM } from '@ionic-native/fcm';
 
 export interface PageInterface {
   title: string;
@@ -51,10 +57,13 @@ export class MyApp {
   public isloggedin: boolean = false;
   public loguser: any;
   public loguserDet: any;
-  public istype:any;
-  public firstname:any;
-  public lastname:any;
+  public istype: any;
+  public firstname: any;
+  public lastname: any;
   public chatCntlist = [];
+  token: any;
+  intervalVar: any;
+
 
   @ViewChild(Nav) nav: Nav;
 
@@ -66,7 +75,7 @@ export class MyApp {
     { title: 'Login With Phone', name: 'LoginPhonePage', component: 'LoginPhonePage', index: 4, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: 'SignupPage', index: 5, icon: 'person-add' },
     //{ title: 'Support', name: 'TutorialPage', component: 'TutorialPage', index: 6, icon: 'help' }
-   
+
   ];
 
   withLoginPages: PageInterface[] = [
@@ -106,32 +115,36 @@ export class MyApp {
   //   { title: 'Search', component: 'SearchPage' }
   // ]
 
-  constructor(
-    private translate: TranslateService, 
-    public platform: Platform, 
-    private config: Config, 
-    private statusBar: StatusBar, 
-    private splashScreen: SplashScreen,
+  public constructor(
+    public translate: TranslateService,
+    public platform: Platform,
+    public config: Config,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
     public db: AngularFirestore,
     public alertCtrl: AlertController,
     public serviceApi: Api,
     public push: Push,
-    private fb: Facebook,
-    private broadCaster:Broadcaster
+    public fb: Facebook,
+    public broadCaster: Broadcaster,
+    public loadingCtrl: LoadingController,
+    //public fcm: FCM,
   ) {
-     let isUserLogedin = localStorage.getItem('isUserLogedin');
+
+    //console.log('navParam', this.navParam);
+    let isUserLogedin = localStorage.getItem('isUserLogedin');
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      if (this.loguserDet.first_name && this.loguserDet.user_type==1) {
-        this.istype=1;
+      if (this.loguserDet.first_name && this.loguserDet.user_type == 1) {
+        this.istype = 1;
         this.username = this.loguserDet.first_name;
-        this.rootPage="HomePage";
+        this.rootPage = "HomePage";
       }
-      else if(this.loguserDet.first_name && this.loguserDet.user_type==0){
-        this.istype=0;
+      else if (this.loguserDet.first_name && this.loguserDet.user_type == 0) {
+        this.istype = 0;
         this.username = this.loguserDet.first_name;
-        this.rootPage="MyOrderPage";
+        this.rootPage = "MyOrderPage";
 
       }
     } else {
@@ -140,24 +153,39 @@ export class MyApp {
       this.isloggedin = false;
     }
     platform.ready().then(() => {
+
+      //this.initFCMPushNotifcation();
+
       this.initPushNotification();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      if(localStorage.getItem('userPrfDet')){
+      if (localStorage.getItem('userPrfDet')) {
         this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      //this.nav.setRoot('WelcomePage');
-      if(this.loguserDet.user_type==0){
-      this.rootPage="MyOrderPage";
+        //this.nav.setRoot('WelcomePage');
+        if (this.loguserDet.user_type == 0) {
+          this.rootPage = "MyOrderPage";
+        }
+        // localStorage.clear();
       }
-    }
-      else{
-        this.rootPage="HomePage";
+      else {
+        this.rootPage = "HomePage";
       }
-    
+
     });
-    this.initTranslate(); 
-    
+    this.initTranslate();
+
+    if (this.token == "" || this.token == null || !this.token) {
+      this.intervalVar = setInterval(() => {
+        //this.initPushNotification();
+        // console.log('token in c1',this.token)
+      }, 1000);
+    }
+    else{
+      clearInterval(this.intervalVar);
+    }
+
   }
+
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
@@ -185,48 +213,121 @@ export class MyApp {
     });
   }
 
+  // initFCMPushNotifcation() {
+  //   this.fcm.getToken().then(token => {
+  //     localStorage.setItem('DEVICETOKEN', token);
+  //     this.token = localStorage.getItem('DEVICETOKEN');
+  //     console.log('token', this.token);
+  //   });
+
+  //   this.fcm.onNotification().subscribe(data => {
+  //     if (data.wasTapped) {
+  //       console.log('data', data)
+  //       console.log('background')
+  //             //if user NOT using app and push notification comes
+  //             //TODO: Your logic on click of push notification directly
+  //             if (data.additionalData.type == 'complete_delivery') {
+  //               this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+  //             } else if (data.additionalData.type == 'start_journey') {
+  //               this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+  //             } else if (data.additionalData.type == 'assign_order') {
+  //               this.nav.setRoot("MyOrderPage");
+  //             } else if (data.additionalData.type == 'chat_notification') {
+  //               this.nav.setRoot("ChatlistPage");
+  //             } else {
+      
+  //             }
+  //       //Notification was received on device tray and tapped by the user.
+  //     } else {
+  //       console.log('data1', data)
+  //       //Notification was received in foreground. Maybe the user needs to be notified.
+  //       let confirmAlert = this.alertCtrl.create({
+  //                 title: data.title,
+  //                 message: data.message,
+  //                 buttons: [{
+  //                   text: 'Ignore',
+  //                   role: 'cancel'
+  //                 }, {
+  //                   text: 'View',
+  //                   handler: () => {
+  //                     //TODO: Your logic here
+  //                     if (data.additionalData.type == 'complete_delivery') {
+  //                       this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+  //                     } else if (data.additionalData.type == 'start_journey') {
+  //                       this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+  //                     } else if (data.additionalData.type == 'assign_order') {
+  //                       this.nav.setRoot("MyOrderPage");
+  //                     } else if (data.additionalData.type == 'chat_notification') {
+  //                       this.nav.setRoot("ChatlistPage");
+  //                     }
+  //                   }
+  //                 }]
+  //               });
+  //               confirmAlert.present();
+  //             }
+  //   });
+
+  // }
+
+  
   initPushNotification() {
+    console.log('initPushNotification')
     if (!this.platform.is('cordova')) {
       console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
     }
+    // to check if we have permission
+    this.push.hasPermission().then((res: any) => {
+        if (res.isEnabled) {
+          console.log('We have permission to send push notifications');
+        } else {
+          console.log('We do not have permission to send push notifications');
+        }
+    });
+
     const options: PushOptions = {
       android: {
         senderID: '350229533440',
         //icon: "assets/img/appicon.png",
         "icon": "drawable-ldpi-icon",
         iconColor: "#00465a"
-          
+
       },
+
       ios: {
         alert: 'true',
-        badge: false,
+        badge: true,
         sound: 'true'
       },
       windows: {}
     };
     const pushObject: PushObject = this.push.init(options);
-    
+    console.log('initPushNotification2',pushObject)
     pushObject.on('registration').subscribe((registration: any) => {
-      //console.log('Device registered', registration);
+      console.log('initPushNotification3')
+      console.log('Device registered', registration.registrationId);
       //localStorage.setItem('DEVICETOKEN', JSON.stringify(registration.registrationId));
       localStorage.setItem('DEVICETOKEN', registration.registrationId);
+      this.token = localStorage.getItem('DEVICETOKEN');
+      console.log('token',this.token);
     });
 
     pushObject.on('notification').subscribe((data: any) => {
-      //console.log('message -> ' + data.message);
+
+      let activeVC: any = localStorage.getItem('currentActivePage');
+      //console.log('message -> ' + data);
       //console.log('message -> ' + data);notification
       //if user using app and push notification comes
       let pushJsonObj = JSON.stringify(data);
-
-      
-
       if (data.additionalData.foreground) {
+        console.log('foreground');
 
+        if ((activeVC != 'ChatdetailsPage' && activeVC != 'ChatlistPage'))
+        {
         // if application open, show popup
         let confirmAlert = this.alertCtrl.create({
           title: data.title,
-          message: data.body,
+          message: data.message,
           buttons: [{
             text: 'Ignore',
             role: 'cancel'
@@ -234,61 +335,42 @@ export class MyApp {
             text: 'View',
             handler: () => {
               //TODO: Your logic here
-              if(data.type == 'complete_delivery'){
-                this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
-              }else if(data.type == 'start_journey'){
-                this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
-              }else if(data.type == 'assign_order'){
+              if (data.additionalData.type == 'complete_delivery') {
+                this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+              } else if (data.additionalData.type == 'start_journey') {
+                this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+              } else if (data.additionalData.type == 'assign_order') {
                 this.nav.setRoot("MyOrderPage");
-              }else{
-
+              } else if (data.additionalData.type == 'chat_notification') {
+                this.nav.setRoot("ChatlistPage");
               }
             }
           }]
         });
         confirmAlert.present();
-      } else {
+      }
+      }
+      else {
+        console.log('background')
         //if user NOT using app and push notification comes
         //TODO: Your logic on click of push notification directly
-        if(data.type == 'complete_delivery'){
-          this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
-        }else if(data.type == 'start_journey'){
-          this.nav.setRoot("OrderDetailPage",{'order_id':data.order_id});
-        }else if(data.type == 'assign_order'){
+        if (data.additionalData.type == 'complete_delivery') {
+          this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+        } else if (data.additionalData.type == 'start_journey') {
+          this.nav.setRoot("OrderDetailPage", { 'order_id': data.order_id });
+        } else if (data.additionalData.type == 'assign_order') {
           this.nav.setRoot("MyOrderPage");
-        }else{
-          
-        }
-        //this.nav.setRoot('NotificationSettingsPage', {message: data.message });
-        //console.log('Push notification clicked');
-      }
-      // if (data.additionalData.foreground) {
+        } else if (data.additionalData.type == 'chat_notification') {
+          this.nav.setRoot("ChatlistPage");
+        } else {
 
-      //   // if application open, show popup
-      //   let confirmAlert = this.alertCtrl.create({
-      //     title: 'New Notification',
-      //     message: data.message,
-      //     buttons: [{
-      //       text: 'Ignore',
-      //       role: 'cancel'
-      //     }, {
-      //       text: 'View',
-      //       handler: () => {
-      //         //TODO: Your logic here
-      //         this.nav.setRoot('NotificationSettingsPage', { message: data.message });
-      //       }
-      //     }]
-      //   });
-      //   confirmAlert.present();
-      // } else {
-      //   //if user NOT using app and push notification comes
-      //   //TODO: Your logic on click of push notification directly
-      //   this.nav.setRoot('NotificationSettingsPage', {message: data.message });
-      //   //console.log('Push notification clicked');
-      // }
+        }
+
+      }
+
     });
 
-    // pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));  
+
   }
 
   menuOpened() {
@@ -296,10 +378,10 @@ export class MyApp {
     if (isUserLogedin == '1') {
       this.isloggedin = true;
       this.loguserDet = JSON.parse(localStorage.getItem('userPrfDet'));
-      if(this.loguserDet.user_type==1){
-        this.istype=1;
-      }else if(this.loguserDet.user_type==0){
-        this.istype=0;
+      if (this.loguserDet.user_type == 1) {
+        this.istype = 1;
+      } else if (this.loguserDet.user_type == 0) {
+        this.istype = 0;
       }
       // if(this.loguserDet.image){
       //   this.profile_image = this.loguserDet.image;
@@ -310,7 +392,8 @@ export class MyApp {
       if (this.loguserDet.first_name) {
         this.username = this.loguserDet.first_name;
       }
-      this.getMyUnreadChat();
+      // console.log('getMyUnreadChat function');
+      // this.getMyUnreadChat();
     } else {
       //this.profile_image = 'assets/img/default.jpeg';
       this.username = '';
@@ -318,31 +401,32 @@ export class MyApp {
     }
     //console.log(this.isloggedin);
   }
-  logintype(){
-     this.loguser =  JSON.parse(localStorage.getItem('userPrfDet'));   
-     if(this.loguser){
-       this.firstname=this.loguser.first_name;
-       this.lastname=this.loguser.last_name;
-       
-       //console.log("USERINFOOOOO",this.loguser.type);
-     if(this.loguser.user_type==1){
-       this.istype=1;
-     }else if(this.loguser.user_type==0){
-       this.istype=0;
-     }
-     }
-   
-   }
+  logintype() {
+    this.loguser = JSON.parse(localStorage.getItem('userPrfDet'));
+    if (this.loguser) {
+      this.firstname = this.loguser.first_name;
+      this.lastname = this.loguser.last_name;
+
+      //console.log("USERINFOOOOO",this.loguser.type);
+      if (this.loguser.user_type == 1) {
+        this.istype = 1;
+      } else if (this.loguser.user_type == 0) {
+        this.istype = 0;
+      }
+    }
+
+  }
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     //console.log(page);
     if (page.name == 'LogoutPage') {
-      localStorage.clear();
+      // localStorage.clear();
       this.isloggedin = false;
       this.fb.logout();
       localStorage.removeItem("isUserLogedin");
       localStorage.removeItem("userPrfDet");
+      localStorage.removeItem("phoneLoginUserId");
       this.nav.setRoot(page.component);
     } else {
       this.nav.setRoot(page.component);
@@ -358,31 +442,63 @@ export class MyApp {
     return;
   }
 
-  getMyUnreadChat(){
-    this.serviceApi.postData({"user_id":this.loguserDet.id, "type":this.loguserDet.user_type},'users/get_mychat_list').then((result:any) => {
-      if(result.Ack == 1){
-        //console.log(result.room_list);
-        if(result.room_list.length >0){
-          result.room_list.forEach(element => {
-            if(element.id >0){
-              this.getUnreadMsgCnt(element.id, element);
-              //this.myRoomIdlist.push(element.id);
-            }
-          });
-        }
-      }
-    }, (err) => {
-    
-    }); 
-  }
+  // getMyUnreadChat() {
+  //   // console.log('this.loguserDet.user_type',this.loguserDet.user_type)
+  //   this.serviceApi.postData({ "user_id": this.loguserDet.id, "type": this.loguserDet.user_type }, 'users/get_mychat_list').then((result: any) => {
+  //     if (result.Ack == 1) {
 
-  public getUnreadMsgCnt(nRoomId:any, userData:any){
-    //console.log(nRoomId);
+  //       if (result.room_list.length > 0) {
+  //         result.room_list.forEach(element => {
+  //           if (element.id > 0) {
+  //             this.getUnreadMsgCnt(element.id, element);
+
+  //             //this.myRoomIdlist.push(element.id);
+  //           }
+  //         });
+  //         let activeVC: any = localStorage.getItem('currentActivePage');
+  //         setTimeout(() => {
+  //           // somecode
+  //           let chatCntlistUnique = _.uniqBy(this.chatCntlist, 'id');
+  //           this.chatCntlist = chatCntlistUnique;
+  //           //console.log('this.chatCntlist',this.chatCntlist);
+  //           if (this.chatCntlist.length > 0) {
+  //             this.chatCntlist.forEach(element => {
+  //               if ((activeVC != 'ChatdetailsPage' && activeVC != 'ChatlistPage') && !element.is_push_send && element.message.text != '') {
+  //                 // chat push notification
+  //                 this.serviceApi.postData({ "to_user_id": element.to_user_id, "from_user_id": element.from_user_id, "message": element.message.text }, 'users/chat_push_notification').then((result: any) => {
+  //                   if (result.Ack == 1) {
+  //                     this.db.collection('livechat').doc(element.id).update({ is_push_send: true }).then(res => {
+
+  //                     }).catch(err => {
+
+  //                     });
+  //                   }
+  //                 }, (err) => {
+
+  //                 });
+  //               }
+  //             });
+  //           }
+  //         }, 5000);
+
+  //       }
+  //     }
+  //   }, (err) => {
+
+  //   });
+  // }
+
+  public getUnreadMsgCnt(nRoomId: any, userData: any) {
+    //let activeVC = this.nav.getActive().component.name;
+    let activeVC: any = localStorage.getItem('currentActivePage');
+    //let childNav = this.nav.getActiveChildNavs()[0];
+    console.log('activeVC', activeVC);
+    // console.log('nRoomId',nRoomId)
     this.chatCntlist = [];
-    const messages1 = this.db.collection('livechat', ref => { 
-      return ref.where('room_id', '==', nRoomId).where("to_is_read", "==", false).where("to_user_id", "==", this.loguserDet.id);
-    }).snapshotChanges().map(actions => { 
-      return actions.map(action => { 
+    const messages11 = this.db.collection('livechat', ref => {
+      return ref.where('room_id', '==', nRoomId).where("to_is_read", "==", false).where("to_user_id", "==", this.loguserDet.id).orderBy('cdate', 'desc').limit(1);
+    }).snapshotChanges().map(actions => {
+      return actions.map(action => {
         const data1 = action.payload.doc.data();
         const id = action.payload.doc.id;
         //console.log(data1);
@@ -390,12 +506,15 @@ export class MyApp {
       });
     });
 
-    messages1.subscribe(data => {  
-      if(data.length>0){
-        let msgData:any = data[0];
-        this.chatCntlist.push(msgData); 
-        //console.log(msgData);
-      } 
+    messages11.subscribe(data => {
+      if (data.length > 0) {
+        let msgData: any = data[0];
+        this.chatCntlist.push(msgData);
+
+        //console.log('data',msgData)
+        // console.log('chatCntlist',this.chatCntlist.length);
+      }
     });
+
   }
 }

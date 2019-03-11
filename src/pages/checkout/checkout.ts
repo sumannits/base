@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Api, ResponseMessage } from '../../providers';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-
+import moment from 'moment-timezone';
 /**
  * Generated class for the CheckoutPage page.
  *
@@ -41,6 +41,7 @@ export class CheckoutPage {
     private fbuilder: FormBuilder,
     public toastCtrl: ToastController
   ) {
+    
       let isUserLogedin = localStorage.getItem('isUserLogedin');
       if (isUserLogedin == '1') {
         let userDetailsJson:any = localStorage.getItem('userPrfDet');
@@ -77,10 +78,23 @@ export class CheckoutPage {
       
 
       });
-
+      
+      //this.minDate = new Date().toISOString();
+      //var time = moment('2014-05-18T21:30:00.000Z').tz('America/New_York');
+      //let todayNewAmeDate = moment.tz(new Date(), "America/Denver").toISOString();
+      //moment.tz.setDefault('America/Denver');
+      moment.tz.setDefault("America/Denver");
+      //let dateFormat = moment().format('MMMM D, YYYY-MMM-DD');
+      let dateFormatTime = moment().format('H.mm');
+      let timeCeilTime=Math.ceil(dateFormatTime);
+      //this.minDate = moment().format('YYYY-MM-D');
+      //2019-03-07T19:31:29.000Z
       this.minDate = new Date().toISOString();
-      this.time=(new Date().getHours())+4.00;
-      console.log(this.time);
+      //this.minDate = moment().tz(new Date(), "America/Denver").toISOString();
+      this.time=timeCeilTime+2;
+      console.log('minDate',this.minDate);
+      // console.log('time',this.time)
+      localStorage.setItem('currentActivePage','CheckoutPage');
   }
 
   ionViewDidLoad() {
@@ -187,11 +201,16 @@ export class CheckoutPage {
   }
 
   dateChanged(){
+    moment.tz.setDefault("America/Denver");
+    let dateFormat = moment().format('MMMM D, YYYY h:mm:ss a');
+    let dateFormatTime = moment().format('H.mm');
+    let timeCeilTime=Math.ceil(dateFormatTime);
+    
     this.selDate=this.dateselect;
     this.todayDate = new Date().toISOString();
     this.todayDate = this.todayDate.substring(0, 10);
     if(this.selDate == this.todayDate){
-      this.time=(new Date().getHours())+4.00;
+      this.time=timeCeilTime+2;
       this.dateselectto='';
     }else{
       this.time = 0;

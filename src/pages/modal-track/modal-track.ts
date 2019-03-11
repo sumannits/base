@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController,LoadingController } from 'ionic-angular';
 import { FormControl, AbstractControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Api, ResponseMessage } from '../../providers';
+import { concat } from 'rxjs/observable/concat';
 
 /**
  * Generated class for the ModalTrackPage page.
@@ -25,6 +26,7 @@ export class ModalTrackPage {
   public ordershow:any;
   public order:any;
   public loadingConst:any;
+  parameter:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private builder:FormBuilder,public serviceApi: Api,
     public loadingCtrl: LoadingController,
@@ -41,9 +43,14 @@ export class ModalTrackPage {
    
   }
   ionViewDidLoad() {
-   this.order= this.navParams.get('orderDetails');
+    localStorage.setItem('currentActivePage','ModalTrackPage');
+   this.parameter= this.navParams.get('orderDetails');
+   console.log('parameter',this.parameter)
+   this.order=JSON.parse(this.parameter);
+   console.log('PRICE',this.order,this.order.price)
    //console.log("ORDERDEtailssss",this.order);
    this.form.get('price').setValue(this.order.price);
+  //  this.form.get('description').setValue(this.order.description);
     //console.log('ionViewDidLoad ModalTrackPage');
   }
 
@@ -57,23 +64,28 @@ export class ModalTrackPage {
     this.loadingCustomModal('open');
     const loguser = JSON.parse(localStorage.getItem('userPrfDet'));
     data.id=this.order.id;
+    console.log('data',data)
     this.serviceApi.postData(data,'users/change_rider_price').then((result) => { 
     //  console.log(result);
       this.getresult = result;
       if(this.getresult.Ack == 1)
       {
-        this.loadingCustomModal('close');
+        
         this.tost_message('Saved Successfully')
         this.navCtrl.setRoot("MyOrderDetailPage",{'order_id':this.order.order_id});
+        // this.navCtrl.pop();
+        this.loadingCustomModal('close');
        //this.dismiss();
       }
       else{
         this.loadingCustomModal('close');
         this.tost_message('Not Found')
+        // this.navCtrl.pop();
       }
     }, (err) => {
       this.loadingCustomModal('close');
       this.tost_message('Not Found')
+      // this.navCtrl.pop();
     });
   }
 

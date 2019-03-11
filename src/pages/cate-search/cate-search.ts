@@ -33,6 +33,7 @@ export class CateSearchPage {
   }
 
   ionViewDidLoad() {
+    localStorage.setItem('currentActivePage','CateSearchPage');
     this.getCatList();
     if(this.loginUserId > 0){
       this.getMyCartCount();
